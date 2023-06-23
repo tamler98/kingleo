@@ -11,7 +11,7 @@
     <div class="row">
         <div class="col-sm-2" style="padding-top: 5px;display: flex;justify-content: right;">
             <div class="header_logo">
-                <a href="/"><img src="../resources/static/images/logo_KL-06.png" style="height: 70px;" alt=""></a>
+                <a href="/"><img src="../resources/static/images/logo_KL-06.png" alt=""></a>
             </div>
         </div>
         <div class="col-sm-6">
