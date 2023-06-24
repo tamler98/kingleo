@@ -242,7 +242,7 @@ img {
 
     main{
     position:relative;
-      top: 40px;
+      top: 80px;
       width: 100%;
     }
 
@@ -485,83 +485,80 @@ img {
 
   .pagination a:hover:not(.active) {background-color: #ddd;}
 
+/*Footer man hinh rong */
   footer {
-  position: relative;
-  top: 42px;
-    padding: 40px 0;
-    width: 100%;
-    height: 300px;
-    background-color: #00fbeb0a;
-  }
+      position: relative;
+      top: 80px;
+      padding: 0px 2em;
+      background-color: #4dded50a;
+      padding-top: 2em;
+      }
 
-  .footer_container {
-    width: 100%;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-  }
+      .footer_container {
+        max-width: 100%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 0px 2em;
+        align-items: center;
+        justify-content: center;
+      }
 
-  .footer-content {
-    width: 1400px;
-    display: flex;
-    justify-content: space-between;
-  }
+      .footer-contents {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        justify-content: space-around;
+      }
 
-  .footer-column img{
-    height: 120px;
-  }
+      .footer-content {
+          width: 24%;
+          height: 100%;
+        }
 
-  .footer-column {
-    width: 25%;
-  }
+        .footer-content img {
+          width: 200px;
+          padding-top: 1em;
+        }
 
-  h3 {
-    font-size: 18px;
-    margin-bottom: 10px;
-  }
+      h3 {
+        font-size: 18px;
+        margin-bottom: 10px;
+      }
 
-  p {
-    margin: 0;
-    text-wrap: revert;
+      p {
         margin: 0;
-        width: 90%;
-        text-align: justify;
-  }
+        text-wrap: revert;
+            margin: 0;
+            width: 90%;
+            text-align: justify;
+      }
 
-  .social-media {
-    list-style: none;
-    padding: 0;
-    margin-top: 10px;
-  }
+      .social-media {
+        list-style: none;
+        padding: 0;
+        margin-top: 10px;
+      }
 
-  .social-media li {
-    display: inline-block;
-    margin-right: 10px;
-  }
+      .social-media li {
+        display: inline-block;
+        margin-right: 10px;
+      }
 
-  .social-media li a {
-    color: #333;
-    font-size: 20px;
-  }
+      .social-media li a {
+        color: #333;
+        font-size: 20px;
+      }
 
-  .footer-copy {
-    text-align: center;
-    margin-top: 20px;
-    font-size: 14px;
-    color: #777;
-  }
-
-.container_xl {
-    width: 100%;
-    padding: 2rem 10rem;
-    height: 700px;
-}
-
-.card {
-    margin-bottom: 2rem;
-}
+      .footer-copy {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 18px;
+        color: #777;
+        font-style: italic;
+      }
 
 
 
@@ -1059,6 +1056,17 @@ font-family: "Poppins", sans-serif;
    }
 }
 
+
+
+
+
+
+
+
+
+
+
+/* Man hinh dien thoai*/
 @media (max-width: 390px) {
 body {
 font-family: "Poppins", sans-serif;
@@ -1163,7 +1171,7 @@ font-family: "Poppins", sans-serif;
     }
     main{
       position:relative;
-        top: 30px;
+        top: 60px;
         width: 100%;
       }
 
@@ -1542,72 +1550,79 @@ width:48%;
    }
 
    footer {
-     position: relative;
-     top: 42px;
-       padding: 40px 0;
-       width: 100%;
-       height: 300px;
-       background-color: #00fbeb0a;
-     }
+       position: relative;
+       max-width: 390px;
+       top: 60px;
+       padding: 0px 2em;
+       background-color: #0c66600a;
+       }
 
-     .footer_container {
-       width: 100%;
-       margin: 0 auto;
-       display: flex;
-       flex-direction: column;
-       align-items: center;
-       justify-content: center;
-     }
+       .footer_container {
+         display: flex;
+         flex-direction: column;
+         align-items: center;
+         justify-content: center;
+         align-items: center;
+         justify-content: center;
+       }
 
-     .footer-content {
-       width: 1400px;
-       display: flex;
-       justify-content: space-between;
-     }
+       .footer-contents {
+         width: 370px;
+         padding: 0px 10px;
+         display: flex;
+         flex-direction: column;
+         justify-content: space-around;
+       }
 
-     .footer-column img{
-       height: 120px;
-     }
+       .footer-content {
+           width: 100%;
+           height: 100%;
+           text-align: left;
+           float: left;
+           margin-bottom: .5em;;
+         }
 
-     .footer-column {
-       width: 25%;
-     }
+         .footer-content img {
+           width: 200px;
+           padding-top: 1em;
+         }
 
-     h3 {
-       font-size: 18px;
-       margin-bottom: 10px;
-     }
+       h3 {
+         font-size: 18px;
+         margin-bottom: 10px;
+       }
 
-     p {
-       margin: 0;
-       text-wrap: revert;
-           margin: 0;
-           width: 90%;
-           text-align: justify;
-     }
+       .footer-content p {
+           line-height: 24px;
+         text-wrap: revert;
+             margin: 0;
+             width: 100%;
+             text-align: justify;
+       }
 
-     .social-media {
-       list-style: none;
-       padding: 0;
-       margin-top: 10px;
-     }
+       .social-media {
+         list-style: none;
+         padding: 0;
+         margin-top: 10px;
+       }
 
-     .social-media li {
-       display: inline-block;
-       margin-right: 10px;
-     }
+       .social-media li {
+         display: inline-block;
+         margin-right: 10px;
+       }
 
-     .social-media li a {
-       color: #333;
-       font-size: 20px;
-     }
+       .social-media li a {
+         color: #333;
+         font-size: 20px;
+       }
 
-     .footer-copy {
-       text-align: center;
-       margin-top: 20px;
-       font-size: 14px;
-       color: #777;
-     }
+       .footer-copy {
+         text-align: center;
+         margin-top: 20px;
+         font-size: 13px;
+         color: #777;
+         font-style: italic;
+       }
 }
 
 

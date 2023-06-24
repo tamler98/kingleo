@@ -29,7 +29,6 @@
 </head>
 <body>
     <header th:include="header :: header"></header>
-    <main>
         <main style="background: white;">
             <div class="slogan">KING LEO FOOTBALL - NÂNG NIU ĐÔI BÀN CHÂN BẠN!</div>
             <div class="slider">
@@ -221,22 +220,22 @@
         </main>
         <footer>
             <div class="footer_container">
-                <div class="footer-content">
-                    <div class="footer-column" style="text-align: center;">
+                <div class="footer-contents">
+                    <div class="footer-content" style="text-align: center;">
                         <img src="resources/static/images/logo_KL-06.png" alt="Image 1">
                     </div>
-                    <div class="footer-column" style="padding-top: .5em;">
+                    <div class="footer-content" style="padding-top: .5em;">
                         <h3>Về chúng tôi</h3>
                         <p>Cung cấp các loại giày bóng đá giá rẻ, phù hợp với thị trường và nhu cầu của anh em đam mê đá
                             bóng.</p>
                     </div>
-                    <div class="footer-column" style="padding-top: .5em;">
+                    <div class="footer-content" style="padding-top: .5em;">
                         <h3>Liên hệ</h3>
                         <p><strong>Địa chỉ:</strong> K25 Đỗ Thế Chấp, Tam Kỳ, Quảng Nam</p>
                         <p><strong>Phone:</strong> 038 571 8282</p>
                         <p><strong>Email:</strong> trinhthanhdat8282@gmail.com</p>
                     </div>
-                    <div class="footer-column" style="padding-top: .5em;">
+                    <div class="footer-content" style="padding-top: .5em;">
                         <h3>Theo dõi</h3>
                         <ul class="social-media">
                             <li><a href="#"><i class="fab fa-facebook"></i></a></li>
