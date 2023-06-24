@@ -12,7 +12,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
     <!-- CSS -->
-    <link href='/resources/static/css/product.css' rel='stylesheet'>
     <link rel="icon" type="image/svg" href="resources/static/image/favicon_KL.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
@@ -179,7 +178,6 @@
                                                 <button class="size_btn" th:id="'sizeInput_' + ${item.id}" th:text="43"
                                                     th:attr="data-product-id=${item.id}, data-size='43', onclick='setSize(this, event)'">
                                                 </button>
-
                                             </div>
                                             <input type="hidden" id="colorInput" name="color" value="">
                                             <input type="hidden" id="sizeInput" name="size" value="">

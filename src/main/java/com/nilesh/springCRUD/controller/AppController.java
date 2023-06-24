@@ -76,7 +76,7 @@ public class AppController {
 							  @RequestParam(name = "size") int size,
 							  @RequestParam(name = "color") String color) {
 		try {
-				ProductDetailEntity product = findProduct(id, color, size);
+			ProductDetailEntity product = findProduct(id, color, size);
 			BookingCartEntity bookingCartEntity = bookingCartService.findById(1);
 			int checkExist = exist(product.getId(), color, size);
 			if(checkExist == -1) {
@@ -94,6 +94,13 @@ public class AppController {
 		return "redirect:/";
 	}
 
+	@PostMapping(value="addToCart1/{id}", produces = "text/plain;charset=UTF-8")
+	public String showAddRoom(Model model, @PathVariable int id,
+							  @RequestParam(name = "color") String color,
+							  @RequestParam(name = "size") String size) {
+		System.out.println(color);
+		return "redirect:/";
+	}
 	public int exist(int product_id, String color, int size){
 		List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(1);
 		for (BookingCartItemEntity item: bookingCartItemEntities) {

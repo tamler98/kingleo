@@ -29,19 +29,17 @@
       <div class="left-column">
       <div th:if="${not #lists.isEmpty(product.productColorEntities)}">
           <a href="">
-              <img th:src="@{/resources/static/image/{colorName}.png(colorName=${product.productColorEntities[0].color_name})}"
+              <img th:src="@{/resources/static/images/{colorName}.png(colorName=${product.productColorEntities[0].color_name})}"
                    alt="" class="brand_logo active" th:data-image="${product.productColorEntities[0].color_name}">
           </a>
       </div>
       <div th:unless="${not #lists.isEmpty(product.productColorEntities)}">
-          <img th:src="@{/resources/static/image/default.png}" alt="Default Image" class="brand_logo active"
+          <img th:src="@{/resources/static/images/default.png}" alt="Default Image" class="brand_logo active"
                th:data-image="default">
       </div>
-
-
       <div th:each="color, loop : ${product.productColorEntities}" th:if="${loop.index > 0}">
           <a href="">
-              <img th:src="@{/resources/static/image/{colorName}.png(colorName=${color.color_name})}"
+              <img th:src="@{/resources/static/images/{colorName}.png(colorName=${color.color_name})}"
                    alt="" class="brand_logo" th:data-image="${color.color_name}">
           </a>
       </div>
@@ -53,85 +51,144 @@
       <div class="right-column">
 
         <!-- Product Description -->
-        <form action="/addToCart/${product.id}" method="POST" modelAttribute="product">
-        <div class="product-description">
-          <span>KingLeo Football</span>
-          <h1 th:text="${product.product_name}"></h1>
-          <p>The preferred choice of a vast range of acclaimed DJs. Punchy, bass-focused sound and high isolation. Sturdy headband and on-ear cushions suitable for live performance</p>
-        </div>
+        <form th:action="'/addToCart/' + ${product.id}" method="POST">
+          <div class="product-description">
+            <span>KingLeo Football</span>
+            <h1 th:text="${product.product_name}"></h1>
+            <p>The preferred choice of a vast range of acclaimed DJs. Punchy, bass-focused sound and high isolation. Sturdy headband and on-ear cushions suitable for live performance</p>
+          </div>
 
-        <!-- Product Configuration -->
-        <div class="product-configuration">
-
-          <!-- Product Color -->
-          <div class="product-color">
-            <span>Màu</span>
-
-            <div class="color-choose">
-              <div th:each="color : ${product.productColorEntities}">
+          <!-- Product Configuration -->
+          <div class="product-configuration">
+            <!-- Product Color -->
+            <div class="product-color">
+              <span>Màu</span>
+              <div class="color-choose">
+                <div th:each="color, loop : ${product.productColorEntities}">
                   <div>
-                      <input th:data-image="${color.color_name}" type="radio" th:id="${color.color_name}" th:onclick="setColor(${product.id}, event, '${color.color_name}')"
-                          th:checked="${color == product.productColorEntities[0]}">
-                      <label th:for="${color.color_name}"><span></span></label>
+                    <input class="input_color"
+                           th:data-image="${color.color_name}"
+                           type="radio"
+                           th:id="${color.color_name}"
+                           th:attr="data-product-id=${product.id}, data-color=${color.color_name}, onclick='setColor(event, ${color.color_name})'"
+                           th:classappend="${loop.index == 0} ? 'active'">
+                    <label th:for="${color.color_name}"><span></span></label>
                   </div>
+                </div>
               </div>
 
             </div>
+            <!-- Cable Configuration -->
+            <div class="cable-config">
+                <span>size</span>
 
-          </div>
+                <div class="cable-choose">
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="38"
+                    th:attr="data-product-id=${product.id}, data-size='38', onclick='setSize(this, event)'">
+                  </button>
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="39"
+                    th:attr="data-product-id=${product.id}, data-size='39', onclick='setSize(this, event)'">
+                  </button>
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="40"
+                    th:attr="data-product-id=${product.id}, data-size='40', onclick='setSize(this, event)'">
+                  </button>
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="41"
+                    th:attr="data-product-id=${product.id}, data-size='41', onclick='setSize(this, event)'">
+                  </button>
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="42"
+                    th:attr="data-product-id=${product.id}, data-size='42', onclick='setSize(this, event)'">
+                  </button>
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="43"
+                    th:attr="data-product-id=${product.id}, data-size='43', onclick='setSize(this, event)'">
+                  </button>
 
-          <!-- Cable Configuration -->
-          <div class="cable-config">
-            <span>size</span>
+                  <button type="button" class="input_size"
+                    th:id="'sizeInput_' + ${product.id}"
+                    th:text="44"
+                    th:attr="data-product-id=${product.id}, data-size='44', onclick='setSize(this, event)'">
+                  </button>
+                </div>
 
-            <div class="cable-choose">
-              <button type="button" onclick="setSize(${product.id}, event, '38')">38</button>
-              <button type="button" onclick="setSize(${product.id}, event, '39')">39</button>
-              <button type="button" onclick="setSize(${product.id}, event, '40')">40</button>
-              <button type="button" onclick="setSize(${product.id}, event, '41')">41</button>
-              <button type="button" onclick="setSize(${product.id}, event, '42')">42</button>
-              <button type="button" onclick="setSize(${product.id}, event, '43')">43</button>
+                <a href="#">How to configurate your headphones</a>
             </div>
-
-            <a href="#">How to configurate your headphones</a>
           </div>
-        </div>
+          <div class="product-price">
+            <span th:text="${product.price}"></span>
+            <input type="hidden" id="colorInput" name="color" value="">
+            <input type="hidden" id="sizeInput" name="size" value="">
+            <button onclick="updateOrderDetails()" class="cart-btn" style="text-decoration: none; border: none; color: white;">Thêm vào giỏ hàng</button>
+          </div>
+        </form>
 
-        <!-- Product Pricing -->
-        <div class="product-price">
-          <span>148$</span>
-          <input type="hidden" id="colorInput_${product.id}" name="color" value="">
-           <input type="hidden" id="sizeInput_${product.id}" name="size" value="">
-          <button type="submit" onclick="updateOrderDetails()" class="cart-btn" style="text-decoration: none; border: none; color: white;">Thêm vào giỏ hàng</button>
-
-          </form>
         </div>
       </div>
-    </main>>
-
-    <!-- Scripts -->
+    </main>
+</body>
     <script>
-      function setColor(productId, event, color) {
+      function setColor(event, color) {
         event.preventDefault();
-        // Cập nhật giá trị màu trong trường ẩn của sản phẩm có productId
-        var colorInput = document.getElementById("colorInput_" + productId);
-        colorInput.value = color;
+        var colorInput = document.getElementById(color);
+        if (colorInput) {
+          colorInput.value = color;
+        }
       }
+      function setSize(button, event) {
+              event.preventDefault();
 
-      function setSize(productId, event, size) {
-        event.preventDefault();
-        // Cập nhật giá trị kích thước trong trường ẩn của sản phẩm có productId
-        var sizeInput = document.getElementById("sizeInput_" + productId);
-        sizeInput.value = size;
-      }
+              var productId = button.getAttribute('data-product-id');
+              var size = button.getAttribute('data-size');
+
+              var sizeInput = document.getElementById("sizeInput_" + productId);
+              if (sizeInput) {
+                  sizeInput.value = size;
+              }
+              var sizeButtons = document.getElementsByClassName("input_size");
+              for (var i = 0; i < sizeButtons.length; i++) {
+                  sizeButtons[i].classList.remove("active");
+              }
+              button.classList.add("active");
+          }
+
       function updateOrderDetails() {
-        // Thực hiện bất kỳ xử lý bổ sung trước khi gửi biểu mẫu (nếu cần)
-        // Gửi biểu mẫu
-        document.querySelector("form").submit();
-      }
-     </script>
-       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src='<c:url value="/resources/static/js/product.js" />'></script>
+        var selectedColorBtn = document.querySelector(".input_color.active");
+        var color = selectedColorBtn ? selectedColorBtn.getAttribute("data-color") : "";
+        var size = document.querySelector(".input_size.active").getAttribute("data-size");
+        console.log("Selected color:", color); // Thêm dòng này để kiểm tra giá trị của color
 
-  </body>
+        document.getElementById("colorInput").value = color;
+        document.getElementById("sizeInput").value = size;
+        var form = document.querySelector("form");
+        if (form) {
+          form.submit();
+        }
+      }
+    </script>
+
+       <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+    $(document).ready(function() {
+      $('.color-choose input').on('click', function() {
+          var headphonesColor = $(this).attr('data-image');
+
+          $('.active').removeClass('active');
+          $('.left-column img[data-image = ' + headphonesColor + ']').addClass('active');
+          $(this).addClass('active');
+      });
+
+    });
+    </script>
+
+
 </html>
