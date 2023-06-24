@@ -26,7 +26,7 @@
         </div>
         <div class="col-sm-4">
             <div class="account_action">
-                <form action="search" method="GET">
+                <form action="search" method="GET" class="search_input">
                     <div class="search-container">
                         <input type="search" name="searchInput" placeholder="Tìm kiếm...">
                         <button type="submit"><i class="fas fa-search"></i></button>
