@@ -117,9 +117,29 @@ html, body {
 .color-choose input[type="radio"]#Do + label span {
   background-color: #C91524;
 }
+
+.color-choose input[type="radio"]#Đỏ + label span {
+  background-color: #C91524;
+}
 .color-choose input[type="radio"]#Vàng + label span {
    background-color: #f9ff00;
  }
+
+ .color-choose input[type="radio"][id="Xanh lá"] + label span {
+   background-color: #00a67d;
+ }
+
+ .color-choose input[type="radio"]#Đen + label span {
+    background-color: #323232;
+  }
+  .color-choose input[type="radio"]#Xám + label span {
+      background-color: #8b8787;
+    }
+    .color-choose input[type="radio"]#Tím + label span {
+          background-color: #9300ff;
+        }
+
+
 
 
 .color-choose input[type="radio"]#Xanh + label span {
