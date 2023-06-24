@@ -145,7 +145,7 @@
                                             </a>
                                         </div>
                                         <div class="thumb-content">
-                                            <h4><a href="/product/productId=${item.id}"
+                                            <h4><a th:href="'product/productId=' + ${item.id}"
                                                     th:text="${item.product_name}"></a></h4>
                                             <div class="choose_color">
                                                 <label for="" class="size_label">Màu:</label>
