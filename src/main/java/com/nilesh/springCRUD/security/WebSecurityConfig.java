@@ -40,7 +40,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.csrf().disable();
-		http.authorizeRequests().antMatchers("/, /product, /addToCart, /cart").permitAll()
+		http.authorizeRequests().antMatchers("/, /product, /addToCart, /cart, /admin/**").permitAll()
 				.antMatchers("/new").hasAnyAuthority("ADMIN")
 //				.antMatchers("/product/**").hasAnyAuthority("USER, ADMIN")
 				.antMatchers("/edit/**").hasAnyAuthority("ADMIN")
