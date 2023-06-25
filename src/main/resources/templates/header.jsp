@@ -50,11 +50,19 @@
                                     </span>
                                     <p>Dashboard</p>
                                 </li>
-                                <li class="sub-item">
+                                <a href="../admin/manager" class="logout">
+                                <li class="sub-item" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <span class="material-icons-outlined">
                                         <i class="fas fa-list"></i>
                                     </span>
-                                    <p>My Orders</p>
+                                    <p>Quản lý sản phẩm</p>
+                                </li>
+                                </a>
+                                <li class="sub-item" sec:authorize="hasAnyAuthority('USER')">
+                                    <span class="material-icons-outlined">
+                                        <i class="fas fa-list"></i>
+                                    </span>
+                                    <p>Đơn hàng của tôi</p>
                                 </li>
                                 <li class="sub-item">
                                     <span class="material-icons-outlined"> <i class="fas fa-users-cog"></i>

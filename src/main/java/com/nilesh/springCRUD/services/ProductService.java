@@ -30,4 +30,10 @@ public class ProductService {
 
     public Page<ProductEntity> getProductListBySearchInput(PageRequest pageRequest, String searchInput) { return productRepository.getProductListBySearchInput(pageRequest, searchInput);
     }
+
+    public void save(ProductEntity product) {productRepository.save(product);
+    }
+
+    public void deleteById(int id) { productRepository.deleteById(id);
+    }
 }
