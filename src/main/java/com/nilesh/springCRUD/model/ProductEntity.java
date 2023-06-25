@@ -20,6 +20,8 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "productEntity")
     private List<ProductDetailEntity> productDetailEntities;
+    @OneToMany(mappedBy = "productEntity")
+    private List<ProductImageEntity> productImageEntities;
 
     @OneToMany(mappedBy = "productEntity")
     private List<ProductColorEntity> productColorEntities;
@@ -70,5 +72,13 @@ public class ProductEntity {
 
     public void setProductColorEntities(List<ProductColorEntity> productColorEntities) {
         this.productColorEntities = productColorEntities;
+    }
+
+    public List<ProductImageEntity> getProductImageEntities() {
+        return productImageEntities;
+    }
+
+    public void setProductImageEntities(List<ProductImageEntity> productImageEntities) {
+        this.productImageEntities = productImageEntities;
     }
 }

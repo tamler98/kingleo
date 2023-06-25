@@ -19,7 +19,7 @@
 </head>
 <body>
 <main>
-<form class="form-horizontal" action="newProduct" method="POST" modelAttribute="product">
+<form class="form-horizontal" action="newProduct" method="POST" modelAttribute="product" enctype="multipart/form-data">
 <fieldset>
 
 <!-- Form Name -->
@@ -52,7 +52,7 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="filebutton">main_image</label>
   <div class="col-md-4">
-    <input id="filebutton" name="filebutton" class="input-file" type="file">
+    <input name="photo" type="file" id="upload" class="input-file" accept="image/png, image/jpeg" />
   </div>
 </div>
 
