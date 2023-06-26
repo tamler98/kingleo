@@ -88,7 +88,7 @@ public class AppController {
 			int size = Integer.parseInt(sizeShoe);
 			ProductDetailEntity product = findProduct(id, color, size);
 			BookingCartEntity bookingCartEntity = bookingCartService.findById(1);
-			int checkExist = exist(product.getId(), color, size);
+			int checkExist = exist(id, color, size);
 			if(checkExist == -1) {
 				createNewBookingCartItem(product, bookingCartEntity, color, size);
 			}else {
@@ -127,8 +127,9 @@ public class AppController {
 	}
 	public int exist(int product_id, String color, int size){
 		List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(1);
+		ProductEntity product = productService.findById(product_id);
 		for (BookingCartItemEntity item: bookingCartItemEntities) {
-			if (item.getSize() == size && item.getColor().equals(color)) {
+			if (item.getSize() == size && item.getColor().equals(color) && item.getProductDetailEntity().getProductEntity().getProduct_name().equals(product.getProduct_name())) {
 				return item.getId();
 			}
 		}
