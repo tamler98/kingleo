@@ -50,12 +50,12 @@
                                     </span>
                                     <p>Dashboard</p>
                                 </li>
-                                <a href="../admin/manager" class="logout">
+                                <a href="../admin/newProduct" class="logout">
                                 <li class="sub-item" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <span class="material-icons-outlined">
                                         <i class="fas fa-list"></i>
                                     </span>
-                                    <p>Quản lý sản phẩm</p>
+                                    <p>Thêm sản phẩm</p>
                                 </li>
                                 </a>
                                 <li class="sub-item" sec:authorize="hasAnyAuthority('USER')">
