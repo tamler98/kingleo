@@ -18,4 +18,7 @@ public class ProductDetailService {
 
     public List<ProductDetailEntity> findAll() { return productDetailRepository.findAll();
     }
+
+    public void save(ProductDetailEntity productDetailEntity) { productDetailRepository.save(productDetailEntity);
+    }
 }
