@@ -41,24 +41,23 @@
 
 <!-- Select Basic -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="product_categorie">PRODUCT CATEGORY</label>
+  <label class="col-md-4 control-label" for="product_category">PRODUCT CATEGORY</label>
   <div class="col-md-4">
-    <select id="product_categorie" name="product_categorie" class="form-control">
+    <select id="product_category" name="product_category" class="form-control">
+      <option th:each="item : ${categoryList}" th:value="${item.key}" th:text="${item.value}"></option>
     </select>
   </div>
 </div>
-
- <!-- File Button -->
 <div class="form-group">
-  <label class="col-md-4 control-label" for="filebutton">main_image</label>
+  <label class="col-md-4 control-label" for="product_colors">Màu giày</label>
   <div class="col-md-4">
+    <input id="product_colors" name="product_colors" type="text" />
     <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
-            <span class="d-none d-sm-block">Upload new photo</span>
-            <i class="bx bx-upload d-block d-sm-none"></i>
-            <input name="photo" type="file" id="upload"
-                class="account-file-input" hidden
-                accept="image/png, image/jpeg" />
-        </label>
+      <span class="d-none d-sm-block">Ảnh</span>
+      <i class="bx bx-upload d-block d-sm-none"></i>
+      <input name="photos" type="file" class="account-file-input upload" multiple accept="image/png, image/jpeg" />
+    </label>
+    <button type="button" onclick="addInput()">Add</button>
   </div>
 </div>
 
@@ -73,4 +72,34 @@
 </form>
 </main>
 </body>
+<script>
+var counter = 1;
+
+function addInput() {
+  var inputContainer = document.createElement('div');
+  inputContainer.classList.add('col-md-4');
+
+  var newInput = document.createElement('input');
+  newInput.name = 'product_colors';
+  newInput.type = 'text';
+
+  var newFileInput = document.createElement('input');
+  newFileInput.name = 'photos';
+  newFileInput.type = 'file';
+  newFileInput.classList.add('account-file-input');
+  newFileInput.classList.add('upload');
+  newFileInput.multiple = true;
+  newFileInput.accept = 'image/png, image/jpeg';
+
+  inputContainer.appendChild(newInput);
+  inputContainer.appendChild(newFileInput);
+
+  var addButton = document.querySelector('button');
+  addButton.parentNode.insertBefore(inputContainer, addButton);
+
+  counter++;
+}
+</script>
+
+
 </html>
