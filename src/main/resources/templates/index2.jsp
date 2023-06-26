@@ -145,8 +145,7 @@
                                             </a>
                                         </div>
                                         <div class="thumb-content">
-                                            <h4><a th:href="'product/productId=' + ${item.id}"
-                                                    th:text="${item.product_name}"></a></h4>
+                                            <h4><a th:href="'product/productId=' + ${item.id}" th:text="${item.product_name}"></a></h4>
                                             <div class="choose_color">
                                                 <label for="" class="size_label">Màu:</label>
                                                 <div th:each="color : ${item.productColorEntities}">
@@ -157,23 +156,24 @@
                                             </div>
                                             <div class="choose_size">
                                                 <label for="" class="size_label">Size:</label>
-                                                <div th:each="sizeShoe : ${sizeList}">
-                                                    <button type="button" class="size_btn" th:id="'sizeInput_' + ${sizeShoe}"
-                                                        th:text="${sizeShoe}"
-                                                        th:attr="data-product-id=${item.id}, data-size=${sizeShoe}, onclick='setSize(this, event)'"></button>
+                                               <div th:each="sizeShoe : ${sizeList}">
+                                                <button type="button" class="size_btn" th:id="'sizeInput_' + ${sizeShoe}"
+                                                    th:text="${sizeShoe}"
+                                                    th:attr="data-product-id=${item.id}, data-size='${sizeShoe}', onclick='setSize(this, event)'">
+                                                </button>
                                                 </div>
                                             </div>
                                             <input type="hidden" th:id="'colorInput_' + ${item.id}" name="color" value="">
-                                            <input type="hidden" th:id="'sizeInput_' + ${item.id}" name="size" value="">
+                                            <input type="hidden" th:id="'sizeInput' + ${item.id}" name="color" value="">
                                             <div class="thumb-content_footer">
                                                 <p class="item-price" th:text="${item.price}+VNĐ"><b></b></p>
-                                                <button class="btn btn-primary" onclick="updateOrderDetails()">Mua
-                                                    ngay</button>
+                                                <button class="btn btn-primary" onclick="updateOrderDetails()">Mua ngay</button>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
                             </div>
+
 
                         </div>
                     </div>
@@ -238,57 +238,58 @@
 
 <script>
     function setColor(button, event) {
+        event.preventDefault();
+        var productId = button.getAttribute('data-product-id');
+        var color = button.getAttribute('data-color');
+
+        var colorInput = document.getElementById("colorInput_" + productId);
+        if (colorInput) {
+            colorInput.value = color;
+        }
+
+        var colorButtons = document.getElementsByClassName("color_btn");
+        for (var i = 0; i < colorButtons.length; i++) {
+            colorButtons[i].classList.remove("selected");
+        }
+        button.classList.add("selected");
+    }
+    function setSize(button, event) {
             event.preventDefault();
             var productId = button.getAttribute('data-product-id');
-            var color = button.getAttribute('data-color');
+            var size = button.getAttribute('data-size');
 
-            var colorInput = document.getElementById("colorInput_" + productId);
+            var colorInput = document.getElementById("sizeInput_" + productId);
             if (colorInput) {
                 colorInput.value = color;
             }
 
-            var colorButtons = document.getElementsByClassName("color_btn");
+            var colorButtons = document.getElementsByClassName("size_btn");
             for (var i = 0; i < colorButtons.length; i++) {
                 colorButtons[i].classList.remove("selected");
             }
             button.classList.add("selected");
         }
 
-   function setSize(button, event) {
-           event.preventDefault();
-           var productId = button.dataset.productId;
-           var size = button.dataset.size;
-           var sizeInput = document.getElementById("sizeInput_" + productId);
-           if (sizeInput) {
-               sizeInput.value = size;
-           }
-           var sizeButtons = document.getElementsByClassName("size_btn");
-           Array.from(sizeButtons).forEach(function(btn) {
-               btn.classList.remove("selected");
-           });
-           button.classList.add("selected");
-       }
-
     function updateOrderDetails() {
-        var selectedColorBtn = document.querySelector(".color_btn.selected");
-              var color = selectedColorBtn ? selectedColorBtn.getAttribute("data-color") : "";
-              var productId = selectedColorBtn ? selectedColorBtn.getAttribute("data-product-id") : "";
-              var colorInput = document.getElementById("colorInput_" + productId);
-              if (colorInput) {
-                colorInput.value = color;
-              }
-        var selectedSizeBtn = document.querySelector(".size_btn.selected");
-                var size = selectedSizeBtn ? selectedSizeBtn.dataset.size : "";
-                var productId = selectedSizeBtn ? selectedSizeBtn.dataset.productId : "";
-                var sizeInput = document.getElementById("sizeInput_" + productId);
-                if (sizeInput) {
-                    sizeInput.value = size;
-                }
+      var selectedColorBtn = document.querySelector(".color_btn.selected");
+      var color = selectedColorBtn ? selectedColorBtn.getAttribute("data-color") : "";
+      var productId = selectedColorBtn ? selectedColorBtn.getAttribute("data-product-id") : "";
+      var colorInput = document.getElementById("colorInput_" + productId);
+      if (colorInput) {
+        colorInput.value = color;
+      }
 
-        var form = document.querySelector("form");
-        if (form) {
-            form.submit();
-        }
+      var selectedColorBtn = document.querySelector(".size_btn.selected");
+      var size = selectedColorBtn ? selectedColorBtn.getAttribute("data-size") : "";
+      var sizeInput = document.getElementById("sizeInput_" + productId);
+      if (sizeInput) {
+        sizeInput.value = size;
+      }
+
+      var form = document.querySelector("form");
+      if (form) {
+        form.submit();
+      }
     }
 </script>
 <script src="resources/static/js/slide.js"></script>
