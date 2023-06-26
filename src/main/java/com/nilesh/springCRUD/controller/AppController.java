@@ -1,5 +1,7 @@
 package com.nilesh.springCRUD.controller;
 
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -7,6 +9,7 @@ import java.util.Set;
 
 import com.nilesh.springCRUD.model.*;
 import com.nilesh.springCRUD.services.*;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -17,6 +20,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import static org.springframework.web.bind.annotation.RequestMethod.POST;
@@ -36,6 +40,9 @@ public class AppController {
 
 	@Autowired
 	ProductDetailService productDetailService;
+
+	@Autowired
+	ProductImageService productImageService;
 
 	@RequestMapping("/")
 	public String viewHomePage(Model model, HttpSession session,
@@ -58,6 +65,8 @@ public class AppController {
 		model.addAttribute("productList", listProduct.getContent());
 		model.addAttribute("currentPage", listProduct.getNumber());
 		model.addAttribute("totalPages", listProduct.getTotalPages());
+		List<Integer> sizeList = createShoeSizeList();
+		model.addAttribute("sizeList", sizeList);
 
 		List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findAll();
 		int count = countProduct(bookingCartItemEntities);
@@ -73,9 +82,10 @@ public class AppController {
 	}
 	@PostMapping(value="addToCart/{id}", produces = "text/plain;charset=UTF-8")
 	public String showAddRoom(Model model, @PathVariable int id,
-							  @RequestParam(name = "size") int size,
+							  @RequestParam(name = "size") String sizeShoe,
 							  @RequestParam(name = "color") String color) {
 		try {
+			int size = Integer.parseInt(sizeShoe);
 			ProductDetailEntity product = findProduct(id, color, size);
 			BookingCartEntity bookingCartEntity = bookingCartService.findById(1);
 			int checkExist = exist(product.getId(), color, size);
@@ -94,12 +104,26 @@ public class AppController {
 		return "redirect:/";
 	}
 
-	@PostMapping(value="addToCart1/{id}", produces = "text/plain;charset=UTF-8")
-	public String showAddRoom(Model model, @PathVariable int id,
-							  @RequestParam(name = "color") String color,
-							  @RequestParam(name = "size") String size) {
-		System.out.println(color);
-		return "redirect:/";
+//	@PostMapping(value="addToCart/{id}", produces = "text/plain;charset=UTF-8")
+//	public String showAddRoom(Model model, @PathVariable int id,
+//							  @RequestParam(name = "size") String size) {
+//		return "redirect:/";
+//	}
+
+	@GetMapping("getImagePhoto/{id}_{color}")
+	public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id,@PathVariable("color") String color) throws Exception {
+		response.setContentType("image/jpeg");
+		List<ProductImageEntity> imageList = (List<ProductImageEntity>) productImageService.findByProductId(id);
+		byte[] ph = new byte[0];
+		String name = new String(id+"_"+color);
+		for (ProductImageEntity productImage:imageList) {
+			if(productImage.getImage_name().equals(name)) {
+				ph = productImage.getUrl();
+				break;
+			}
+		}
+		InputStream inputStream = new ByteArrayInputStream(ph);
+		IOUtils.copy(inputStream, response.getOutputStream());
 	}
 	public int exist(int product_id, String color, int size){
 		List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(1);
@@ -120,14 +144,12 @@ public class AppController {
 
 	public ProductDetailEntity findProduct(int id,String color,int size) {
 		List<ProductDetailEntity> productDetailEntities = productDetailService.findAllByProductId(id);
-		ProductDetailEntity product = new ProductDetailEntity();
 		for (ProductDetailEntity item: productDetailEntities) {
 			if (item.getColor().equals(color) && item.getSize() == size) {
-				product = item;
-				break;
+				return item;
 			}
 		}
-		return product;
+		return null;
 	}
 
 	public void createNewBookingCartItem(ProductDetailEntity product, BookingCartEntity bookingCartEntity, String color, int size){
@@ -155,4 +177,12 @@ public class AppController {
 		}
 		return newProductShow;
 	}
+
+		public List<Integer> createShoeSizeList() {
+			List<Integer> shoeSizes = new ArrayList<>();
+			for (int i = 39; i <= 43; i++) {
+				shoeSizes.add(i);
+			}
+			return shoeSizes;
+		}
 }

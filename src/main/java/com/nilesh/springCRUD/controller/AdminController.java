@@ -47,12 +47,11 @@ public class AdminController {
             produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
             consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String addNewProduct(@ModelAttribute(name="product") ProductEntity product,
-                                @RequestPart(name = "photo") MultipartFile photo,
-                                @RequestParam("image_name") String image_name,
-                                @RequestPart("image_url") MultipartFile image_url) throws IOException {
+                                @RequestPart(name = "photo") MultipartFile photo
+                                ) throws IOException {
         productService.save(product);
         ProductImageEntity image = new ProductImageEntity();
-        image.setImage_name(image_name);
+        image.setImage_name(product.getId()+"_Do");
         image.setUrl(photo.getBytes());
         image.setProductEntity(product);
         productImageService.save(image);
@@ -78,10 +77,9 @@ public class AdminController {
         image.setImage_name("anh1");
         image.setImage_type("jsp");
         image.setUrl(photo.getBytes());
-        System.out.println(photo.getBytes());
         image.setProductEntity(product);
         productImageService.save(image);
-        return "newImage";
+        return "redirect:/admin/manager";
     }
     @GetMapping("/viewProduct/{id}")
     public String viewProduct(@PathVariable int id, Model model) {

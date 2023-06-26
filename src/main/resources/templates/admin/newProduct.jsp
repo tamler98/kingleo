@@ -52,7 +52,13 @@
 <div class="form-group">
   <label class="col-md-4 control-label" for="filebutton">main_image</label>
   <div class="col-md-4">
-    <input name="photo" type="file" id="upload" class="input-file" accept="image/png, image/jpeg" />
+    <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
+            <span class="d-none d-sm-block">Upload new photo</span>
+            <i class="bx bx-upload d-block d-sm-none"></i>
+            <input name="photo" type="file" id="upload"
+                class="account-file-input" hidden
+                accept="image/png, image/jpeg" />
+        </label>
   </div>
 </div>
 
