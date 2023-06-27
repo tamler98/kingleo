@@ -79,8 +79,8 @@ public class AdminController {
     public String addNewProduct(@ModelAttribute(name = "product") ProductEntity product,
                                 @RequestParam(name = "product_category") Integer product_category,
                                 @RequestParam(name = "product_colors") List<String> productColors,
-                                @RequestParam(name = "photos") List<MultipartFile> photos,
-                                @RequestParam(name = "quantity") List<List<Integer>> quantities
+                                @RequestParam(name = "photos") List<MultipartFile> photos
+//                                @RequestParam(name = "quantity") List<List<Integer>> quantities
     ) throws IOException {
         CategoryEntity category = categoryService.findById(product_category);
         product.setCategoryEntity(category);
@@ -89,24 +89,24 @@ public class AdminController {
         addProductColor(product, productColors);
         createProductDetail(product, productColors);
         addProductColorImage(product, productColors, photos);
-        addProductQuantities(product, productColors, quantities);
+//        addProductQuantities(product, productColors, quantities);
 
         return "redirect:/admin/manager";
     }
-    private void addProductQuantities(ProductEntity product, List<String> productColors, List<List<Integer>> quantities) {
-        List<ProductColorEntity> colors = product.getProductColorEntities();
-        for (int i = 0; i < colors.size(); i++) {
-            ProductColorEntity color = colors.get(i);
-            List<Integer> quantityList = quantities.get(i);
-            for (int j = 0; j < quantityList.size(); j++) {
-                SizeEntity size = sizeService.findBySizeNumber(j + 39); // Kích cỡ giày từ 39 đến 43
-                int quantity = quantityList.get(j);
-                ProductDetailEntity productDetail = productDetailService.findByProductAndColorAndSize(product, color, size);
-                productDetail.setQuantity(quantity);
-                productDetailService.save(productDetail);
-            }
-        }
-    }
+//    private void addProductQuantities(ProductEntity product, List<String> productColors, List<List<Integer>> quantities) {
+//        List<ProductColorEntity> colors = product.getProductColorEntities();
+//        for (int i = 0; i < colors.size(); i++) {
+//            ProductColorEntity color = colors.get(i);
+//            List<Integer> quantityList = quantities.get(i);
+//            for (int j = 0; j < quantityList.size(); j++) {
+//                SizeEntity size = sizeService.findBySizeNumber(j + 39); // Kích cỡ giày từ 39 đến 43
+//                int quantity = quantityList.get(j);
+//                ProductDetailEntity productDetail = productDetailService.findByProductAndColorAndSize(product, color, size);
+//                productDetail.setQuantity(quantity);
+//                productDetailService.save(productDetail);
+//            }
+//        }
+//    }
 
     private void createProductDetail(ProductEntity product, List<String> productColors) {
         List<Integer> sizeList = createShoeSizeList();
