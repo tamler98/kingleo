@@ -21,4 +21,7 @@ public class AccountService {
 
     public List<AccountEntity> findAll() { return (List<AccountEntity>) userRepository.findAll();
     }
+
+    public AccountEntity findById(int id) { return userRepository.findById(id);
+    }
 }

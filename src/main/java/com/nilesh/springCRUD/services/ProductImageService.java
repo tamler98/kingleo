@@ -22,4 +22,7 @@ public class ProductImageService {
 
     public List<ProductImageEntity> findByProductId(int id) { return  productImageRepository.findByProductId(id);
     }
+
+    public ProductImageEntity findByProductName(String username) { return productImageRepository.findByName(username);
+    }
 }

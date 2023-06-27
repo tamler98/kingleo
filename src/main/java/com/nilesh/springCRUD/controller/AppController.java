@@ -104,12 +104,6 @@ public class AppController {
 		return "redirect:/";
 	}
 
-//	@PostMapping(value="addToCart/{id}", produces = "text/plain;charset=UTF-8")
-//	public String showAddRoom(Model model, @PathVariable int id,
-//							  @RequestParam(name = "size") String size) {
-//		return "redirect:/";
-//	}
-
 	@GetMapping("getImagePhoto/{id}_{color}")
 	public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id,@PathVariable("color") String color) throws Exception {
 		response.setContentType("image/jpeg");
