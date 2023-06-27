@@ -125,6 +125,28 @@ public class AppController {
 		InputStream inputStream = new ByteArrayInputStream(ph);
 		IOUtils.copy(inputStream, response.getOutputStream());
 	}
+
+	@GetMapping(value = "search")
+	public String searchProduct(@RequestParam(name = "keyword") String keyword,
+								@RequestParam(name = "page", defaultValue = "0") int pageNumber,
+								@RequestParam(name = "size", defaultValue = "8") int pageSize, Model model) {
+		PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+		Page<ProductEntity> listProduct = productService.getProductListBySearchInput(pageRequest, keyword);
+
+		if(listProduct.isEmpty()) {
+			listProduct = productService.getProductList(pageRequest);
+			model.addAttribute("productList", listProduct.getContent());
+			model.addAttribute("currentPage", listProduct.getNumber());
+			model.addAttribute("totalPages", listProduct.getTotalPages());
+		}else {
+			model.addAttribute("productList", listProduct.getContent());
+			model.addAttribute("currentPage", listProduct.getNumber());
+			model.addAttribute("totalPages", listProduct.getTotalPages());
+		}
+		model.addAttribute("sizeList", createShoeSizeList());
+		return "search_page";
+	}
+
 	public int exist(int product_id, String color, int size){
 		List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(1);
 		ProductEntity product = productService.findById(product_id);

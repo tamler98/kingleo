@@ -3,6 +3,7 @@ package com.nilesh.springCRUD.repository;
 
 import com.nilesh.springCRUD.model.ProductEntity;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -23,4 +24,6 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     List<ProductEntity> findAll();
     @Query(value="select * from product where product.product_name like %?1% ", nativeQuery = true)
     List<ProductEntity> findBySearchInput(String searchInput);
+    @Query(value="select * from product where product.product_name like %?1%", nativeQuery = true)
+    Page<ProductEntity> findByKeyword(Pageable pageable, String keyword);
 }
