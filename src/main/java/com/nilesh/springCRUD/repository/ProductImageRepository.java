@@ -16,4 +16,6 @@ public interface ProductImageRepository extends CrudRepository<ProductImageEntit
     ProductImageEntity findById(int id);
     @Query(value = "select * from product_image where product_id =?1", nativeQuery = true)
     List<ProductImageEntity> findByProductId(int id);
+    @Query(value = "select * from product_image where image_name =?1", nativeQuery = true)
+    ProductImageEntity findByName(String username);
 }

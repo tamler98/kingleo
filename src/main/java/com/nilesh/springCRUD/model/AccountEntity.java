@@ -3,17 +3,7 @@ package com.nilesh.springCRUD.model;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 
 @Entity
@@ -28,6 +18,10 @@ public class AccountEntity {
 
 	private String email;
 	private String phone;
+
+	@Column(name = "photo")
+	@Lob
+	private byte[] photo;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name ="users_roles", joinColumns = @JoinColumn (name="user_id"), inverseJoinColumns = @JoinColumn (name="role_id"))
@@ -79,5 +73,17 @@ public class AccountEntity {
 
 	public void setPhone(String phone) {
 		this.phone = phone;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
 	}
 }
