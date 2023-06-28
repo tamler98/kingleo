@@ -54,7 +54,7 @@ public class SignUpController {
             newUser.setRoles(roles);
 
             accountService.save(newUser);
-            model.addAttribute("msg", "Đăng ký tài khoản thành công, hãy đăng nhập!");
+            model.addAttribute("msg", "Đăng ký thành công, hãy đăng nhập!");
             return "login";
         }else{
             model.addAttribute("msg", "Tài khoản đã tồn tại");

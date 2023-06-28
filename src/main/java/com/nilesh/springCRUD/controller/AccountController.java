@@ -30,18 +30,21 @@ public class AccountController {
     @GetMapping("profile")
     public String viewProfile(Model model, HttpSession session){
         AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account == null){
+            return "redirect:/login";
+        }else{
         model.addAttribute("account", account);
         return "account_page";
+        }
+
     }
 
     @PostMapping(value="update")
-    public String updateInfo(@ModelAttribute("account") AccountEntity accountEntity,
-                             @RequestPart(name = "photo") MultipartFile photo) throws IOException {
+    public String updateInfo(@ModelAttribute("account") AccountEntity accountEntity) throws IOException {
         AccountEntity account = accountService.findByUsername(accountEntity.getUsername());
         account.setEmail(accountEntity.getEmail());
         account.setPhone(accountEntity.getPhone());
         account.setUsername(accountEntity.getUsername());
-        account.setPhoto(photo.getBytes());
         accountService.save(account);
         return "redirect:/account/profile";
     }
