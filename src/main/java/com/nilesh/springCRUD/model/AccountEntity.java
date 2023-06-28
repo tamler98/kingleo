@@ -27,6 +27,10 @@ public class AccountEntity {
 
 	private String email;
 	private String phone;
+
+	@Column(name = "photo")
+	@Lob
+	private byte[] photo;
 	
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	@JoinTable(name ="users_roles", joinColumns = @JoinColumn (name="user_id"), inverseJoinColumns = @JoinColumn (name="role_id"))
@@ -113,5 +117,13 @@ public class AccountEntity {
 
 	public void setBookingCartEntity(BookingCartEntity bookingCartEntity) {
 		this.bookingCartEntity = bookingCartEntity;
+
+	public byte[] getPhoto() {
+		return photo;
+	}
+
+	public void setPhoto(byte[] photo) {
+		this.photo = photo;
+
 	}
 }

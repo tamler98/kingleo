@@ -89,7 +89,7 @@ public class AppController {
 			int size = Integer.parseInt(sizeShoe);
 			ProductDetailEntity product = findProduct(id, color, size);
 			BookingCartEntity bookingCartEntity = bookingCartService.findById(1);
-			int checkExist = exist(product.getId(), color, size);
+			int checkExist = exist(id, color, size);
 			if(checkExist == -1) {
 				createNewBookingCartItem(product, bookingCartEntity, color, size);
 			}else {
@@ -104,12 +104,6 @@ public class AppController {
 		}
 		return "redirect:/";
 	}
-
-//	@PostMapping(value="addToCart/{id}", produces = "text/plain;charset=UTF-8")
-//	public String showAddRoom(Model model, @PathVariable int id,
-//							  @RequestParam(name = "size") String size) {
-//		return "redirect:/";
-//	}
 
 	@GetMapping("getImagePhoto/{id}_{color}")
 	public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id,@PathVariable("color") String color) throws Exception {
@@ -126,10 +120,33 @@ public class AppController {
 		InputStream inputStream = new ByteArrayInputStream(ph);
 		IOUtils.copy(inputStream, response.getOutputStream());
 	}
+
+	@GetMapping(value = "search")
+	public String searchProduct(@RequestParam(name = "keyword") String keyword,
+								@RequestParam(name = "page", defaultValue = "0") int pageNumber,
+								@RequestParam(name = "size", defaultValue = "8") int pageSize, Model model) {
+		PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+		Page<ProductEntity> listProduct = productService.getProductListBySearchInput(pageRequest, keyword);
+
+		if(listProduct.isEmpty()) {
+			listProduct = productService.getProductList(pageRequest);
+			model.addAttribute("productList", listProduct.getContent());
+			model.addAttribute("currentPage", listProduct.getNumber());
+			model.addAttribute("totalPages", listProduct.getTotalPages());
+		}else {
+			model.addAttribute("productList", listProduct.getContent());
+			model.addAttribute("currentPage", listProduct.getNumber());
+			model.addAttribute("totalPages", listProduct.getTotalPages());
+		}
+		model.addAttribute("sizeList", createShoeSizeList());
+		return "search_page";
+	}
+
 	public int exist(int product_id, String color, int size){
 		List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(1);
+		ProductEntity product = productService.findById(product_id);
 		for (BookingCartItemEntity item: bookingCartItemEntities) {
-			if (item.getSize() == size && item.getColor().equals(color)) {
+			if (item.getSize() == size && item.getColor().equals(color) && item.getProductDetailEntity().getProductEntity().getProduct_name().equals(product.getProduct_name())) {
 				return item.getId();
 			}
 		}

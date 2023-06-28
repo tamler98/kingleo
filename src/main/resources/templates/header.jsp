@@ -3,10 +3,12 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <head>
-
+<link href='resources/static/css/header.css' rel='stylesheet'>
 </head>
+<body>
 <header>
     <div class="row">
         <div class="col-sm-2">
@@ -26,16 +28,16 @@
         </div>
         <div class="col-sm-4">
             <div class="account_action">
-                <form action="search" method="GET" class="search_input">
+                <form action="/search" method="get" class="search_input">
                     <div class="search-container">
-                        <input type="search" name="searchInput" placeholder="Tìm kiếm...">
+                        <input type="search" name="keyword" placeholder="Tìm kiếm..." />
                         <button type="submit"><i class="fas fa-search"></i></button>
                     </div>
                 </form>
                 <div class="account_icons" th:if="${session.account != null}">
                     <ul>
                         <li>
-                            <img src="../resources/static/images/tam.jpg" class="profile" id="profile-image" />
+                            <img th:src="'../account/getImagePhoto/'+${session.account.id}" class="profile" id="profile-image" />
                             <ul>
                                 <li class="sub-item">
                                     <span class="material-icons-outlined"> <i class="far fa-user"></i>
@@ -50,12 +52,12 @@
                                     </span>
                                     <p>Dashboard</p>
                                 </li>
-                                <a href="../admin/manager" class="logout">
+                                <a href="../admin/newProduct" class="logout">
                                 <li class="sub-item" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <span class="material-icons-outlined">
                                         <i class="fas fa-list"></i>
                                     </span>
-                                    <p>Quản lý sản phẩm</p>
+                                    <p>Thêm sản phẩm</p>
                                 </li>
                                 </a>
                                 <li class="sub-item" sec:authorize="hasAnyAuthority('USER')">
@@ -64,11 +66,13 @@
                                     </span>
                                     <p>Đơn hàng của tôi</p>
                                 </li>
+                                <a href="/account/profile" class="logout">
                                 <li class="sub-item">
                                     <span class="material-icons-outlined"> <i class="fas fa-users-cog"></i>
                                     </span>
                                     <p>Update Profile</p>
                                 </li>
+                                </a>
                                 <a href="../logout" class="logout">
                                     <li class="sub-item">
                                         <span class="material-icons-outlined"> <i class="fas fa-sign-out-alt"></i>
@@ -124,3 +128,7 @@
     </div>
 </header>
     <script src="resources/static/js/header.js"></script>
+
+
+ </body>
+ </html >

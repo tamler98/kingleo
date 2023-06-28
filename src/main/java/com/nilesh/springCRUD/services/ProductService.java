@@ -36,4 +36,7 @@ public class ProductService {
 
     public void deleteById(int id) { productRepository.deleteById(id);
     }
+
+    public Page<ProductEntity> findByKeyword(PageRequest pageRequest, String keyword) { return productRepository.findByKeyword(pageRequest, keyword);
+    }
 }
