@@ -10,8 +10,8 @@ import javax.persistence.*;
 @Table(name = "users")
 public class AccountEntity {
 	@Id
-	@Column(name="user_id")
-	@GeneratedValue(strategy =GenerationType.IDENTITY)
+	@Column(name = "user_id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String username;
 
@@ -31,10 +31,10 @@ public class AccountEntity {
 	@Column(name = "photo")
 	@Lob
 	private byte[] photo;
-	
+
 	@ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	@JoinTable(name ="users_roles", joinColumns = @JoinColumn (name="user_id"), inverseJoinColumns = @JoinColumn (name="role_id"))
-	private Set<RoleEntity> roles=new HashSet<>();
+	@JoinTable(name = "users_roles", joinColumns = @JoinColumn(name = "user_id"), inverseJoinColumns = @JoinColumn(name = "role_id"))
+	private Set<RoleEntity> roles = new HashSet<>();
 
 	@OneToOne(mappedBy = "accountEntity", cascade = CascadeType.ALL)
 	private BookingCartEntity bookingCartEntity;
@@ -117,6 +117,7 @@ public class AccountEntity {
 
 	public void setBookingCartEntity(BookingCartEntity bookingCartEntity) {
 		this.bookingCartEntity = bookingCartEntity;
+	}
 
 	public byte[] getPhoto() {
 		return photo;
@@ -124,6 +125,5 @@ public class AccountEntity {
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
-
 	}
 }
