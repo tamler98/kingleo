@@ -15,10 +15,17 @@ public class AccountService {
 
     public AccountEntity findByUsername(String username) { return userRepository.findByUsername(username);
     }
+    public AccountEntity findByEmail(String userMail) {
+        return userRepository.findByEmail(userMail);
+    }
 
     public void save(AccountEntity newUser) { userRepository.save(newUser);
     }
 
     public List<AccountEntity> findAll() { return (List<AccountEntity>) userRepository.findAll();
+    }
+
+    public AccountEntity findById(int id) {
+        return userRepository.findById(id);
     }
 }

@@ -53,6 +53,7 @@ public class AppController {
 		String username = principal.toString();
 		if (principal instanceof UserDetails) {
 			username = ((UserDetails) principal).getUsername();
+			session.setAttribute("userEmail", username);
 		}
 		AccountEntity user = accountService.findByUsername(username);
 		if(user != null) {

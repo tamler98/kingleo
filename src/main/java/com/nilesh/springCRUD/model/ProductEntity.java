@@ -13,7 +13,8 @@ public class ProductEntity {
     private String product_name;
     @Column(name = "price")
     private Double price;
-
+    @OneToMany(mappedBy = "productEntity", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+    private List<OrderDetailEntity> orderDetailEntityList;
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "category_id")
     private CategoryEntity categoryEntity;

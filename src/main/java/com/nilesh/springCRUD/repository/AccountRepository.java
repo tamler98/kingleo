@@ -15,4 +15,10 @@ public interface AccountRepository extends CrudRepository<AccountEntity, Integer
 
 	@Query(value = "SELECT * from users Where users.username = ?1", nativeQuery = true)
     public AccountEntity findByUsername(String username);
+
+	@Query(value = "SELECT * from users Where users.email = ?1", nativeQuery = true)
+	AccountEntity findByEmail(String userMail);
+
+	@Query(value = "select * from users where users.user_id =?1", nativeQuery = true)
+	AccountEntity findById(int id);
 }
