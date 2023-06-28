@@ -14,6 +14,10 @@ public class BookingCartEntity {
     @OneToMany(mappedBy = "bookingCartEntity")
     private List<BookingCartItemEntity> bookingCartItemEntities;
 
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "user_id", referencedColumnName = "user_id")
+    private AccountEntity accountEntity;
+
     public int getId() {
         return id;
     }
@@ -28,5 +32,13 @@ public class BookingCartEntity {
 
     public void setBookingCartItemEntities(List<BookingCartItemEntity> bookingCartItemEntities) {
         this.bookingCartItemEntities = bookingCartItemEntities;
+    }
+
+    public AccountEntity getAccountEntity() {
+        return accountEntity;
+    }
+
+    public void setAccountEntity(AccountEntity accountEntity) {
+        this.accountEntity = accountEntity;
     }
 }

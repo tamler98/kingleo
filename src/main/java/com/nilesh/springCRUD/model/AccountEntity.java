@@ -12,8 +12,17 @@ public class AccountEntity {
 	@Id
 	@Column(name="user_id")
 	@GeneratedValue(strategy =GenerationType.IDENTITY)
-	private long id;
+	private int id;
 	private String username;
+
+	@Column(name = "first_name")
+	private String first_name;
+
+	@Column(name = "last_name")
+	private String last_name;
+
+	@Column(name = "address")
+	private String address;
 	private String password;
 
 	private String email;
@@ -27,11 +36,14 @@ public class AccountEntity {
 	@JoinTable(name ="users_roles", joinColumns = @JoinColumn (name="user_id"), inverseJoinColumns = @JoinColumn (name="role_id"))
 	private Set<RoleEntity> roles=new HashSet<>();
 
-	public Long getId() {
+	@OneToOne(mappedBy = "accountEntity", cascade = CascadeType.ALL)
+	private BookingCartEntity bookingCartEntity;
+
+	public int getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
 
@@ -75,9 +87,36 @@ public class AccountEntity {
 		this.phone = phone;
 	}
 
-	public void setId(long id) {
-		this.id = id;
+	public String getFirst_name() {
+		return first_name;
 	}
+
+	public void setFirst_name(String first_name) {
+		this.first_name = first_name;
+	}
+
+	public String getLast_name() {
+		return last_name;
+	}
+
+	public void setLast_name(String last_name) {
+		this.last_name = last_name;
+	}
+
+	public String getAddress() {
+		return address;
+	}
+
+	public void setAddress(String address) {
+		this.address = address;
+	}
+
+	public BookingCartEntity getBookingCartEntity() {
+		return bookingCartEntity;
+	}
+
+	public void setBookingCartEntity(BookingCartEntity bookingCartEntity) {
+		this.bookingCartEntity = bookingCartEntity;
 
 	public byte[] getPhoto() {
 		return photo;
@@ -85,5 +124,6 @@ public class AccountEntity {
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
+
 	}
 }
