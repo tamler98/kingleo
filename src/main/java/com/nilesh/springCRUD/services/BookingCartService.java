@@ -19,4 +19,7 @@ public class BookingCartService {
     public BookingCartEntity findByAccountId(int id) {
         return bookingCartRepository.findByAccountId(id);
     }
+
+    public void save(BookingCartEntity bookingCartEntity) { bookingCartRepository.save(bookingCartEntity);
+    }
 }
