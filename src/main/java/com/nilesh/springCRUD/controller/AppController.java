@@ -130,7 +130,6 @@ public class AppController {
 			int count = listSize(bookingCartItemEntities);
 			session.setAttribute("count", count);
             }
-
 			// Show list
 			PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
 			Page<ProductEntity> listProduct = productService.getProductList(pageRequest);
