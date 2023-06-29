@@ -1,7 +1,9 @@
 package com.nilesh.springCRUD.controller;
 
+import com.nilesh.springCRUD.model.BookingCartEntity;
 import com.nilesh.springCRUD.model.RoleEntity;
 import com.nilesh.springCRUD.services.AccountService;
+import com.nilesh.springCRUD.services.BookingCartService;
 import com.nilesh.springCRUD.services.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -22,6 +24,9 @@ public class SignUpController {
     AccountService accountService;
     @Autowired
     RoleService roleService;
+
+    @Autowired
+    BookingCartService bookingCartService;
     @GetMapping("/signup")
     public String registerNewAccount(){
         return "signup";
@@ -43,6 +48,11 @@ public class SignUpController {
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
             String newPassword = encoder.encode(password);
             newUser.setPassword(newPassword);
+
+            //Create Booking Cart
+            BookingCartEntity bookingCartEntity = new BookingCartEntity();
+            bookingCartEntity.setAccountEntity(newUser);
+            bookingCartService.save(bookingCartEntity);
 
             newUser.setEmail(email);
             newUser.setPhone(phone);
