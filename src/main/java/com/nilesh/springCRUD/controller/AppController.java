@@ -124,7 +124,7 @@ public class AppController {
 						}
 					}
 				}
-				session.removeAttribute("bookingCartItemList");
+				session.removeAttribute("bookingCartItemListSession");
 			}
 			session.setAttribute("bookingCartItemList", bookingCartItemEntities);
 			int count = listSize(bookingCartItemEntities);
