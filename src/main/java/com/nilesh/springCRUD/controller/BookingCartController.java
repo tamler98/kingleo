@@ -33,42 +33,53 @@ public class BookingCartController {
                               HttpSession session) {
         // auth
         String username = (String) session.getAttribute("userEmail");
-        if (username == null) {
-            return "login";
-        }
-
         AccountEntity accountEntity = accountService.findByUsername(username);
+//        List<BookingCartItemEntity> bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        List<BookingCartItemEntity> bookingCartItemEntities = new ArrayList<>();
         if (accountEntity == null) {
-            return "login";
+            bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+            double priceOfAllProduct = 0.0;
+            for (BookingCartItemEntity item : bookingCartItemEntities) {
+                priceOfAllProduct += item.getProductDetailEntity().getProductEntity().getPrice();
+            }
+            double totalPrice = priceOfAllProduct + 20.00;
+
+            session.setAttribute("totalPrice", totalPrice);
+            session.setAttribute("priceOfAllProduct", priceOfAllProduct);
+
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("priceOfAllProduct", priceOfAllProduct);
+            model.addAttribute("bookingCartItemList", bookingCartItemEntities);
+            return "bookingcart";
+        }else {
+            model.addAttribute("accountEntity", accountEntity);
+            session.setAttribute("accountEntity", accountEntity);
+            // find by account id
+            BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
+            bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+
+            // show user's information
+            accountEntity.setFirst_name(accountEntity.getFirst_name());
+            accountEntity.setLast_name(accountEntity.getLast_name());
+            accountEntity.setEmail(accountEntity.getEmail());
+            accountEntity.setPhone(accountEntity.getPhone());
+            accountEntity.setAddress(accountEntity.getAddress());
+
+            // show price of all product and total price
+            double priceOfAllProduct = 0.0;
+            for (BookingCartItemEntity item : bookingCartItemEntities) {
+                priceOfAllProduct += item.getProductDetailEntity().getProductEntity().getPrice();
+            }
+            double totalPrice = priceOfAllProduct + 20.00;
+
+            session.setAttribute("totalPrice", totalPrice);
+            session.setAttribute("priceOfAllProduct", priceOfAllProduct);
+
+            model.addAttribute("totalPrice", totalPrice);
+            model.addAttribute("priceOfAllProduct", priceOfAllProduct);
+            model.addAttribute("bookingCartItemList", bookingCartItemEntities);
+            return "bookingcart";
         }
-
-        model.addAttribute("accountEntity", accountEntity);
-        session.setAttribute("accountEntity", accountEntity);
-        // find by account id
-        BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
-        List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
-
-        // show user's information
-        accountEntity.setFirst_name(accountEntity.getFirst_name());
-        accountEntity.setLast_name(accountEntity.getLast_name());
-        accountEntity.setEmail(accountEntity.getEmail());
-        accountEntity.setPhone(accountEntity.getPhone());
-        accountEntity.setAddress(accountEntity.getAddress());
-
-        // show price of all product and total price
-        double priceOfAllProduct = 0.0;
-        for (BookingCartItemEntity item : bookingCartItemEntities) {
-            priceOfAllProduct += item.getProductDetailEntity().getProductEntity().getPrice();
-        }
-        double totalPrice = priceOfAllProduct + 20.00;
-
-        session.setAttribute("totalPrice", totalPrice);
-        session.setAttribute("priceOfAllProduct", priceOfAllProduct);
-
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("priceOfAllProduct", priceOfAllProduct);
-        model.addAttribute("bookingCartItemList", bookingCartItemEntities);
-        return "bookingcart";
     }
 
     @PostMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
