@@ -2095,7 +2095,7 @@ width:47vw;
 
    .choose_size {
            display: flex;
-           width: 170px;
+           width: 172px;
            overflow: hidden;
    }
 
@@ -2105,8 +2105,7 @@ width:47vw;
    }
    .size_btn {
         display: flex;
-        font-size: 7px;
-        min-width: 21px;
+        font-size: 8px;
         align-items: center;
         justify-content: center;
         border-radius: 3px;
@@ -2233,6 +2232,17 @@ width:47vw;
          color: #777;
          font-style: italic;
        }
+}
+
+@media (max-width: 375px) {
+.choose_size {
+    display: flex;
+    width: 145px;
+    overflow: hidden;
+}
+.thumb-content .btn {
+    min-width: 55%;
+}
 }
 
 
