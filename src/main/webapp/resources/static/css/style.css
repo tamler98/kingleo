@@ -2234,7 +2234,7 @@ width:47vw;
        }
 }
 
-@media (max-width: 375px) {
+@media (max-width: 390px) {
 .choose_size {
     display: flex;
     width: 145px;
