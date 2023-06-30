@@ -16,6 +16,7 @@
     <link rel="icon" type="image/svg" href="resources/static/image/favicon_KL.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link href='../resources/static/css/style.css' rel='stylesheet'>
+    <link href='../resources/static/css/rating.css' rel='stylesheet'>
     <!--FAVICON -->
     <link href='../resources/static/images/favicon_KL.svg' rel='shortcut icon'>
     <meta name="robots" content="noindex,follow" />
@@ -135,6 +136,85 @@
         </div>
       </div>
     </main>
+
+
+
+
+
+    <div class="comment_card">
+    <h4>Đánh giá sản phẩm:</h4>
+        <div class="row">
+          <div class="col-md-12">
+            <div class="card_content" th:each="rating : ${ratingList}">
+              <div class="comment-widgets" style="width: 100%;">
+                <div class="rating_area">
+                  <div class="col_avatar" style="max-width:80px;"><span class="round"><img th:src="'/account/getImagePhoto/'+${rating.accountEntity.id}" alt="user"
+                        width="50"></span></div>
+                  <div class="col_rating">
+                    <div class="comment-text w-100">
+                      <h5 style="text-align: left;" th:text="${rating.accountEntity.first_name}"></h5>
+                      <p style="width: 100%;" th:text="${rating.content}"></p>
+                      <div class="comment-footer">
+                      <span class="date">Ngày: </span>
+                        <span class="date" th:text="${#dates.format(rating.date_comment, 'dd-MM-yyyy')}"></span>
+                        <span id="ratingSpan" class="label label-info" th:text="${rating.rating}" th:class="'rating-' + ${rating.rating}"></span>
+                        <form th:action="'/rating/like_rating_id=' + ${rating.id}" method="POST">
+                          <button type="submit" data-abc="true" style="color:red; background: none; border: none; padding: 0;"><i class="fa fa-heart"></i></button>
+                        </form>
+                          <span style="    font-size: 15px;
+                                           text-decoration: none;
+                                           color: red;
+                                           margin-left: 4px;
+                                           font-weight: 500;" th:text="${rating.count_like}" ></span></a>
+                        </span><span>&nbsp thích</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <form th:action="'/rating/productId='+${product.id}" method="POST">
+            <div class="card_content">
+              <div class="comment-widgets" style="width: 100%;">
+                <div class="rating_area">
+                  <div class="col_avatar" th:if="${session.account == null}">
+                  <span class="round"> <img src="../resources/static/images/no-avatar.png" alt="user" width="50"></span>
+                  </div>
+                  <div class="col_avatar" th:if="${session.account != null}">
+                  <span class="round"> <img th:src="'/account/getImagePhoto/'+${session.account.id}" alt="user" width="50"></span>
+                  </div>
+                  <div class="col_rating">
+                    <div class="comment-text w-100">
+                      <h5 style="text-align: left;">Đánh giá của bạn</h5>
+                      <div class="rating">
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                      </div>
+                      <div class="comment-area">
+                        <textarea class="form-control" name="content" placeholder="Bạn thấy sản phẩm thế nào?" rows="4"></textarea>
+                      </div>
+                      <div class="comment-btns mt-2">
+                        <div class="col-lg">
+                          <div class="col-12" style="text-align:left;">
+                            <div class="pull-left">
+                              <button type="submit" class="btn btn-success btn-sm">Đánh giá</button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          </form>
+        </div>
+      </div>
+
 </body>
     <script>
       function setColor(event, color) {
@@ -189,6 +269,37 @@
 
     });
     </script>
+<span id="ratingSpan" class="label label-info"></span>
 
+<script>
+  var ratingElements = document.querySelectorAll("#ratingSpan");
+
+  ratingElements.forEach(function(ratingElement) {
+    var ratingValue = parseInt(ratingElement.textContent);
+    var ratingText = "";
+
+    switch (ratingValue) {
+      case 1:
+        ratingText = "Rất tệ";
+        break;
+      case 2:
+        ratingText = "Tệ";
+        break;
+      case 3:
+        ratingText = "Ổn";
+        break;
+      case 4:
+        ratingText = "Tốt";
+        break;
+      case 5:
+        ratingText = "Tuyệt vời";
+        break;
+      default:
+        ratingText = "Không có rating";
+    }
+
+    ratingElement.textContent = ratingText;
+  });
+</script>
 
 </html>

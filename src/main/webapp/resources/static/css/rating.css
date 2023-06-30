@@ -1,0 +1,168 @@
+@import url(http://fonts.googleapis.com/css?family=Calibri:400,300,700);
+.comment_card{
+    width: 100%;
+}
+.comment_card h4{
+    height: 3em;
+    border-top: 1px solid #d1d1d1;
+    border-bottom: 1px solid #d1d1d1;
+    padding: 1em 1em;
+}
+.card_content{
+    max-width: 102vw;
+    background-color: white;
+    display: flex;
+    align-items: flex-start;
+    margin-top: 0px;
+    padding: 1em 1em;
+    border-bottom: 1px solid rgb(204, 204, 204);
+}
+.comment-widgets .comment-row:hover {
+    background: rgba(0, 0, 0, 0.02);
+    cursor: pointer;
+}
+.comment-widgets .comment-row {
+    border-bottom: 1px solid rgba(120, 130, 140, 0.13);
+    padding: 15px;
+}
+.comment-text:hover{
+    visibility: hidden;
+}
+.comment-text:hover{
+    visibility: visible;
+}
+
+.comment-text h5{
+    font-size: 18px;
+    font-weight: 600;
+}
+.comment-footer{
+    align-items: center;
+        display: flex;
+        float: left;
+}
+
+.comment-footer span{
+    font-size: 13px;
+        font-weight: 500;
+}
+
+.comment-text p{
+    text-align: justify;
+}
+
+.label {
+    padding: 3px 10px;
+    line-height: 13px;
+    color: #ffffff;
+    font-weight: 400;
+    border-radius: 4px;
+    font-size: 75%;
+}
+
+.round img {
+    width: 50px;
+    height: 50px;
+    border-radius: 100%;
+}
+
+.label-info {
+    background-color: #1976d2;
+}
+
+.label-success {
+    background-color: green;
+}
+
+.label-danger {
+    background-color: #ef5350;
+}
+
+.action-icons a {
+    padding-left: 7px;
+    vertical-align: middle;
+    color: #99abb4;
+}
+
+.action-icons a:hover {
+    color: #1976d2;
+}
+
+.mt-100 {
+    margin-top: 100px
+}
+
+.mb-100 {
+    margin-bottom: 100px
+}
+
+.comment-box h4{
+    font-size: 18px;
+    font-weight: 600;
+}
+
+.rating {
+    text-align: left;
+}
+
+.pull-left {
+    margin-left: -29px;
+}
+.rating_area{
+width:100%;
+display:flex;
+flex-direction:row;
+}
+.col_avatar {
+width: 6%;
+}
+
+.col_rating{
+width: 94%;
+}
+
+@media (max-width: 535px) {
+.col_avatar {
+width: 23%;
+}
+}
+
+.rating-1 {
+margin: 0px 5px;
+        color: white;
+        padding: 4px;
+        border-radius: 5px;
+    background-color: red;
+  }
+
+  .rating-2 {
+  margin: 0px 5px;
+          color: white;
+          padding: 4px;
+          border-radius: 5px;
+    background-color: orange;
+  }
+
+  .rating-3 {
+  margin: 0px 5px;
+          color: white;
+          padding: 4px;
+          border-radius: 5px;
+    background-color: yellow;
+  }
+
+  .rating-4 {
+    margin: 0px 5px;
+        color: white;
+        padding: 4px;
+        border-radius: 5px;
+        background-color: green;
+  }
+
+  .rating-5 {
+  margin: 0px 5px;
+          color: white;
+          padding: 4px;
+          border-radius: 5px;
+    background-color: blue;
+  }

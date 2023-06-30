@@ -2,10 +2,7 @@ package com.nilesh.springCRUD.controller;
 
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import com.nilesh.springCRUD.model.*;
 import com.nilesh.springCRUD.services.*;
@@ -43,6 +40,9 @@ public class AppController {
 
     @Autowired
     ProductImageService productImageService;
+
+    @Autowired
+    RatingService ratingService;
 
     @RequestMapping("/")
     public String viewHomePage(Model model, HttpSession session,
@@ -146,7 +146,38 @@ public class AppController {
     public String showProduct(Model model, @PathVariable int id) {
         ProductEntity product = productService.findById(id);
         model.addAttribute("product", product);
+        List<RatingEntity> ratingEntities = ratingService.findByProductId(id);
+        model.addAttribute("ratingList", ratingEntities);
         return "product";
+    }
+
+    @PostMapping(value = "rating/productId={id}", produces = "text/plain;charset=UTF-8")
+    public String ratingProduct(Model model, @PathVariable("id") int product_id, HttpSession session, @RequestParam("content") String content, @RequestParam("rating") int rating) {
+        RatingEntity ratingEntity = new RatingEntity();
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account == null) {
+            return "redirect:/login";
+        }
+        ratingEntity.setAccountEntity(account);
+        ratingEntity.setContent(content);
+        ratingEntity.setProductEntity(productService.findById(product_id));
+        ratingEntity.setDate_comment(new Date());
+        ratingEntity.setRating(rating);
+        ratingService.save(ratingEntity);
+        return "redirect:/product/productId={id}";
+    }
+
+    @PostMapping(value = "rating/like_rating_id={id}", produces = "text/plain;charset=UTF-8")
+    public String likeProduct(Model model, @PathVariable("id") int rating_id, HttpSession session) {
+        RatingEntity ratingEntity = ratingService.findById(rating_id);
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account == null) {
+            return "redirect:/login";
+        }
+        ratingEntity.setCount_like(ratingEntity.getCount_like() + 1);
+        ratingService.save(ratingEntity);
+        String address = "redirect:/product/productId="+ratingEntity.getProductEntity().getId();
+        return address;
     }
     @PostMapping(value="addToCart/{id}", produces = "text/plain;charset=UTF-8")
     public String showAddRoom(Model model, @PathVariable int id,
@@ -215,6 +246,7 @@ public class AppController {
         InputStream inputStream = new ByteArrayInputStream(ph);
         IOUtils.copy(inputStream, response.getOutputStream());
     }
+
 
     @GetMapping(value = "search")
     public String searchProduct(@RequestParam(name = "keyword") String keyword,

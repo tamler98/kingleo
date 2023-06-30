@@ -1,6 +1,7 @@
 package com.nilesh.springCRUD.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -43,6 +44,8 @@ public class AccountEntity {
 
 	@OneToOne(mappedBy = "accountEntity", cascade = CascadeType.ALL)
 	private BookingCartEntity bookingCartEntity;
+	@OneToMany(mappedBy = "accountEntity")
+	private List<RatingEntity> ratingEntities;
 
 	public int getId() {
 		return id;
@@ -170,5 +173,13 @@ public class AccountEntity {
 
 	public void setCount_of_rate(int count_of_rate) {
 		this.count_of_rate = count_of_rate;
+	}
+
+	public List<RatingEntity> getRatingEntities() {
+		return ratingEntities;
+	}
+
+	public void setRatingEntities(List<RatingEntity> ratingEntities) {
+		this.ratingEntities = ratingEntities;
 	}
 }
