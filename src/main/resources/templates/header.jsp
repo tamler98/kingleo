@@ -37,7 +37,12 @@
                 <div class="account_icons" th:if="${session.account != null}">
                     <ul>
                         <li>
-                            <img th:src="'../account/getImagePhoto/'+${session.account.id}" class="profile" id="profile-image" />
+                            <div th:if="${session.account.getPhoto() == null}">
+                                <img src="../resources/static/images/no-avatar.png" class="profile" id="profile-image" />
+                            </div>
+                            <div th:if="${session.account.getPhoto() != null}">
+                                <img th:src="'../account/getImagePhoto/'+${session.account.id}" class="profile" id="profile-image" />
+                            </div>
                             <ul>
                                 <li class="sub-item">
                                     <span class="material-icons-outlined"> <i class="far fa-user"></i>
@@ -94,7 +99,7 @@
                 </div>
                 <div class="account_icons" th:if="${session.account == null}">
                     <ul>
-                        <li>
+                        <li >
                             <img src="../resources/static/images/no-avatar.png" class="profile" />
                             <ul>
                                 <a href="../login" class="logout">

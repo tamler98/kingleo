@@ -8,7 +8,11 @@ font-family: "Poppins", sans-serif;
     position: relative;
     font-family: Roboto, sans-serif;
 }
-
+.G5KGVD{
+    font-size: 20px;
+        color: red;
+        font-weight: 600;
+}
 header {
     position: fixed;
     z-index:100;
@@ -688,10 +692,11 @@ h2::after {
   	margin-left: 5px;
   }
   .item-price {
-      display: flex;
-      color: #ff0000;
-  	font-size: 16px;
-      padding-top: 16px;
+         width: 60%;
+         display: flex;
+         color: #ff0000;
+         align-items: center;
+         padding-top: 10px;
   }
   .wish-icon {
   	position: absolute;
@@ -715,10 +720,10 @@ h2::after {
   }
 
   .thumb-content_footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 0px 1em;
+     width: 100%;
+         display: flex;
+         align-items: center;
+         padding: 0px 1em;
   }
 
   .choose_size {
@@ -738,7 +743,7 @@ h2::after {
       background-color: rgba(255, 255, 255, 0);
       border: 1px solid rgb(173, 173, 173);
       font-size: 13px;
-      min-width: 26px;
+      min-width: 17px;
       height: 25px;
       border-radius: 3px;
   }
@@ -1082,6 +1087,11 @@ font-family: "Poppins", sans-serif;
     position: relative;
     font-family: Roboto, sans-serif;
 }
+.G5KGVD{
+    font-size: 20px;
+        color: red;
+        font-weight: 600;
+}
     header {
         position: fixed;
         z-index: 100;
@@ -1387,7 +1397,7 @@ width:47vw;
    }
 
    .thumb-wrapper {
-           max-height: 370px;
+           max-height: 390px;
            border: 2px solid #0099dab0;
            position: relative;
            box-shadow: 0 2px 3px rgba(0,0,0,0.2);
@@ -1439,17 +1449,11 @@ width:47vw;
       }
 
    .thumb-content .btn {
-   	    color: #00baee;
-        font-size: 8px;
-        text-transform: uppercase;
-        font-weight: bold;
-        background: none;
-        border: 1px solid #00baee;
-        padding: -3px 14px;
-        margin-left: 8px;
-        /* line-height: 16px; */
-        border-radius: 20px;
-        min-width: 73px;
+   	        color: #00baee;
+            font-size: 10px;
+            text-transform: uppercase;
+            font-weight: bold;
+            height: 3.4em;
    }
    .thumb-content .btn:hover, .thumb-content .btn:focus {
    	color: #fff;
@@ -1471,6 +1475,7 @@ width:47vw;
    	margin-left: 5px;
    }
    .item-price {
+   width: 60%;
        display: flex;
        color: #ff0000;
    	font-size: 16px;
@@ -1498,6 +1503,7 @@ width:47vw;
    }
 
    .thumb-content_footer {
+   width:100%;
        display: flex;
        justify-content: space-between;
        align-items: center;
@@ -1636,8 +1642,18 @@ width:47vw;
 }
 
 
+@media (max-width: 460px) {
 
-
+ .size_btn {
+      margin-left: 5px;
+      background-color: rgba(255, 255, 255, 0);
+      border: 1px solid rgb(173, 173, 173);
+      font-size: 9px;
+      min-width: 17px;
+      height: 25px;
+      border-radius: 3px;
+  }
+}
 
 
 
@@ -1645,7 +1661,7 @@ width:47vw;
 
 
 /* Man hinh dien thoai*/
-@media (max-width: 390px) {
+@media (max-width: 415px) {
 body {
 font-family: "Poppins", sans-serif;
     width: 100vw;
@@ -1654,6 +1670,14 @@ font-family: "Poppins", sans-serif;
     flex-direction: column;
     position: relative;
     font-family: Roboto, sans-serif;
+}
+.G5KGVD_d{
+        font-size: 12px;
+}
+.G5KGVD{
+        font-size: 14px;
+        color: red;
+        font-weight: 600;
 }
     header {
         position: fixed;
@@ -2007,17 +2031,13 @@ width:47vw;
    	margin-bottom: 5px;
    }
    .thumb-content .btn {
-   	    color: #00baee;
-        font-size: 8px;
-        text-transform: uppercase;
-        font-weight: bold;
-        background: none;
-        border: 1px solid #00baee;
-        padding: -3px 14px;
-        margin-left: 8px;
-        /* line-height: 16px; */
-        border-radius: 20px;
-        min-width: 73px;
+       min-width: 50%;
+   display: flex;
+       align-items: center;
+   	    max-width: 40%;
+            color: #00baee;
+            font-size: 8px;
+            margin-left:8px;
    }
    .thumb-content .btn:hover, .thumb-content .btn:focus {
    	color: #fff;
@@ -2039,9 +2059,9 @@ width:47vw;
    	margin-left: 5px;
    }
    .item-price {
+   width: 50%;
        display: flex;
        color: #ff0000;
-   	font-size: 16px;
        padding-top: 16px;
    }
    .wish-icon {
@@ -2066,11 +2086,11 @@ width:47vw;
    }
 
    .thumb-content_footer {
+       width: 100%;
        display: flex;
-       justify-content: space-between;
        align-items: center;
        padding: 0px 1em;
-       margin-top: -8px;
+       margin-top: -4px;
    }
 
    .choose_size {
@@ -2141,7 +2161,7 @@ width:47vw;
 
    footer {
        position: relative;
-       max-width: 390px;
+       max-width: 100%;
        top: 60px;
        padding: 0px 2em;
        background-color: #0c66600a;

@@ -29,7 +29,7 @@
       <div class="left-column">
       <div th:if="${not #lists.isEmpty(product.productColorEntities)}">
           <a href="">
-              <img th:src="'../getImagePhoto/'+${product.id}+'_'+${product.productColorEntities[0].color_name}" alt="Default Image" class="brand_logo active"
+              <img th:src="'../getImagePhotoByColor/'+${product.id}+'_'+${product.productColorEntities[0].color_name}" alt="Default Image" class="brand_logo active"
                                 th:data-image="${product.productColorEntities[0].color_name}">
           </a>
       </div>
@@ -39,7 +39,7 @@
       </div>
       <div th:each="color, loop : ${product.productColorEntities}" th:if="${loop.index > 0}">
           <a href="">
-               <img th:src="'../getImagePhoto/'+${product.id}+'_'+${color.color_name}" alt="Default Image" class="brand_logo"
+               <img th:src="'../getImagePhotoByColor/'+${product.id}+'_'+${color.color_name}" alt="Default Image" class="brand_logo"
                   th:data-image="${color.color_name}"s>
           </a>
       </div>
