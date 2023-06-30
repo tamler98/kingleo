@@ -727,16 +727,28 @@ h2::after {
   }
 
   .choose_size {
+      width: 100%;
       display: flex;
       flex-direction: row;
       align-items: center;
       padding: 0px 1em;
       justify-content: space-between;
-      margin-bottom: .5em;
+      margin-bottom: 0.5em;
   }
 
-  .size_lable {
-      font-size: 13px;
+  .size_label {
+      font-size: 15px;
+      width:15%
+  }
+
+  .size_list{
+    width: 85%;
+        display: flex;
+        flex-direction: row;
+        overflow: revert;
+        justify-content: center;
+        align-items: center;
+        min-width: 25px;
   }
   .size_btn {
       margin-left: 5px;
@@ -1508,23 +1520,19 @@ width:47vw;
        justify-content: space-between;
        align-items: center;
        padding: 0px 1em;
-       margin-top: -8px;
-   }
-
-   .choose_size {
-           display: flex;
-           max-width: 245px;
-           overflow: hidden;
-   }
-
-   .size_label {
-       padding-top:1em;
-       font-size: 10px;
    }
 
    .size_btn.selected {
         background-color: red;
         color: white;
+   }
+
+   .size_label {
+       font-size: 12px;
+       width: 15%;
+   }
+   .choose_size {
+       margin: 4px 0px;
    }
 
    .choose_color {
@@ -2031,13 +2039,13 @@ width:47vw;
    	margin-bottom: 5px;
    }
    .thumb-content .btn {
-       min-width: 50%;
-   display: flex;
-       align-items: center;
-   	    max-width: 40%;
-            color: #00baee;
-            font-size: 8px;
-            margin-left:8px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          min-width: 54%;
+          color: #00baee;
+          font-size: 9px;
+          margin-left: 5px;
    }
    .thumb-content .btn:hover, .thumb-content .btn:focus {
    	color: #fff;
@@ -2090,26 +2098,7 @@ width:47vw;
        display: flex;
        align-items: center;
        padding: 0px 1em;
-       margin-top: -4px;
-   }
-
-   .choose_size {
-           display: flex;
-           width: 172px;
-           overflow: hidden;
-   }
-
-   .size_label {
-       padding-top:1em;
-       font-size: 7px;
-   }
-   .size_btn {
-        display: flex;
-        font-size: 8px;
-        align-items: center;
-        justify-content: center;
-        border-radius: 3px;
-        overflow: hidden;
+       margin-top: 5px;
    }
 
    .size_btn.selected {
@@ -2232,17 +2221,6 @@ width:47vw;
          color: #777;
          font-style: italic;
        }
-}
-
-@media (max-width: 390px) {
-.choose_size {
-    display: flex;
-    width: 145px;
-    overflow: hidden;
-}
-.thumb-content .btn {
-    min-width: 55%;
-}
 }
 
 

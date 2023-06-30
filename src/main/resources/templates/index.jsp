@@ -159,7 +159,7 @@
                                             </div>
                                             <div class="choose_size">
                                                 <label for="" class="size_label">Size:</label>
-                                                <div th:each="sizeShoe : ${sizeList}">
+                                                <div class="size_list" th:each="sizeShoe : ${sizeList}">
                                                     <button type="button" class="size_btn" th:id="'sizeInput_' + ${sizeShoe}"
                                                         th:text="${sizeShoe}"
                                                         th:attr="data-product-id=${item.id}, data-size=${sizeShoe}, onclick='setSize(this, event)'"></button>
