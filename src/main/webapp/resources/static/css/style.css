@@ -1661,7 +1661,7 @@ width:47vw;
 
 
 /* Man hinh dien thoai*/
-@media (max-width: 415px) {
+@media (max-width: 460px) {
 body {
 font-family: "Poppins", sans-serif;
     width: 100vw;
@@ -1986,7 +1986,7 @@ width:47vw;
    }
 
    .thumb-wrapper {
-       width: 178px;
+       width: 100%;
        height: 377px;
        padding: 0px 0px 20px 0px;
        border: 2px solid #0099dab0;

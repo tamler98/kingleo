@@ -7,7 +7,7 @@ html {
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+      font-family: "Poppins", sans-serif;
   height: 100vh;
 }
 
@@ -83,10 +83,12 @@ h2.active {
 /* FORM TYPOGRAPHY*/
 
 input[type=button], input[type=submit], input[type=reset]  {
+
+    width: 85%;
   background-color: #56baed;
   border: none;
   color: white;
-  padding: 15px 80px;
+  padding: 10px 10px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
