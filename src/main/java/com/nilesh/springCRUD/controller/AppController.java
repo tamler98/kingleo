@@ -191,7 +191,7 @@ public class AppController {
         return "redirect:/";
     }
 
-    @GetMapping("getImagePhoto/{id}_{color}")
+    @GetMapping("getImagePhotoByColor/{id}_{color}")
     public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id,@PathVariable("color") String color) throws Exception {
         response.setContentType("image/jpeg");
         List<ProductImageEntity> imageList = (List<ProductImageEntity>) productImageService.findByProductId(id);
@@ -203,6 +203,15 @@ public class AppController {
                 break;
             }
         }
+        InputStream inputStream = new ByteArrayInputStream(ph);
+        IOUtils.copy(inputStream, response.getOutputStream());
+    }
+
+    @GetMapping("getImagePhoto/{id}")
+    public void getImagePhotoProduct(HttpServletResponse response, Model model, @PathVariable("id") int id) throws Exception {
+        response.setContentType("image/jpeg");
+        List<ProductImageEntity> imageList = (List<ProductImageEntity>) productImageService.findByProductId(id);
+        byte[] ph = imageList.get(0).getUrl();
         InputStream inputStream = new ByteArrayInputStream(ph);
         IOUtils.copy(inputStream, response.getOutputStream());
     }

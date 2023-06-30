@@ -73,56 +73,32 @@
 </main>
 </body>
 <script>
+var counter = 1;
+
 function addInput() {
-  function addInput() {
-    var inputContainer = document.createElement('div');
-    inputContainer.classList.add('form-group');
+  var inputContainer = document.createElement('div');
+  inputContainer.classList.add('col-md-4');
 
-    var colorLabel = document.createElement('label');
-    colorLabel.classList.add('col-md-4', 'control-label');
-    colorLabel.setAttribute('for', 'product_colors');
-    colorLabel.textContent = 'Màu giày';
+  var newInput = document.createElement('input');
+  newInput.name = 'product_colors';
+  newInput.type = 'text';
 
-    var sizeContainer = document.createElement('div');
-    sizeContainer.classList.add('col-md-4');
+  var newFileInput = document.createElement('input');
+  newFileInput.name = 'photos';
+  newFileInput.type = 'file';
+  newFileInput.classList.add('account-file-input');
+  newFileInput.classList.add('upload');
+  newFileInput.multiple = true;
+  newFileInput.accept = 'image/png, image/jpeg';
 
-    var colorInput = document.createElement('input');
-    colorInput.id = 'product_colors';
-    colorInput.name = 'product_colors';
-    colorInput.type = 'text';
+  inputContainer.appendChild(newInput);
+  inputContainer.appendChild(newFileInput);
 
-    var quantityLabel = document.createElement('label');
-    quantityLabel.classList.add('col-md-4', 'control-label');
-    quantityLabel.textContent = 'Số lượng';
+  var addButton = document.querySelector('button');
+  addButton.parentNode.insertBefore(inputContainer, addButton);
 
-    var quantityContainer = document.createElement('div');
-    quantityContainer.classList.add('col-md-8');
-
-    for (var i = 39; i <= 43; i++) {
-      var sizeLabel = document.createElement('label');
-      sizeLabel.classList.add('col-md-1', 'control-label');
-      sizeLabel.textContent = i;
-
-      var sizeInput = document.createElement('input');
-      sizeInput.name = 'product_quantity';
-      sizeInput.type = 'number';
-      sizeInput.min = '0';
-
-      sizeContainer.appendChild(sizeLabel);
-      quantityContainer.appendChild(sizeInput);
-    }
-
-    var addButton = document.querySelector('button');
-    addButton.parentNode.insertBefore(inputContainer, addButton);
-
-    inputContainer.appendChild(colorLabel);
-    inputContainer.appendChild(sizeContainer);
-    inputContainer.appendChild(quantityLabel);
-    inputContainer.appendChild(quantityContainer);
-
-    counter++;
-  }
-
+  counter++;
+}
 </script>
 
 

@@ -121,7 +121,9 @@
                                     <div class="product_rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i></div>
-                                    <div class="product_price">520.000 VNĐ</div>
+                                    <div class="product_price">
+                                    530.000đ
+                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -141,7 +143,7 @@
                                         <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                                         <div class="img-box">
                                             <a th:href="'product/productId=' + ${item.id}">
-                                                <img src="resources/static/images/product/product2.jpg" alt="Image 1">
+                                                <img th:src="'/getImagePhoto/'+${item.id}" alt="Image 1">
                                             </a>
                                         </div>
                                         <div class="thumb-content">
@@ -166,7 +168,10 @@
                                             <input type="hidden" th:id="'colorInput_' + ${item.id}" name="color" value="">
                                             <input type="hidden" th:id="'sizeInput_' + ${item.id}" name="size" value="">
                                             <div class="thumb-content_footer">
-                                                <p class="item-price" th:text="${item.price}+VNĐ"><b></b></p>
+                                                <div class="item-price">
+                                                <span class="G5KGVD_d" style="font-size: 15px;margin-right: 2px;">₫</span>
+                                                <span class="G5KGVD" th:text="${#numbers.formatDecimal(item.price/1000, 0, 'COMMA', 3, 'POINT')}">₫</span>
+                                                </div>
                                                 <button class="btn btn-primary" onclick="updateOrderDetails()">Mua
                                                     ngay</button>
                                             </div>
