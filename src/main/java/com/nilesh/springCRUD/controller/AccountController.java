@@ -72,9 +72,16 @@ public class AccountController {
     @GetMapping("getImagePhoto/{id}")
     public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id) throws Exception {
         response.setContentType("image/jpeg");
-        AccountEntity accountEntity =  accountService.findById(id);
+        AccountEntity accountEntity = accountService.findById(id);
         byte[] ph = accountEntity.getPhoto();
-        InputStream inputStream = new ByteArrayInputStream(ph);
-        IOUtils.copy(inputStream, response.getOutputStream());
+
+        if (ph != null) {
+            InputStream inputStream = new ByteArrayInputStream(ph);
+            IOUtils.copy(inputStream, response.getOutputStream());
+        } else {
+            InputStream defaultImage = getClass().getResourceAsStream("/static/images/avatar_default.jpg");
+            System.out.println(defaultImage);
+            IOUtils.copy(defaultImage, response.getOutputStream());
+        }
     }
 }

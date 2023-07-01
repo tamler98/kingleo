@@ -51,7 +51,7 @@
                                             </div>
                                         </div>
 
-                                        <div class="card mb-3" th:each="item : ${bookingCartItemList}">
+                                        <div class="card mb-3" th:each="item, itemIndex : ${bookingCartItemList}">
                                             <div class="card-body" style="border-bottom: 1px solid #f3f3f3;">
                                                 <div class="d-flex justify-content-between">
                                                     <div class="d-flex flex-row align-items-center">
@@ -70,15 +70,25 @@
                                                         </div>
                                                     </div>
                                                     <div class="d-flex flex-row align-items-center">
+                                                        <form th:action="@{/cart/decrease}" method="post">
+                                                             <input type="hidden" name="index" th:value="${itemIndex.index}">
+                                                             <input type="hidden" name="quantity" th:value="${item.quantity - 1}">
+                                                            <button type="submit">-</button>
+                                                        </form>
                                                         <div style="width: 50px;">
                                                             <h5 class="fw-normal mb-0" th:text="${item.quantity}"></h5>
                                                         </div>
+                                                         <form th:action="@{/cart/increase}" method="post">
+                                                             <input type="hidden" name="index" th:value="${itemIndex.index}">
+                                                             <input type="hidden" name="quantity" th:value="${item.quantity + 1}">
+                                                            <button type="submit">+</button>
+                                                        </form>
                                                         <div style="width: 80px;">
                                                             <h5 class="mb-0"
                                                                 th:text="${item.productDetailEntity.productEntity.price}">
                                                             </h5>
                                                         </div>
-                                                        <a href="cart/deleteItem/${item.id}" style="color: #cecece;"><i
+                                                        <a th:href="@{|cart/deleteItem=${item.id}|}" style="color: #cecece;"><i
                                                                 class="fas fa-trash-alt"></i></a>
                                                     </div>
                                                 </div>
