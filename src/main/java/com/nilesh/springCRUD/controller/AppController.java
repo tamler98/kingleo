@@ -130,6 +130,8 @@ public class AppController {
             int count = listSize(bookingCartItemEntities);
             session.setAttribute("count", count);
         }
+        List<ProductEntity> productEntityTop4 = productService.getProductTop4();
+        model.addAttribute("listProductTop4", productEntityTop4);
 
         // Show list
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
@@ -164,6 +166,8 @@ public class AppController {
         ratingEntity.setDate_comment(new Date());
         ratingEntity.setRating(rating);
         ratingService.save(ratingEntity);
+        account.setCount_of_rate(account.getCount_of_rate()+1);
+        accountService.save(account);
         return "redirect:/product/productId={id}";
     }
 

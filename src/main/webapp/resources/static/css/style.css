@@ -14,6 +14,8 @@ font-family: "Poppins", sans-serif;
         font-weight: 600;
 }
 header {
+top:0;
+left:0;
     position: fixed;
     z-index:100;
     width: 100vw;
@@ -357,8 +359,8 @@ header {
 }
 
 .astra-shop-thumbnail-wrap img{
-    width: 100%;
-    height: auto;
+    width: 245px;
+        height: 245px;
     transition: transform 0.3s;
 }
 
@@ -387,7 +389,7 @@ header {
     border-radius: 10px;
     background-color: #fff;
     width: 250px;
-    height: 390px;
+    height: 410px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -433,10 +435,13 @@ header {
 }
 
 .product_name {
+    padding: 2px 3px;
     font-family: "Poppins", sans-serif;
     line-height: 30px;
     font-style: italic;
     font-size: 18px;
+    min-height: 50px;
+
 }
 
 .product_rating .fas{
@@ -444,9 +449,12 @@ header {
     margin-right: 2px;
 }
 .product_price {
-    font-size: 21px;
-    font-weight: 600;
-    margin-top: 5px;
+        font-size: 18px;
+        font-weight: 600;
+        margin-top: 5px;
+        display: flex;
+        justify-content: space-between;
+        padding: 0px 0.5em
 }
 
   .product_footer{
@@ -1230,7 +1238,7 @@ font-family: "Poppins", sans-serif;
     }
 .popular_product {
     width: 100%;
-    min-height:910px;
+    min-height:944px;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -1255,8 +1263,6 @@ font-family: "Poppins", sans-serif;
 }
 
 .astra-shop-thumbnail-wrap img{
-    width: 100%;
-    height: auto;
     transition: transform 0.3s;
 }
 
@@ -1349,7 +1355,7 @@ width:47vw;
     margin-right: 2px;
 }
 .product_price {
-    font-size: 21px;
+    font-size: 18px;
     font-weight: 600;
     margin-top: 5px;
 }
@@ -1656,7 +1662,7 @@ width:47vw;
       margin-left: 5px;
       background-color: rgba(255, 255, 255, 0);
       border: 1px solid rgb(173, 173, 173);
-      font-size: 9px;
+      font-size: 6px;
       min-width: 17px;
       height: 25px;
       border-radius: 3px;
@@ -1840,8 +1846,6 @@ font-family: "Poppins", sans-serif;
 }
 
 .astra-shop-thumbnail-wrap img{
-    width: 100%;
-    height: auto;
     transition: transform 0.3s;
 }
 
@@ -1926,7 +1930,7 @@ width:47vw;
     font-family: "Poppins", sans-serif;
     line-height: 30px;
     font-style: italic;
-    font-size: 18px;
+    font-size: 16px;
 }
 
 .product_rating .fas{
@@ -1934,7 +1938,7 @@ width:47vw;
     margin-right: 2px;
 }
 .product_price {
-    font-size: 21px;
+    font-size: 15px;
     font-weight: 600;
     margin-top: 5px;
 }

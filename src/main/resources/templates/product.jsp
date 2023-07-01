@@ -159,14 +159,9 @@
                         <span class="date" th:text="${#dates.format(rating.date_comment, 'dd-MM-yyyy')}"></span>
                         <span id="ratingSpan" class="label label-info" th:text="${rating.rating}" th:class="'rating-' + ${rating.rating}"></span>
                         <form th:action="'/rating/like_rating_id=' + ${rating.id}" method="POST">
-                          <button type="submit" data-abc="true" style="color:red; background: none; border: none; padding: 0;"><i class="fa fa-heart"></i></button>
+                        <span style="font-size: 15px;  text-decoration: none; color: red; margin-left: 4px; font-weight: 500;" th:text="${rating.count_like}" ></span>
+                          <button type="submit" data-abc="true" style="color:red; background: none; border: none; padding: 0; font-size:14px;"><i class="fa fa-heart"></i> thích</button>
                         </form>
-                          <span style="    font-size: 15px;
-                                           text-decoration: none;
-                                           color: red;
-                                           margin-left: 4px;
-                                           font-weight: 500;" th:text="${rating.count_like}" ></span></a>
-                        </span><span>&nbsp thích</span>
                       </div>
                     </div>
                   </div>
@@ -186,12 +181,21 @@
                   <div class="col_rating">
                     <div class="comment-text w-100">
                       <h5 style="text-align: left;">Đánh giá của bạn</h5>
-                      <div class="rating">
-                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
-                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
-                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
-                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
-                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                      <div id="rating">
+                          <input type="radio" id="star5" name="rating" value="5" />
+                          <label for="star5"><i class="fas fa-star"></i></label>
+
+                          <input type="radio" id="star4" name="rating" value="4" />
+                          <label class = "full" for="star4"><i class="fas fa-star"></i></label>
+
+                          <input type="radio" id="star3" name="rating" value="3" />
+                          <label class = "full" for="star3"><i class="fas fa-star"></i></label>
+
+                          <input type="radio" id="star2" name="rating" value="2" />
+                          <label class = "full" for="star2"><i class="fas fa-star"></i></label>
+
+                          <input type="radio" id="star1" name="rating" value="1" />
+                          <label class = "full" for="star1"><i class="fas fa-star"></i></label>
                       </div>
                       <div class="comment-area">
                         <textarea class="form-control" name="content" placeholder="Bạn thấy sản phẩm thế nào?" rows="4"></textarea>
@@ -255,7 +259,6 @@
         }
       }
     </script>
-
        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
     $(document).ready(function() {
@@ -269,7 +272,6 @@
 
     });
     </script>
-<span id="ratingSpan" class="label label-info"></span>
 
 <script>
   var ratingElements = document.querySelectorAll("#ratingSpan");
@@ -295,11 +297,19 @@
         ratingText = "Tuyệt vời";
         break;
       default:
-        ratingText = "Không có rating";
+        ratingText = "Không đánh giá!";
     }
 
     ratingElement.textContent = ratingText;
   });
+</script>
+
+<script>
+function calcRate(r) {
+ const f = ~~r,//Tương tự Math.floor(r)
+ id = 'star' + f + (r % f ? 'half' : '')
+ id && (document.getElementById(id).checked = !0)
+}
 </script>
 
 </html>

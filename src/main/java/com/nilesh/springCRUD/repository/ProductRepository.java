@@ -24,6 +24,8 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Integer>
     List<ProductEntity> findAll();
     @Query(value="select * from product where product.product_name like %?1% ", nativeQuery = true)
     List<ProductEntity> findBySearchInput(String searchInput);
+    @Query(value="SELECT * FROM product order by count_sold desc limit 4", nativeQuery = true)
+    List<ProductEntity> getTop4Product();
     @Query(value="select * from product where product.product_name like %?1%", nativeQuery = true)
     Page<ProductEntity> findByKeyword(Pageable pageable, String keyword);
 }

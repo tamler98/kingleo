@@ -39,4 +39,7 @@ public class ProductService {
 
     public Page<ProductEntity> findByKeyword(PageRequest pageRequest, String keyword) { return productRepository.findByKeyword(pageRequest, keyword);
     }
+
+    public List<ProductEntity> getProductTop4() { return productRepository.getTop4Product();
+    }
 }

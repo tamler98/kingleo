@@ -19,6 +19,8 @@ public class ProductEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity categoryEntity;
 
+    private int count_sold;
+
     @OneToMany(mappedBy = "productEntity")
     private List<ProductDetailEntity> productDetailEntities;
     @OneToMany(mappedBy = "productEntity")
@@ -100,5 +102,13 @@ public class ProductEntity {
 
     public void setRatingEntities(List<RatingEntity> ratingEntities) {
         this.ratingEntities = ratingEntities;
+    }
+
+    public int getCount_sold() {
+        return count_sold;
+    }
+
+    public void setCount_sold(int count_sold) {
+        this.count_sold = count_sold;
     }
 }
