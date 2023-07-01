@@ -51,7 +51,7 @@ public class BookingCartController {
             model.addAttribute("priceOfAllProduct", priceOfAllProduct);
             model.addAttribute("bookingCartItemList", bookingCartItemEntities);
             return "bookingcart";
-        }else {
+        } else {
             model.addAttribute("accountEntity", accountEntity);
             session.setAttribute("accountEntity", accountEntity);
             // find by account id
@@ -144,6 +144,85 @@ public class BookingCartController {
         model.addAttribute("accountEntity", accountEntity);
 
         return "checkout-success";
+    }
+
+    @GetMapping("/deleteItem={id}")
+    public String deleteCartItem(@PathVariable String id, HttpSession session, Model model) {
+        List<BookingCartItemEntity> bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+
+        if (bookingCartItemEntities != null) {
+            for (BookingCartItemEntity cartItem : bookingCartItemEntities) {
+                String cartItemId = String.valueOf(cartItem.getId());
+                if (cartItemId.equals(id)) {
+                    bookingCartItemEntities.remove(cartItem);
+                    bookingCartItemService.deleteById(cartItem.getId());
+                    break;
+                }
+            }
+        }
+        AccountEntity accountEntity = (AccountEntity) session.getAttribute("accountEntity");
+        BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
+        List<BookingCartItemEntity> bookingCartItemEntitiesDB =
+                bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+
+        for (BookingCartItemEntity cartItemDB : bookingCartItemEntitiesDB) {
+            String cartItemId = String.valueOf(cartItemDB.getId());
+            if (cartItemId.equals(id)) {
+                bookingCartItemService.deleteById(cartItemDB.getId());
+                break;
+            }
+
+        }
+
+        model.addAttribute("bookingCartItemList", bookingCartItemEntities);
+        session.setAttribute("bookingCartItemList", bookingCartItemEntities);
+
+        return "redirect:/cart";
+    }
+    @PostMapping("/increase")
+    public String increaseQuantity(@RequestParam("index") int index, HttpSession session, @RequestParam("quantity") int quantity){
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+        List<BookingCartItemEntity> cartItems = bookingCartItemService.findAll();
+
+        if (bookingCartItemEntitiesSession == null){
+            // find index in booking cart item to increase. ex: index 0, index 1, index 2
+            BookingCartItemEntity item = cartItems.get(index);
+            item.setQuantity(quantity);
+
+            bookingCartItemService.save(item);
+            return "redirect:/cart";
+        }
+        BookingCartItemEntity item = bookingCartItemEntitiesSession.get(index);
+        item.setQuantity(quantity);
+        bookingCartItemService.save(item);
+
+        return "redirect:/cart";
+    }
+    @PostMapping("/decrease")
+    public String decreaseQuantity(@RequestParam("index") int index, HttpSession session, @RequestParam("quantity") int quantity){
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+        List<BookingCartItemEntity> cartItems = bookingCartItemService.findAll();
+
+        if (bookingCartItemEntitiesSession == null){
+            // find index in booking cart item to increase. ex: index 0, index 1, index 2
+            BookingCartItemEntity item = cartItems.get(index);
+            if (quantity <=0 ){
+                bookingCartItemService.deleteById(item.getId());
+                return "redirect:/cart";
+            }
+            item.setQuantity(quantity);
+            bookingCartItemService.save(item);
+            return "redirect:/cart";
+        }
+        BookingCartItemEntity item = bookingCartItemEntitiesSession.get(index);
+        if (quantity <=0){
+            bookingCartItemService.deleteById(item.getId());
+            return "redirect:/cart";
+        }
+        item.setQuantity(quantity);
+        bookingCartItemService.save(item);
+
+        return "redirect:/cart";
     }
 
 
