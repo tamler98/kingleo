@@ -51,7 +51,10 @@
           <li class="nav-item dropdown">
             <a class="nav-link pr-0" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
               <div class="media align-items-center">
-                <span class="avatar avatar-sm rounded-circle">
+                <span class="avatar avatar-sm rounded-circle" th:if="${account.getPhoto() == null}">
+                  <img alt="Image placeholder" src="../resources/static/images/no-avatar.png">
+                </span>
+                <span class="avatar avatar-sm rounded-circle" th:if="${account.getPhoto() != null}">
                   <img alt="Image placeholder" th:src="'./getImagePhoto/'+${account.id}">
                 </span>
                 <div class="media-body ml-2 d-none d-lg-block">
@@ -112,8 +115,15 @@
             <div class="row justify-content-center">
               <div class="col-lg-3 order-lg-2">
 
-                <div class="card-profile-image">
-                  <img id="avatarImg" th:src="'./getImagePhoto/'+${account.id}" class="rounded-circle">
+                    <div class="card-profile-image" th:if="${account.getPhoto() == null}">
+                    <img id="avatarImg" src="../resources/static/images/no-avatar.png" class="rounded-circle" />
+                  <div id="avatarOverlay" class="avatar-overlay">
+                    <span id="changeAvatarText">Thay đổi avatar</span>
+                  </div>
+                  <input id="avatarInput" type="file" style="display: none;" accept="image/png, image/jpeg">
+                </div>
+                <div class="card-profile-image" th:if="${account.getPhoto() != null}">
+                  <img id="avatarImg"  th:src="'./getImagePhoto/'+${account.id}" class="rounded-circle">
                   <div id="avatarOverlay" class="avatar-overlay">
                     <span id="changeAvatarText">Thay đổi avatar</span>
                   </div>
@@ -137,12 +147,20 @@
                       <span class="heading">22</span>
                       <span class="description">Bạn bè</span>
                     </div>
-                    <div>
-                      <span class="heading">10</span>
+                    <div th:if="${account.count_of_order == null}">
+                      <span class="heading" th:text="0"></span>
                       <span class="description">SP đã mua</span>
                     </div>
-                    <div>
-                      <span class="heading">89</span>
+                    <div th:if="${account.count_of_order != null}">
+                      <span class="heading" th:text="${account.count_of_order}"></span>
+                      <span class="description">SP đã mua</span>
+                    </div>
+                    <div th:if="${account.count_of_rate == null}">
+                      <span class="heading">0</span>
+                      <span class="description">Đánh giá</span>
+                    </div>
+                    <div th:if="${account.count_of_rate != null}">
+                      <span class="heading" th:text="${account.count_of_rate}"></span>
                       <span class="description">Đánh giá</span>
                     </div>
                   </div>
@@ -150,13 +168,13 @@
               </div>
               <div class="text-center">
                 <h3>
-                  <span th:text="${account.username}"></span><span class="font-weight-light">, 27</span>
+                  <span th:text="${account.first_name}"></span><span class="font-weight-light"></span>
                 </h3>
                 <div class="h5 font-weight-300">
-                  <i class="ni location_pin mr-2"></i><span th:text="${account.username}"></span>
+                  <i class="ni location_pin mr-2"></i><span th:text="${account.address}"></span>
                 </div>
                 <hr class="my-4">
-                <p>Tôi có đam mê mãnh liệt với trái bóng tròn, vì thế tôi bán giày.</p>
+                <p th:text="${account.description}"></p>
                 <a href="#">Show more</a>
               </div>
             </div>
@@ -194,7 +212,7 @@
                     <div class="col-lg-6">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-first-name">Tên</label>
-                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" name="fullname">
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="First name" th:value="${account.first_name}" name="first_name">
                       </div>
                     </div>
                     <div class="col-lg-6">
@@ -213,7 +231,7 @@
                     <div class="col-md-12">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-address">Địa chỉ</label>
-                        <input id="input-address" class="form-control form-control-alternative" placeholder="Home Address" value="K85/58 Nguyễn Chánh, Liên Chiểu, Đà Nẵng" name="address" type="text">
+                        <input type="text" id="input-first-name" class="form-control form-control-alternative" placeholder="Địa chỉ" name="address" th:value="${account.address}">
                       </div>
                     </div>
                   </div>
@@ -221,13 +239,13 @@
                     <div class="col-lg-4">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-city">Huyện/ Quận</label>
-                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="Huyện/ Quận" name="account_province">
+                        <input type="text" id="input-city" class="form-control form-control-alternative" placeholder="Huyện/ Quận" th:value="${account.district}" name="district">
                       </div>
                     </div>
                     <div class="col-lg-4">
                       <div class="form-group focused">
                         <label class="form-control-label" for="input-country">Tỉnh/ Thành phố</label>
-                        <input type="text" id="input-country" name="account_country" class="form-control form-control-alternative" placeholder="Tỉnh/ Thành phố" >
+                        <input type="text" id="input-country" name="province" th:value="${account.province}" class="form-control form-control-alternative" placeholder="Tỉnh/ Thành phố" >
                       </div>
                     </div>
                   </div>
@@ -238,12 +256,12 @@
                 <div class="pl-lg-4">
                   <div class="form-group focused">
                     <label>Mô tả</label>
-                    <textarea rows="4" class="form-control form-control-alternative" placeholder="A few words about you ...">A beautiful Dashboard for Bootstrap 4. It is Free and Open Source.</textarea>
+                    <textarea rows="description" class="form-control form-control-alternative" placeholder="A few words about you ..." th:value="${account.description}" name="description"></textarea>
                   </div>
                 </div>
                 <div class="pl-lg-4">
                   <div class="form-group focused">
-                    <button href="#!" class="btn btn-primary" type="submit" style="background: #007bff;">Lưu</button>
+                    <button class="btn btn-primary" type="submit" style="background: #007bff;">Lưu</button>
                   </div>
                 </div>
               </form>
@@ -323,5 +341,6 @@
         }
       });
     </script>
+
 
 </html>

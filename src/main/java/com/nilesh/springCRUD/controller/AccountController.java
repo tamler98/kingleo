@@ -40,13 +40,19 @@ public class AccountController {
     }
 
     @PostMapping(value="update")
-    public String updateInfo(@ModelAttribute("account") AccountEntity accountEntity) throws IOException {
+    public String updateInfo(@ModelAttribute("account") AccountEntity accountEntity, Model model) throws IOException {
         AccountEntity account = accountService.findByUsername(accountEntity.getUsername());
         account.setEmail(accountEntity.getEmail());
         account.setPhone(accountEntity.getPhone());
         account.setUsername(accountEntity.getUsername());
+        account.setDistrict(accountEntity.getDistrict());
+        account.setProvince(accountEntity.getProvince());
+        account.setAddress(accountEntity.getAddress());
+        account.setDescription(accountEntity.getDescription());
+        account.setFirst_name(accountEntity.getFirst_name());
         accountService.save(account);
-        return "redirect:/account/profile";
+        model.addAttribute("account", account);
+        return "account_page";
     }
 
     @PostMapping(value="updateAvatar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE,

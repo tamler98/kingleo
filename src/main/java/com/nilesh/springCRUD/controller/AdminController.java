@@ -40,32 +40,6 @@ public class AdminController {
         model.addAttribute("productList", productEntityList);
         return "admin/manageProduct";
     }
-//    @GetMapping("newProduct")
-//    public String newProduct(Model model){
-//        ProductEntity productEntity = new ProductEntity();
-//        model.addAttribute("product", productEntity);
-//        productDropDown(model);
-//        categoryDropDown(model);
-//        return "admin/newProduct";
-//    }
-//    @PostMapping(value ="newProduct",
-//            produces = MediaType.APPLICATION_JSON_UTF8_VALUE,
-//            consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
-//    public String addNewProduct(@ModelAttribute(name="product") ProductEntity product,
-//                                @RequestPart(name = "photo") MultipartFile photo,
-//                                @RequestParam(name="product_category") Integer product_category
-//                                ) throws IOException {
-//        CategoryEntity category = categoryService.findById(product_category);
-//        product.setCategoryEntity(category);
-//        productService.save(product);
-//
-//        ProductImageEntity image = new ProductImageEntity();
-//        image.setImage_name(product.getId()+"_Do");
-//        image.setUrl(photo.getBytes());
-//        image.setProductEntity(product);
-//        productImageService.save(image);
-//        return "redirect:/admin/manager";
-//    }
     @GetMapping("newProduct")
     public String newProduct(Model model){
         ProductEntity productEntity = new ProductEntity();
@@ -85,28 +59,11 @@ public class AdminController {
         CategoryEntity category = categoryService.findById(product_category);
         product.setCategoryEntity(category);
         productService.save(product);
-
         addProductColor(product, productColors);
         createProductDetail(product, productColors);
         addProductColorImage(product, productColors, photos);
-//        addProductQuantities(product, productColors, quantities);
-
         return "redirect:/admin/manager";
     }
-//    private void addProductQuantities(ProductEntity product, List<String> productColors, List<List<Integer>> quantities) {
-//        List<ProductColorEntity> colors = product.getProductColorEntities();
-//        for (int i = 0; i < colors.size(); i++) {
-//            ProductColorEntity color = colors.get(i);
-//            List<Integer> quantityList = quantities.get(i);
-//            for (int j = 0; j < quantityList.size(); j++) {
-//                SizeEntity size = sizeService.findBySizeNumber(j + 39); // Kích cỡ giày từ 39 đến 43
-//                int quantity = quantityList.get(j);
-//                ProductDetailEntity productDetail = productDetailService.findByProductAndColorAndSize(product, color, size);
-//                productDetail.setQuantity(quantity);
-//                productDetailService.save(productDetail);
-//            }
-//        }
-//    }
 
     private void createProductDetail(ProductEntity product, List<String> productColors) {
         List<Integer> sizeList = createShoeSizeList();
@@ -197,15 +154,6 @@ public class AdminController {
             ProductImageEntity image = new ProductImageEntity();
             image.setImage_name(product.getId()+"_"+colorAdd.get(i));
             image.setUrl(photoAdd.get(i).getBytes());
-            image.setProductEntity(product);
-            productImageService.save(image);
-        }
-
-
-        for (String color: colorAdd) {
-            ProductImageEntity image = new ProductImageEntity();
-            image.setImage_name(product.getId()+"_"+color);
-            image.setUrl(photoAdd.get(color.indexOf(color)).getBytes());
             image.setProductEntity(product);
             productImageService.save(image);
         }

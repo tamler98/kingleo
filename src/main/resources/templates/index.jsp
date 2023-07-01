@@ -57,76 +57,27 @@
                 </div>
                 <div class="popular_product_product_lines">
                     <div class="row">
-                        <div class="col-sm-3">
+                        <div class="col-sm-3" th:each="product_top : ${listProductTop4}">
                             <div class="popular_product_product_line">
                                 <div class="astra-shop-thumbnail-wrap">
-                                    <a href=""><img src="resources/static/images/product/product2.jpg"
+                                    <a href=""><img th:src="'/getImagePhoto/'+${product_top.id}"
                                             alt="Image 1"></a>
                                 </div>
                                 <div class="astra-shop-summary-wrap">
-                                    <div class="product_category"><a href="" class="product_link">Nike - Vapo 15 Pro</a>
+                                    <div class="product_category"><a href="" class="product_link" th:text="${product_top.categoryEntity.category_name}">Nike - Vapo 15 Pro</a>
                                     </div>
-                                    <div class="product_name"><a href="">Vapo 15 Pro Vàng</a></div>
+                                    <div class="product_name"><a href="" th:text="${product_top.product_name}"></a></div>
                                     <div class="product_rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i><i class="fas fa-star"></i><i
                                             class="fas fa-star"></i></div>
-                                    <div class="product_price">520.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="popular_product_product_line">
-                                <div class="astra-shop-thumbnail-wrap">
-                                    <a href=""><img src="resources/static/images/product/product2.jpg"
-                                            alt="Image 1"></a>
-                                </div>
-                                <div class="astra-shop-summary-wrap">
-                                    <div class="product_category"><a href="" class="product_link">Nike - Vapo 15 Pro</a>
+                                    <div class="product_price">
+                                    <span th:text="'₫'+${#numbers.formatDecimal(product_top.price/1000, 0, 'COMMA', 3, 'POINT')}" style="color:red;"></span>
+                                    <span th:text="${product_top.count_sold}+' đã bán!'"></span>
                                     </div>
-                                    <div class="product_name"><a href="">Vapo 15 Pro Vàng</a></div>
-                                    <div class="product_rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i></div>
-                                    <div class="product_price">520.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="popular_product_product_line">
-                                <div class="astra-shop-thumbnail-wrap">
-                                    <a href=""><img src="resources/static/images/product/product2.jpg"
-                                            alt="Image 1"></a>
-                                </div>
-                                <div class="astra-shop-summary-wrap">
-                                    <div class="product_category"><a href="" class="product_link">Nike - Vapo 15 Pro</a>
-                                    </div>
-                                    <div class="product_name"><a href="">Vapo 15 Pro Vàng</a></div>
-                                    <div class="product_rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i></div>
-                                    <div class="product_price">520.000 VNĐ</div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-sm-3">
-                            <div class="popular_product_product_line">
-                                <div class="astra-shop-thumbnail-wrap">
-                                    <a href=""><img src="resources/static/images/product/product2.jpg"
-                                            alt="Image 4"></a>
-                                </div>
-                                <div class="astra-shop-summary-wrap">
-                                    <div class="product_category"><a href="" class="product_link">Nike - Vapo 15 Pro</a>
-                                    </div>
-                                    <div class="product_name"><a href="">Vapo 15 Pro Vàng</a></div>
-                                    <div class="product_rating"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i><i class="fas fa-star"></i><i
-                                            class="fas fa-star"></i></div>
-                                    <div class="product_price">520.000 VNĐ</div>
                                 </div>
                             </div>
                         </div>
                     </div>
-
                 </div>
             </div>
             <div class="popular_product1">
@@ -141,7 +92,7 @@
                                         <span class="wish-icon"><i class="fa fa-heart-o"></i></span>
                                         <div class="img-box">
                                             <a th:href="'product/productId=' + ${item.id}">
-                                                <img src="resources/static/images/product/product2.jpg" alt="Image 1">
+                                                <img th:src="'/getImagePhoto/'+${item.id}" alt="Image 1">
                                             </a>
                                         </div>
                                         <div class="thumb-content">
@@ -157,7 +108,7 @@
                                             </div>
                                             <div class="choose_size">
                                                 <label for="" class="size_label">Size:</label>
-                                                <div th:each="sizeShoe : ${sizeList}">
+                                                <div class="size_list" th:each="sizeShoe : ${sizeList}">
                                                     <button type="button" class="size_btn" th:id="'sizeInput_' + ${sizeShoe}"
                                                         th:text="${sizeShoe}"
                                                         th:attr="data-product-id=${item.id}, data-size=${sizeShoe}, onclick='setSize(this, event)'"></button>
@@ -166,7 +117,10 @@
                                             <input type="hidden" th:id="'colorInput_' + ${item.id}" name="color" value="">
                                             <input type="hidden" th:id="'sizeInput_' + ${item.id}" name="size" value="">
                                             <div class="thumb-content_footer">
-                                                <p class="item-price" th:text="${item.price}+VNĐ"><b></b></p>
+                                                <div class="item-price">
+                                                <span class="G5KGVD_d" style="font-size: 15px;margin-right: 2px;">₫</span>
+                                                <span class="G5KGVD" th:text="${#numbers.formatDecimal(item.price/1000, 0, 'COMMA', 3, 'POINT')}">₫</span>
+                                                </div>
                                                 <button class="btn btn-primary" onclick="updateOrderDetails()">Mua
                                                     ngay</button>
                                             </div>

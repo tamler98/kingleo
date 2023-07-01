@@ -19,6 +19,8 @@ public class ProductEntity {
     @JoinColumn(name = "category_id")
     private CategoryEntity categoryEntity;
 
+    private int count_sold;
+
     @OneToMany(mappedBy = "productEntity")
     private List<ProductDetailEntity> productDetailEntities;
     @OneToMany(mappedBy = "productEntity")
@@ -26,6 +28,9 @@ public class ProductEntity {
 
     @OneToMany(mappedBy = "productEntity")
     private List<ProductColorEntity> productColorEntities;
+
+    @OneToMany(mappedBy = "productEntity")
+    private List<RatingEntity> ratingEntities;
 
     public int getId() {
         return id;
@@ -81,5 +86,29 @@ public class ProductEntity {
 
     public void setProductImageEntities(List<ProductImageEntity> productImageEntities) {
         this.productImageEntities = productImageEntities;
+    }
+
+    public List<OrderDetailEntity> getOrderDetailEntityList() {
+        return orderDetailEntityList;
+    }
+
+    public void setOrderDetailEntityList(List<OrderDetailEntity> orderDetailEntityList) {
+        this.orderDetailEntityList = orderDetailEntityList;
+    }
+
+    public List<RatingEntity> getRatingEntities() {
+        return ratingEntities;
+    }
+
+    public void setRatingEntities(List<RatingEntity> ratingEntities) {
+        this.ratingEntities = ratingEntities;
+    }
+
+    public int getCount_sold() {
+        return count_sold;
+    }
+
+    public void setCount_sold(int count_sold) {
+        this.count_sold = count_sold;
     }
 }

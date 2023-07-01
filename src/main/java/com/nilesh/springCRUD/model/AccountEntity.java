@@ -1,6 +1,7 @@
 package com.nilesh.springCRUD.model;
 
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import javax.persistence.*;
@@ -27,6 +28,11 @@ public class AccountEntity {
 
 	private String email;
 	private String phone;
+	private String province;
+	private String district;
+	private String description;
+	private int count_of_order;
+	private int count_of_rate;
 
 	@Column(name = "photo")
 	@Lob
@@ -38,6 +44,8 @@ public class AccountEntity {
 
 	@OneToOne(mappedBy = "accountEntity", cascade = CascadeType.ALL)
 	private BookingCartEntity bookingCartEntity;
+	@OneToMany(mappedBy = "accountEntity")
+	private List<RatingEntity> ratingEntities;
 
 	public int getId() {
 		return id;
@@ -125,5 +133,53 @@ public class AccountEntity {
 
 	public void setPhoto(byte[] photo) {
 		this.photo = photo;
+	}
+
+	public String getProvince() {
+		return province;
+	}
+
+	public void setProvince(String province) {
+		this.province = province;
+	}
+
+	public String getDistrict() {
+		return district;
+	}
+
+	public void setDistrict(String district) {
+		this.district = district;
+	}
+
+	public String getDescription() {
+		return description;
+	}
+
+	public void setDescription(String description) {
+		this.description = description;
+	}
+
+	public int getCount_of_order() {
+		return count_of_order;
+	}
+
+	public void setCount_of_order(int count_of_order) {
+		this.count_of_order = count_of_order;
+	}
+
+	public int getCount_of_rate() {
+		return count_of_rate;
+	}
+
+	public void setCount_of_rate(int count_of_rate) {
+		this.count_of_rate = count_of_rate;
+	}
+
+	public List<RatingEntity> getRatingEntities() {
+		return ratingEntities;
+	}
+
+	public void setRatingEntities(List<RatingEntity> ratingEntities) {
+		this.ratingEntities = ratingEntities;
 	}
 }
