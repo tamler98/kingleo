@@ -1322,6 +1322,7 @@ width:47vw;
     color: #41414175;
     font-family: "Poppins", sans-serif;
     text-decoration: none;
+    padding: 0px 2px 0px 2px;
 }
 
 .product_link{
@@ -1348,11 +1349,17 @@ width:47vw;
     line-height: 30px;
     font-style: italic;
     font-size: 18px;
+    padding: 0px 2px 0px 2px;
+}
+
+.product_rating{
+    padding: 0px 2px 0px 2px;
 }
 
 .product_rating .fas{
     font-size: 14px;
     margin-right: 2px;
+    padding: 0px 2px 0px 2px;
 }
 .product_price {
     font-size: 18px;
@@ -1908,6 +1915,7 @@ width:47vw;
     color: #41414175;
     font-family: "Poppins", sans-serif;
     text-decoration: none;
+    padding: 0px 2px 0px 2px;
 }
 
 .product_link{
@@ -1934,14 +1942,16 @@ width:47vw;
     line-height: 30px;
     font-style: italic;
     font-size: 16px;
+    padding: 0px 2px 0px 2px;
 }
 
 .product_rating .fas{
     font-size: 14px;
     margin-right: 2px;
+    padding: 0px 2px 0px 2px;
 }
 .product_price {
-    font-size: 15px;
+    font-size: 14px;
     font-weight: 600;
     margin-top: 5px;
 }
