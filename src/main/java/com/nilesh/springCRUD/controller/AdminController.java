@@ -122,6 +122,18 @@ public class AdminController {
         InputStream inputStream = new ByteArrayInputStream(ph);
         IOUtils.copy(inputStream, response.getOutputStream());
     }
+    @GetMapping("dashboard")
+    public String viewDashboard(){
+        return "admin/dashboard";
+    }
+    @GetMapping("productView")
+    public String viewAllProduct(){
+        return "admin/product";
+    }
+    @GetMapping("addProduct")
+    public String addProduct(){
+        return "admin/add_product";
+    }
     public void categoryDropDown(Model model) {
         List<CategoryEntity> categoryEntities = categoryService.findAll();
 
