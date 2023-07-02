@@ -30,8 +30,8 @@
       <a href="/" class="logo"><img src="../resources/static/images/logo_KL-06.png" alt=""></a>
     </div>
     <div class="header-right">
-      <a class="active" href="#home">Thông tin</a>
-      <a href="/order">Đơn hàng</a>
+      <a class="active href="../account/profile">Thông tin</a>
+      <a " href="../account/order">Đơn hàng</a>
       <a href="/cart">Giỏ hàng</a>
     </div>
   </div>
