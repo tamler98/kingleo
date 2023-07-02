@@ -66,8 +66,8 @@ public class AccountController {
 
     @GetMapping("order")
     public String viewOrder(Model model, HttpSession session){
-//        AccountEntity account = (AccountEntity) session.getAttribute("account");
-        AccountEntity account = accountService.findById(2);
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+//        AccountEntity account = accountService.findById(2);
         if(account == null){
             return "redirect:/login";
         }
