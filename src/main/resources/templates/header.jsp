@@ -52,11 +52,13 @@
                                         <i><span sec:authentication="principal.authorities">Roles</span></i>
                                     </div>
                                 </li>
-                                <li class="sub-item">
+                                <a href="../admin/dashboard" class="logout">
+                                <li class="sub-item" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <span class="material-icons-outlined"> <i class="fas fa-braille"></i>
                                     </span>
                                     <p>Dashboard</p>
                                 </li>
+                                </a>
                                 <a href="../admin/newProduct" class="logout">
                                 <li class="sub-item" sec:authorize="hasAnyAuthority('ADMIN')">
                                     <span class="material-icons-outlined">
@@ -65,17 +67,19 @@
                                     <p>Thêm sản phẩm</p>
                                 </li>
                                 </a>
+                                <a href="/account/order" class="logout">
                                 <li class="sub-item" sec:authorize="hasAnyAuthority('USER')">
                                     <span class="material-icons-outlined">
                                         <i class="fas fa-list"></i>
                                     </span>
                                     <p>Đơn hàng của tôi</p>
                                 </li>
+                                </a>
                                 <a href="/account/profile" class="logout">
                                 <li class="sub-item">
                                     <span class="material-icons-outlined"> <i class="fas fa-users-cog"></i>
                                     </span>
-                                    <p>Update Profile</p>
+                                    <p>Quản lý tài khoản</p>
                                 </li>
                                 </a>
                                 <a href="../logout" class="logout">

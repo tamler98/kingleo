@@ -17,4 +17,9 @@ public class OrderService {
     }
 
 
+    public List<OrderEntity> findAll() { return (List<OrderEntity>) orderRepository.findAll();
+    }
+
+    public List<OrderEntity> findByAccountId(int accountId) { return orderRepository.findByAccountId(accountId);
+    }
 }

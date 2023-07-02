@@ -185,6 +185,7 @@
     background-color: #f8f9fe;
   }
 
+
   [tabindex='-1']:focus {
     outline: 0 !important;
   }
@@ -241,12 +242,13 @@
 
   a:hover {
     text-decoration: none;
-    color: #233dd2;
+    color: white;
+    cursor:pointer;
   }
 
   a:not([href]):not([tabindex]) {
     text-decoration: none;
-    color: inherit;
+    color: white;
   }
 
   a:not([href]):not([tabindex]):hover,

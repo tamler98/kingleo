@@ -19,4 +19,7 @@ public class OrderDetailService {
     public void saveAll(List<OrderDetailEntity> orderDetailEntityList){
         orderDetailRepository.saveAll(orderDetailEntityList);
     }
+
+    public List<OrderDetailEntity> findByOrderId(int orderId) { return orderDetailRepository.findByOrderId(orderId);
+    }
 }

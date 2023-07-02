@@ -1,7 +1,11 @@
 package com.nilesh.springCRUD.controller;
 
 import com.nilesh.springCRUD.model.AccountEntity;
+import com.nilesh.springCRUD.model.OrderDetailEntity;
+import com.nilesh.springCRUD.model.OrderEntity;
 import com.nilesh.springCRUD.services.AccountService;
+import com.nilesh.springCRUD.services.OrderDetailService;
+import com.nilesh.springCRUD.services.OrderService;
 import com.nilesh.springCRUD.services.ProductImageService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,6 +23,7 @@ import javax.servlet.http.HttpSession;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 
 @Controller
 @RequestMapping("account")
@@ -27,6 +32,10 @@ public class AccountController {
     AccountService accountService;
     @Autowired
     ProductImageService productImageService;
+    @Autowired
+    OrderService orderService;
+    @Autowired
+    OrderDetailService orderDetailService;
     @GetMapping("profile")
     public String viewProfile(Model model, HttpSession session){
         AccountEntity account = (AccountEntity) session.getAttribute("account");
@@ -53,6 +62,25 @@ public class AccountController {
         accountService.save(account);
         model.addAttribute("account", account);
         return "account_page";
+    }
+
+    @GetMapping("order")
+    public String viewOrder(Model model, HttpSession session){
+//        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        AccountEntity account = accountService.findById(2);
+        if(account == null){
+            return "redirect:/login";
+        }
+        List<OrderEntity> orderEntities = orderService.findByAccountId(account.getId());
+        model.addAttribute("orderList", orderEntities);
+        return "order_list_page";
+    }
+
+    @GetMapping("orderDetail&orderid={id}")
+    public String viewOrderDetail(Model model, @PathVariable("id") int orderId){
+        List<OrderDetailEntity> orderDetailEntityList = orderDetailService.findByOrderId(orderId);
+        model.addAttribute("orderDetailList", orderDetailEntityList);
+        return "order_detail";
     }
 
     @PostMapping(value="updateAvatar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE,

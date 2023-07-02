@@ -1,5 +1,6 @@
 package com.nilesh.springCRUD.controller;
 
+import com.nilesh.springCRUD.enums.OrderStatus;
 import com.nilesh.springCRUD.model.*;
 import com.nilesh.springCRUD.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 @Controller
 @RequestMapping(value = "/cart")
@@ -102,12 +104,21 @@ public class BookingCartController {
         accountEntity.setEmail(email);
         accountEntity.setPhone(phone);
         accountEntity.setAddress(address);
+        accountEntity.setCount_of_order(accountEntity.getCount_of_order()+1);
         accountService.save(accountEntity);
 
         // Create new order
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrderDate(LocalDate.now());
-        orderEntity.setAccountEntity(accountService.findById(1));
+        orderEntity.setAccountEntity(accountEntity);
+        orderEntity.setShippingCod(20000.0);
+
+        Random random = new Random();
+        int randomNumber = random.nextInt(900000000) + 100000000;
+
+        orderEntity.setOrderCode(String.valueOf(randomNumber));
+        orderEntity.setOrderStatus(String.valueOf(OrderStatus.ORDERED));
+        orderEntity.setTotalPrice(totalPrice(bookingCartItemEntities));
         orderService.save(orderEntity);
 
         // Create new order detail list
@@ -120,6 +131,12 @@ public class BookingCartController {
             orderDetailEntity.setQuantity(item.getQuantity());
             orderDetailEntity.setOrderEntity(orderEntity);
             orderDetailEntityList.add(orderDetailEntity);
+            orderDetailEntity.setColor(item.getColor());
+            orderDetailEntity.setSize(item.getSize());
+            orderDetailEntity.setCustomer_address(address);
+            orderDetailEntity.setCustomer_phone(phone);
+            orderDetailEntity.setCod_shipping(30000.0);
+            orderDetailEntity.setCustomer_name(firstName);
         }
         orderDetailService.saveAll(orderDetailEntityList);
 
@@ -225,5 +242,12 @@ public class BookingCartController {
         return "redirect:/cart";
     }
 
+    private double totalPrice(List<BookingCartItemEntity> bookingCartItemEntities) {
+        double sum = 0;
+        for (BookingCartItemEntity bookingCartItemEntity: bookingCartItemEntities) {
+            sum += bookingCartItemEntity.getProductDetailEntity().getProductEntity().getPrice();
+        }
+        return sum;
+    }
 
 }
