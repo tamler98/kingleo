@@ -90,8 +90,12 @@
         display:flex;
         justify-content:right;
       }
+      .order_footer_info{
+        display:flex;
+      }
       .order_footer{
           font-size: 15px;
+          width:50%;
         }
    .bold{
       min-height: 48px;
@@ -340,16 +344,30 @@
                                  color: #777;
                                  font-style: italic;
                                }
+                               .order_footer_info{
+                                             display:flex;
+                                             flex-direction:column;
+                                           }
+                                       .order_footer{
+                                           font-size: 15px;
+                                           width:100%;
+                                       }
       }
 
 
       @media screen and (max-width: 460px) {
-             .order_footer{
-                                         font-size: 11px;
-                                       }
+      .order_footer_info{
+              display:flex;
+              flex-direction:column;
+            }
+        .order_footer{
+            font-size: 11px;
+            width:100%;
+        }
 
-           }
+        }
       @media screen and (max-width: 415px) {
+
         .header_top a {
           font-size: 12px;
             line-height: 12px;
@@ -380,8 +398,12 @@
                       text-decoration:none;
                       opacity:0.8;
                   }
+                  .order_footer_info{
+                          display:flex;
+                        }
                   .order_footer{
                             font-size: 10px;
+                            width:100%;
                           }
 
       }

@@ -43,8 +43,8 @@
                             <div th:if="${session.account.getPhoto() != null}">
                                 <img th:src="'../account/getImagePhoto/'+${session.account.id}" class="profile" id="profile-image" />
                             </div>
-                            <ul>
-                                <li class="sub-item">
+                            <ul class="avatar_ul">
+                                <li class="sub-item" style="width:100%">
                                     <span class="material-icons-outlined"> <i class="far fa-user"></i>
                                     </span>
                                     <div sec:authorize="isAuthenticated()">
