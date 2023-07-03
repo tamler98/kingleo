@@ -16,26 +16,16 @@
     <title>Quản lý đơn hàng</title>
 </head>
 <body>
-    <div class="header_top">
-        <div class="header-left">
-          <a href="/" class="logo"><img src="../resources/static/images/logo_KL-06.png" alt=""></a>
-        </div>
-        <div class="header-right">
-          <a href="../account/profile">Thông tin</a>
-          <a class="active" href="../account/order">Đơn hàng</a>
-          <a href="/cart">Giỏ hàng</a>
-        </div>
-      </div>
    <div class="header_top">
-       <div class="header-left">
-         <a href="/" class="logo"><img src="../resources/static/images/logo_KL-06.png" alt=""></a>
-       </div>
-       <div class="header-right">
-         <a href="#home">Thông tin</a>
-         <a class="active" href="/order">Đơn hàng</a>
-         <a href="/cart">Giỏ hàng</a>
-       </div>
-     </div>
+           <div class="header-left">
+             <a href="/" class="logo"><img src="../resources/static/images/logo_KL-06.png" alt=""></a>
+           </div>
+           <div class="header-right">
+             <a href="../account/profile">Thông tin</a>
+             <a class="active" href="../account/order">Đơn hàng</a>
+             <a href="/cart">Giỏ hàng</a>
+           </div>
+         </div>
          <section class="container">
            <div class="container py-5 h-100" style="margin-bottom: -60px;">
              <div class="row d-flex justify-content-center align-items-center h-100">
@@ -47,7 +37,7 @@
                    <div class="card-body p-4">
                      <div class="d-flex justify-content-between align-items-center mb-4">
                        <p class="lead fw-normal mb-0" style="color: #a8729a;">Sản phẩm</p>
-                       <p class="small text-muted mb-0">Mã vận đơn : <span th:text="${orderDetailList[0].orderEntity.orderCode}"></span></p>
+                       <p class="small text-muted mb-0">Mã VĐ: <span th:text="${orderDetailList[0].orderEntity.orderCode}"></span></p>
                      </div>
                      <div class="card shadow-0 border mb-4" th:each="item :${orderDetailList}">
                        <div class="card-body">
@@ -74,25 +64,41 @@
                          </div>
                        </div>
                      </div>
+                    <div class="order_footer_info">
+                     <div class="order_footer">
                      <div class="d-flex justify-content-between pt-2">
                        <p class="fw-bold mb-0" style="width: 60%; font-weight: bold;">Chi tiết đơn hàng</p>
                      </div>
-                     <div class="order_footer">
+                     <div class="d-flex justify-content-between pt-2">
+                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Phí ship : <span style="font-weight: bold;" th:text="${orderDetailList[0].cod_shipping}">Thanh Tâm</span></p>
+                     </div>
+                     <div class="d-flex justify-content-between pt-2">
+                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Giảm giá : <span style="font-weight: bold;" th:text="${orderDetailList[0].discount}">Thanh Tâm</span></p>
+                     </div>
+                     <div class="d-flex justify-content-between pt-2">
+                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Thành tiền : <span style="font-weight: bold;" th:text="${orderDetailList[0].orderEntity.totalPrice}">Thanh Tâm</span></p>
+                     </div>
+                     </div>
+
+                     <div class="order_footer" style="margin-bottom: 1em;">
+                      <div class="d-flex justify-content-between pt-2">
+                        <p class="fw-bold mb-0" style="width: 60%; font-weight: bold;">Thông tin giao hàng</p>
+                      </div>
                      <div class="d-flex justify-content-between pt-2">
                        <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Người nhận : <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_name}">Thanh Tâm</span></p>
-                       <p class="text-muted mb-0" style="width: 40%; line-height:25px;padding: 0px 5px;"><span class="fw-bold me-4">Giảm giá:</span> <span style="font-weight: bold;" th:text="${orderDetailList[0].discount}">30.000</span></p>
+                     </div>
+                     <div class="d-flex justify-content-between pt-2">
+                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Số điện thoại : <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_phone}">Thanh Tâm</span></p>
+                     </div>
+                     <div class="d-flex justify-content-between pt-2">
+                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Địa chỉ : <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_address}">Thanh Tâm</span></p>
+                     </div>
+                     <div class="d-flex justify-content-between pt-2">
+                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Ngày đặt : <span style="font-weight: bold;" th:text="${orderDetailList[0].orderEntity.orderDate}">Thanh Tâm</span></p>
+                     </div>
+                     </div>
                      </div>
 
-                     <div class="d-flex justify-content-between">
-                       <p class="text-muted mb-0" style="width: 60%;">Số điện thoại: <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_phone}">0384203345</span></p>
-                       <p class="text-muted mb-0" style="width: 40%;line-height:25px;padding: 0px 5px;"><span class="fw-bold me-4">Phí ship:</span> <span style="font-weight: bold;" th:text="${#numbers.formatDecimal(orderDetailList[0].cod_shipping/1000, 0, 'COMMA', 3, 'POINT')}+' VND'">30.000</span></p>
-                     </div>
-
-                     <div class="d-flex justify-content-between mb-5">
-                       <p class="text-muted mb-0" style="width: 60%;">Đại chỉ: <span style="font-weight: bold;padding: 0px 10px 0px 0px;" th:text="${orderDetailList[0].customer_address}">K85/58 Nguyễn Chánh, Liên Chiểu, Đà Nẵng</span></p>
-                       <p class="text-muted mb-0" style="width: 40%;line-height:25px;padding: 0px 5px;"><span class="fw-bold me-4">Ngày đặt: </span> <span style="font-weight: bold;" th:text="${orderDetailList[0].orderEntity.orderDate}">21/02/2023</span></p>
-                     </div>
-                   </div>
                    <div class="card-footer border-0 px-4 py-5"
                      style="background-color: #18b5f9; border-bottom-left-radius: 10px; border-bottom-right-radius: 10px;">
                      <h5 class="d-flex align-items-center justify-content-center text-white text-uppercase mb-0"><span class="h2 mb-0 ms-2" th:text="'₫ '+${#numbers.formatDecimal(orderDetailList[0].orderEntity.totalPrice/1000, 0, 'COMMA', 3, 'POINT')}"> 300.000 VNĐ</span></h5>

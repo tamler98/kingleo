@@ -100,7 +100,7 @@
                             <div class="d-flex justify-content-between">
                               <h5 class="fw-normal mb-0"><a class="card-footer-a" th:href="'../account/orderDetail&orderid='+${item.id}">Chi tiết</a></h5>
                               <div class="border-start h-100"></div>
-                              <h5 class="fw-normal mb-0"><a class="card-footer-a" href="#!">Hủy đơn hàng</a></h5>
+                              <h5 class="fw-normal mb-0"><a class="card-footer-a" th:href="'../account/cancelorderid='+${item.id}">Hủy đơn hàng</a></h5>
                               <div class="border-start h-100"></div>
                               <h5 class="fw-normal mb-0"><a class="card-footer-a" href="#!">Mua lại</a></h5>
                             </div>

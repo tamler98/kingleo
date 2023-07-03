@@ -1,5 +1,6 @@
 package com.nilesh.springCRUD.controller;
 
+import com.nilesh.springCRUD.enums.OrderStatus;
 import com.nilesh.springCRUD.model.AccountEntity;
 import com.nilesh.springCRUD.model.OrderDetailEntity;
 import com.nilesh.springCRUD.model.OrderEntity;
@@ -81,6 +82,18 @@ public class AccountController {
         List<OrderDetailEntity> orderDetailEntityList = orderDetailService.findByOrderId(orderId);
         model.addAttribute("orderDetailList", orderDetailEntityList);
         return "order_detail";
+    }
+
+    @GetMapping("cancelorderid={id}")
+    public String cancelOrder(@PathVariable("id") int id, Model model) {
+        OrderEntity order = orderService.findById(id);
+        if(order.getOrderStatus().equals("ORDERED") || order.getOrderStatus().equals("RECEIVED")) {
+            order.setOrderStatus(String.valueOf(OrderStatus.CANCEL));
+            orderService.save(order);
+        }else{
+            model.addAttribute("msg","Đơn hàng đang được giao, không thể hủy!");
+        }
+        return "redirect:/account/order";
     }
 
     @PostMapping(value="updateAvatar", produces = MediaType.APPLICATION_JSON_UTF8_VALUE,

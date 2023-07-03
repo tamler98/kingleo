@@ -22,4 +22,7 @@ public class OrderService {
 
     public List<OrderEntity> findByAccountId(int accountId) { return orderRepository.findByAccountId(accountId);
     }
+
+    public OrderEntity findById(int id) { return orderRepository.findById(id);
+    }
 }
