@@ -40,6 +40,9 @@ public class BookingCartController {
         List<BookingCartItemEntity> bookingCartItemEntities = new ArrayList<>();
         if (accountEntity == null) {
             bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+            if(bookingCartItemEntities == null) {
+                return "bookingcart1";
+            }
             double priceOfAllProduct = 0.0;
             for (BookingCartItemEntity item : bookingCartItemEntities) {
                 priceOfAllProduct += item.getProductDetailEntity().getProductEntity().getPrice();
@@ -52,7 +55,7 @@ public class BookingCartController {
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("priceOfAllProduct", priceOfAllProduct);
             model.addAttribute("bookingCartItemList", bookingCartItemEntities);
-            return "bookingcart";
+            return "bookingcart1";
         } else {
             model.addAttribute("accountEntity", accountEntity);
             session.setAttribute("accountEntity", accountEntity);
@@ -80,10 +83,15 @@ public class BookingCartController {
             model.addAttribute("totalPrice", totalPrice);
             model.addAttribute("priceOfAllProduct", priceOfAllProduct);
             model.addAttribute("bookingCartItemList", bookingCartItemEntities);
-            return "bookingcart";
+            return "bookingcart1";
         }
     }
-
+    @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
+    public String checkout(HttpSession session){
+        String username = (String) session.getAttribute("userEmail");
+        AccountEntity accountEntity = accountService.findByUsername(username);
+        return "checkout";
+    }
     @PostMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(@RequestParam("first_name") String firstName,
                            @RequestParam("last_name") String lastName,
