@@ -59,10 +59,15 @@ public class AppController {
         session.setAttribute("account", accountEntity);
 
         List<BookingCartItemEntity> bookingCartItemBySession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+        // Index without account
         if(accountEntity == null){
             if(bookingCartItemBySession == null) {
                 session.setAttribute("count", 0);
+            }else{
+                int count = countProduct(bookingCartItemBySession);
+                session.setAttribute("count", count);
             }
+            // Index has account
         }else {
             BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
             List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
@@ -86,7 +91,6 @@ public class AppController {
                             item.setBookingCartEntity(bookingCartEntity);
                             bookingCartItemEntities.add(item);
                             bookingCartItemService.save(item);
-                            bookingCartItemBySession.remove(item);
                         }
                     }
                 } else if (bookingCartItemEntities.size() > 0) {
@@ -115,7 +119,6 @@ public class AppController {
                                     break;
                                 }
                             }
-
                             if (!isFound) {
                                 itemSession.setBookingCartEntity(bookingCartEntity);
                                 bookingCartItemService.save(itemSession);
@@ -301,10 +304,9 @@ public class AppController {
         }
         return count;
     }
-    public int countProduct(BookingCartEntity bookingCartEntity){
-        List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+    public int countProduct(List<BookingCartItemEntity> bookingCartItemEntities){
         int count = 0;
-        for (BookingCartItemEntity item:bookingCartItemEntities) {
+        for (BookingCartItemEntity item: bookingCartItemEntities) {
             count += item.getQuantity();
         }
         return count;

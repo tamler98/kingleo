@@ -29,4 +29,10 @@ public class BookingCartItemService {
 
     public BookingCartItemEntity findById(int id) { return bookingCartItemRepository.findById(id);
     }
+
+    public void saveAll(List<BookingCartItemEntity> bookingCartItemEntities) { bookingCartItemRepository.saveAll(bookingCartItemEntities);
+    }
+
+    public void deleteAll(List<BookingCartItemEntity> bookingCartItemEntities1) {
+    }
 }

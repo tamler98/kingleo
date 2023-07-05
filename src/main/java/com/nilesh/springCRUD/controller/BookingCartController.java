@@ -2,6 +2,7 @@ package com.nilesh.springCRUD.controller;
 
 import com.nilesh.springCRUD.enums.OrderStatus;
 import com.nilesh.springCRUD.model.*;
+import com.nilesh.springCRUD.repository.BookingCartItemRepository;
 import com.nilesh.springCRUD.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,97 +29,158 @@ public class BookingCartController {
     OrderService orderService;
     @Autowired
     OrderDetailService orderDetailService;
+    @Autowired
+    private BookingCartItemRepository bookingCartItemRepository;
 
     @GetMapping()
     public String bookingCart(@ModelAttribute("accountEntity") AccountEntity account,
                               Model model,
                               HttpSession session) {
-        // auth
-        String username = (String) session.getAttribute("userEmail");
-        AccountEntity accountEntity = accountService.findByUsername(username);
-//        List<BookingCartItemEntity> bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        AccountEntity accountEntity = (AccountEntity) session.getAttribute("account");
         List<BookingCartItemEntity> bookingCartItemEntities = new ArrayList<>();
         if (accountEntity == null) {
             bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
+            // Booking Cart Item List by Session is null
             if(bookingCartItemEntities == null) {
                 return "bookingcart1";
             }
-            double priceOfAllProduct = 0.0;
-            for (BookingCartItemEntity item : bookingCartItemEntities) {
-                priceOfAllProduct += item.getProductDetailEntity().getProductEntity().getPrice();
-            }
-            double totalPrice = priceOfAllProduct + 20.00;
 
+            // Booking Cart Item List by Session not null
+            double totalPrice = totalPrice(bookingCartItemEntities);
+            double lastTotalPrice = totalPrice + 20000;
             session.setAttribute("totalPrice", totalPrice);
-            session.setAttribute("priceOfAllProduct", priceOfAllProduct);
-
-            model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("priceOfAllProduct", priceOfAllProduct);
-            model.addAttribute("bookingCartItemList", bookingCartItemEntities);
+            session.setAttribute("lastTotalPrice", lastTotalPrice);
+            session.setAttribute("bookingCartItemList", bookingCartItemEntities);
+            session.setAttribute("bookingCartItemListSession", bookingCartItemEntities);
+            int count = countItem(bookingCartItemEntities);
+            session.setAttribute("count", count);
             return "bookingcart1";
+            // Account Entity is not null
         } else {
-            model.addAttribute("accountEntity", accountEntity);
-            session.setAttribute("accountEntity", accountEntity);
-            // find by account id
+            session.setAttribute("account", accountEntity);
             BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
-            bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
-
-            // show user's information
-            accountEntity.setFirst_name(accountEntity.getFirst_name());
-            accountEntity.setLast_name(accountEntity.getLast_name());
-            accountEntity.setEmail(accountEntity.getEmail());
-            accountEntity.setPhone(accountEntity.getPhone());
-            accountEntity.setAddress(accountEntity.getAddress());
-
-            // show price of all product and total price
-            double priceOfAllProduct = 0.0;
-            for (BookingCartItemEntity item : bookingCartItemEntities) {
-                priceOfAllProduct += item.getProductDetailEntity().getProductEntity().getPrice();
+            List<BookingCartItemEntity> bookingCartItemEntity = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+            // Get list from session
+            List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+            if(bookingCartItemEntitiesSession != null) {
+                // show price of all product and total price
+                double totalPrice = totalPrice(bookingCartItemEntitiesSession);
+                double lastTotalPrice = totalPrice + 20000;
+                int count = countItem(bookingCartItemEntitiesSession);
+                session.setAttribute("count", count);
+                session.setAttribute("totalPrice", totalPrice);
+                session.setAttribute("lastTotalPrice", lastTotalPrice);
+                session.setAttribute("bookingCartItemList", bookingCartItemEntitiesSession);
+                model.addAttribute("bookingCartItemList", bookingCartItemEntitiesSession);
             }
-            double totalPrice = priceOfAllProduct + 20.00;
-
-            session.setAttribute("totalPrice", totalPrice);
-            session.setAttribute("priceOfAllProduct", priceOfAllProduct);
-
-            model.addAttribute("totalPrice", totalPrice);
-            model.addAttribute("priceOfAllProduct", priceOfAllProduct);
-            model.addAttribute("bookingCartItemList", bookingCartItemEntities);
-            return "bookingcart1";
         }
+        return "bookingcart1";
     }
+    @PostMapping("/decreaseitemid={id}")
+    public String decreaseQuantity(@PathVariable("id") int id, HttpSession session){
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        if(account != null) {
+            BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(account.getId());
+            List<BookingCartItemEntity> bookingCartItemEntityList = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+            bookingCartItemEntityList.get(id).setQuantity(bookingCartItemEntityList.get(id).getQuantity() - 1);
+            bookingCartItemService.save(bookingCartItemEntityList.get(id));
+
+            bookingCartItemEntitiesSession.get(id).setQuantity(bookingCartItemEntitiesSession.get(id).getQuantity() - 1);
+            if (bookingCartItemEntitiesSession.get(id).getQuantity() == 0) {
+                bookingCartItemEntitiesSession.remove(bookingCartItemEntitiesSession.get(id));
+                bookingCartItemService.deleteById(bookingCartItemEntityList.get(id).getId());
+            }
+        }else{
+            bookingCartItemEntitiesSession.get(id).setQuantity(bookingCartItemEntitiesSession.get(id).getQuantity() - 1);
+            if (bookingCartItemEntitiesSession.get(id).getQuantity() == 0) {
+                bookingCartItemEntitiesSession.remove(bookingCartItemEntitiesSession.get(id));
+            }
+        }
+        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
+        double lastTotalPrice = totalPrice + 20000;
+        int count = countItem(bookingCartItemEntitiesSession);
+        session.setAttribute("count", count);
+        session.setAttribute("totalPrice", totalPrice);
+        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        return "redirect:/cart";
+    }
+    @PostMapping("/increaseitemid={id}")
+    public String increaseQuantity(@PathVariable("id") int id, HttpSession session){
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account != null) {
+            BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(account.getId());
+            List<BookingCartItemEntity> bookingCartItemEntityList = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+            bookingCartItemEntityList.get(id).setQuantity(bookingCartItemEntityList.get(id).getQuantity() + 1);
+            bookingCartItemService.save(bookingCartItemEntityList.get(id));
+        }
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        bookingCartItemEntitiesSession.get(id).setQuantity(bookingCartItemEntitiesSession.get(id).getQuantity()+1);
+
+        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
+        double lastTotalPrice = totalPrice + 20000;
+        int count = countItem(bookingCartItemEntitiesSession);
+        session.setAttribute("count", count);
+        session.setAttribute("totalPrice", totalPrice);
+        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        return "redirect:/cart";
+    }
+
+    @GetMapping("/deleteItem{id}")
+    public String deleteItem(@PathVariable("id") int id, HttpSession session){
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account != null) {
+            BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(account.getId());
+            List<BookingCartItemEntity> bookingCartItemEntityList = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+            bookingCartItemService.deleteById(bookingCartItemEntityList.get(id).getId());
+        }
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        bookingCartItemEntitiesSession.remove(bookingCartItemEntitiesSession.get(id));
+
+        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
+        double lastTotalPrice = totalPrice + 20000;
+        int count = countItem(bookingCartItemEntitiesSession);
+        session.setAttribute("count", count);
+        session.setAttribute("totalPrice", totalPrice);
+        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        return "redirect:/cart";
+    }
+
     @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
-    public String checkout(HttpSession session){
-        String username = (String) session.getAttribute("userEmail");
-        AccountEntity accountEntity = accountService.findByUsername(username);
-        return "checkout";
+    public String checkout(HttpSession session, Model model){
+      AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account == null ){
+            return "redirect:/login";
+        }
+        model.addAttribute("account", account);
+         return "checkout";
     }
     @PostMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(@RequestParam("first_name") String firstName,
-                           @RequestParam("last_name") String lastName,
-                           @RequestParam("email") String email,
-                           @RequestParam("phone") String phone,
-                           @RequestParam("address") String address,
+                           @RequestParam("customer_phone") String phone,
+                           @RequestParam("customer_address") String address,
+                           @RequestParam("order_note") String note,
                            Model model,
                            HttpSession session) {
         // Find account
-        AccountEntity accountEntity = (AccountEntity) session.getAttribute("accountEntity");
-        BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
-        List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
-
-
-        // Save information
-        accountEntity.setFirst_name(firstName);
-        accountEntity.setLast_name(lastName);
-        accountEntity.setEmail(email);
-        accountEntity.setPhone(phone);
-        accountEntity.setAddress(address);
-        accountEntity.setCount_of_order(accountEntity.getCount_of_order()+1);
-        accountService.save(accountEntity);
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account != null) {
+            // Save information
+            account.setFirst_name(firstName);
+            account.setPhone(phone);
+            account.setAddress(address);
+            account.setCount_of_order(account.getCount_of_order() + 1);
+            accountService.save(account );
+        }
 
         // Create new order
         OrderEntity orderEntity = new OrderEntity();
+        orderEntity.setOrder_note(note);
+        orderEntity.setCustomer_name(firstName);
+        orderEntity.setCustomer_phone(phone);
+        orderEntity.setCustomer_address(address);
         orderEntity.setOrderDate(LocalDate.now());
-        orderEntity.setAccountEntity(accountEntity);
+        orderEntity.setAccountEntity(account);
         orderEntity.setShippingCod(20000.0);
 
         Random random = new Random();
@@ -126,13 +188,21 @@ public class BookingCartController {
 
         orderEntity.setOrderCode(String.valueOf(randomNumber));
         orderEntity.setOrderStatus(String.valueOf(OrderStatus.ORDERED));
-        orderEntity.setTotalPrice(totalPrice(bookingCartItemEntities));
+
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
+        double lastTotalPrice = totalPrice + 20000;
+        int count = countItem(bookingCartItemEntitiesSession);
+        session.setAttribute("count", count);
+        session.setAttribute("totalPrice", totalPrice);
+        session.setAttribute("lastTotalPrice", lastTotalPrice);
+
+        orderEntity.setTotalPrice(lastTotalPrice);
         orderService.save(orderEntity);
 
         // Create new order detail list
         List<OrderDetailEntity> orderDetailEntityList = new ArrayList<>();
-
-        for (BookingCartItemEntity item : bookingCartItemEntities) {
+        for (BookingCartItemEntity item : bookingCartItemEntitiesSession) {
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
             orderDetailEntity.setProductEntity(item.getProductDetailEntity().getProductEntity());
             orderDetailEntity.setPrice(item.getProductDetailEntity().getProductEntity().getPrice());
@@ -147,14 +217,23 @@ public class BookingCartController {
             orderDetailEntity.setCustomer_name(firstName);
         }
         orderDetailService.saveAll(orderDetailEntityList);
-
-        return "redirect:/cart/checkout-success";
+        session.removeAttribute("count");
+        session.removeAttribute("totalPrice");
+        session.removeAttribute("lastTotalPrice");
+        session.removeAttribute("bookingCartItemList");
+        List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartService.findByAccountId(account.getId()).getId());
+        for (BookingCartItemEntity item: bookingCartItemEntities) {
+            bookingCartItemService.deleteById(item.getId());
+        }
+        model.addAttribute("orderEntity",orderEntity);
+        ;
+        return "successpage";
     }
 
     @GetMapping("/checkout-success")
     public String showCheckoutSuccess(Model model, HttpSession session) {
         double totalPrice = (double) session.getAttribute("totalPrice");
-        double priceOfAllProduct = (double) session.getAttribute("priceOfAllProduct");
+        double priceOfAllProduct = (double) session.getAttribute("lastTotalPrice");
 
         AccountEntity accountEntity = (AccountEntity) session.getAttribute("accountEntity");
 
@@ -171,91 +250,18 @@ public class BookingCartController {
         return "checkout-success";
     }
 
-    @GetMapping("/deleteItem={id}")
-    public String deleteCartItem(@PathVariable String id, HttpSession session, Model model) {
-        List<BookingCartItemEntity> bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
-
-        if (bookingCartItemEntities != null) {
-            for (BookingCartItemEntity cartItem : bookingCartItemEntities) {
-                String cartItemId = String.valueOf(cartItem.getId());
-                if (cartItemId.equals(id)) {
-                    bookingCartItemEntities.remove(cartItem);
-                    bookingCartItemService.deleteById(cartItem.getId());
-                    break;
-                }
-            }
-        }
-        AccountEntity accountEntity = (AccountEntity) session.getAttribute("accountEntity");
-        BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
-        List<BookingCartItemEntity> bookingCartItemEntitiesDB =
-                bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
-
-        for (BookingCartItemEntity cartItemDB : bookingCartItemEntitiesDB) {
-            String cartItemId = String.valueOf(cartItemDB.getId());
-            if (cartItemId.equals(id)) {
-                bookingCartItemService.deleteById(cartItemDB.getId());
-                break;
-            }
-
-        }
-
-        model.addAttribute("bookingCartItemList", bookingCartItemEntities);
-        session.setAttribute("bookingCartItemList", bookingCartItemEntities);
-
-        return "redirect:/cart";
-    }
-    @PostMapping("/increase")
-    public String increaseQuantity(@RequestParam("index") int index, HttpSession session, @RequestParam("quantity") int quantity){
-        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
-        List<BookingCartItemEntity> cartItems = bookingCartItemService.findAll();
-
-        if (bookingCartItemEntitiesSession == null){
-            // find index in booking cart item to increase. ex: index 0, index 1, index 2
-            BookingCartItemEntity item = cartItems.get(index);
-            item.setQuantity(quantity);
-
-            bookingCartItemService.save(item);
-            return "redirect:/cart";
-        }
-        BookingCartItemEntity item = bookingCartItemEntitiesSession.get(index);
-        item.setQuantity(quantity);
-        bookingCartItemService.save(item);
-
-        return "redirect:/cart";
-    }
-    @PostMapping("/decrease")
-    public String decreaseQuantity(@RequestParam("index") int index, HttpSession session, @RequestParam("quantity") int quantity){
-        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
-        List<BookingCartItemEntity> cartItems = bookingCartItemService.findAll();
-
-        if (bookingCartItemEntitiesSession == null){
-            // find index in booking cart item to increase. ex: index 0, index 1, index 2
-            BookingCartItemEntity item = cartItems.get(index);
-            if (quantity <=0 ){
-                bookingCartItemService.deleteById(item.getId());
-                return "redirect:/cart";
-            }
-            item.setQuantity(quantity);
-            bookingCartItemService.save(item);
-            return "redirect:/cart";
-        }
-        BookingCartItemEntity item = bookingCartItemEntitiesSession.get(index);
-        if (quantity <=0){
-            bookingCartItemService.deleteById(item.getId());
-            return "redirect:/cart";
-        }
-        item.setQuantity(quantity);
-        bookingCartItemService.save(item);
-
-        return "redirect:/cart";
-    }
-
     private double totalPrice(List<BookingCartItemEntity> bookingCartItemEntities) {
         double sum = 0;
         for (BookingCartItemEntity bookingCartItemEntity: bookingCartItemEntities) {
-            sum += bookingCartItemEntity.getProductDetailEntity().getProductEntity().getPrice();
+            sum += bookingCartItemEntity.getProductDetailEntity().getProductEntity().getPrice() * bookingCartItemEntity.getQuantity();
         }
         return sum;
     }
-
+    private int countItem(List<BookingCartItemEntity> bookingCartItemEntities) {
+        int count = 0;
+        for (BookingCartItemEntity item: bookingCartItemEntities) {
+            count += item.getQuantity();
+        }
+        return count;
+    }
 }

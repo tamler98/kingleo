@@ -47,7 +47,7 @@
                       <p class="fw-bold mb-0" style="width: 100%; font-weight: bold; font-size: 20px;">Thông tin đơn hàng</p>
                     </div>
                    <div class="d-flex justify-content-between pt-2">
-                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Số lượng SP : <span style="font-weight: bold;">2 Sản phẩm</span></p>
+                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Số lượng SP : <span style="font-weight: bold;" th:text="${session.bookingCartItemList.size()}+' sản phẩm'"> Sản phẩm</span></p>
                    </div>
                    <div class="d-flex justify-content-between pt-2">
                      <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Giảm giá : <span style="font-weight: bold;">30.000 VNĐ</span></p>
@@ -56,23 +56,23 @@
                      <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Phí ship : <span style="font-weight: bold;">30.000 VNĐ</span></p>
                    </div>
                    <div class="d-flex justify-content-between pt-2">
-                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Tổng cộng : <span style="font-weight: bold;">600.000 VNĐ</span></p>
+                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Tổng cộng : <span style="font-weight: bold;" th:text="${#numbers.formatDecimal(session.lastTotalPrice/1000, 0, 'COMMA', 3, 'POINT')+ ' VNĐ'}">600.000 VNĐ</span></p>
                    </div>
                    </div>
                 </div>
               </div>
             </div>
             <div class="rightside">
-              <form action="">
+              <form action="checkout" method="POST" modelAttribute="orderEntity">
                 <h2 class="card_h1">Đặt hàng</h2>
                 <p>Người nhận hàng</p>
-                <input type="text" class="inputbox" name="customer_name" required />
+                <input type="text" class="inputbox" name="first_name" required th:value="${account.first_name}"/>
                 <p>Số điện thoại</p>
-                <input type="text" class="inputbox" name="customer_phone" id="card_number" required />
+                <input type="text" class="inputbox" name="customer_phone" id="card_number" required th:value="${account.phone}" />
                 <p>Địa chỉ</p>
-                <input type="text" class="inputbox" name="customer_address" id="card_number" required />
+                <input type="text" class="inputbox" name="customer_address" id="card_number" required th:value="${account.address}"/>
                 <p>Ghi chú</p>
-                <input type="text" class="inputbox" name="note" id="card_number" required />
+                <input type="text" class="inputbox" name="order_note" id="card_number"/>
 
                 <!-- <p>Card Type</p>
                 <select class="inputbox" name="card_type" id="card_type" required>
