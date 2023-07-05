@@ -8,7 +8,32 @@ body {
 
 
 
+.order_info {
+    width: 100%;
+    display: flex;
+    justify-content: right;
+        font-size: 15px;
+        padding-right:5px;
+}
 
+.order_info_left {
+    min-width: 110px;
+    display: flex;
+    flex-direction:column;
+    font-weight: bold;
+}
+
+.order_info_right{
+min-width: 60px;
+}
+
+.order_info_right p{
+text-wrap: revert;
+    margin: 0;
+    width: 90%;
+    text-align: right;
+    font-weight: bold;
+}
 
 .header_top {
    height:60px;
@@ -65,11 +90,11 @@ body {
    justify-content:right;
  }
  footer {
-   position: relative;
-   top: 80px;
-   padding: 0px 2em;
-   background-color: #4dded50a;
-   padding-top: 2em;
+   width: 100%;
+       bottom: 0px;
+       padding: 0px 2em;
+       background-color: #4dded50a;
+       padding-top: 2em;
    }
 
    .footer_container {
@@ -312,7 +337,7 @@ main{
 
 .product_name{
    width: 200px;
-   font-size: 15px;
+   font-size: 20px;
    font-weight: bold;
    display: -webkit-box;
     -webkit-box-orient: vertical;
@@ -323,13 +348,16 @@ main{
 @media only screen and (max-width: 450px) {
    .product_name{
       width: 100px;
-      font-size: 10px;
+      font-size: 13px;
       font-weight: bold;
       display: -webkit-box;
        -webkit-box-orient: vertical;
        -webkit-line-clamp: 2; /* Số dòng tối đa mong muốn */
        overflow: hidden;
        text-overflow: ellipsis;
+   }
+   .de_in_btn{
+    font-size:12px;
    }
    .text-grey {
       font-size: 13px;

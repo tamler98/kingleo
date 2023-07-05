@@ -27,6 +27,10 @@ public class OrderEntity {
     private String orderStatus;
     private String orderCode;
     private Double shippingCod;
+    private String customer_address;
+    private String order_note;
+    private String customer_name;
+    private String customer_phone;
 
     public Long getId() {
         return id;
@@ -90,5 +94,37 @@ public class OrderEntity {
 
     public void setShippingCod(Double shippingCod) {
         this.shippingCod = shippingCod;
+    }
+
+    public String getCustomer_address() {
+        return customer_address;
+    }
+
+    public void setCustomer_address(String customer_address) {
+        this.customer_address = customer_address;
+    }
+
+    public String getOrder_note() {
+        return order_note;
+    }
+
+    public void setOrder_note(String order_note) {
+        this.order_note = order_note;
+    }
+
+    public String getCustomer_name() {
+        return customer_name;
+    }
+
+    public void setCustomer_name(String customer_name) {
+        this.customer_name = customer_name;
+    }
+
+    public String getCustomer_phone() {
+        return customer_phone;
+    }
+
+    public void setCustomer_phone(String customer_phone) {
+        this.customer_phone = customer_phone;
     }
 }

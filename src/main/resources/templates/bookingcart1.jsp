@@ -38,16 +38,20 @@
       <main>
         <div class="container mt-5 mb-5">
           <div class="d-flex justify-content-center row">
-            <div class="col-md-8" style="width: 100%;">
+            <div class="col-md-12">
               <div class="p-2">
                 <h4>Giỏ hàng của bạn</h4>
                 <div class="d-flex flex-row align-items-center pull-right"><span class="mr-1">Sort by:</span><span
                     class="mr-1 font-weight-bold">Price</span><i class="fa fa-angle-down"></i></div>
               </div>
-              <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded" th:each="item : ${bookingCartItemList}">
-                <div class="mr-1"><img class="rounded"
-                    th:src="'/getImagePhoto/'+${item.productDetailEntity.productEntity.id}"
-                    width="70"></div>
+              <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded" th:each="item,itemIndex : ${session.bookingCartItemList}">
+                <div class="mr-1">
+                    <div class="mr-1_img">
+                        <img class="rounded"
+                            th:src="'/getImagePhoto/'+${item.productDetailEntity.productEntity.id}"
+                            width="70">
+                    </div>
+                </div>
                 <div class="d-flex flex-column align-items-left product-details"><span class="product_name" th:text="${item.productDetailEntity.productEntity.product_name}">Giày bóng đá
                     Kingleo Football Wika 3 sọc</span>
                   <div class="d-flex flex-row product-desc">
@@ -58,28 +62,42 @@
                   </div>
                 </div>
                 <div class="d-flex flex-row align-items-center qty">
-                              <form th:action="@{/cart/increase}" method="post">
-                                   <input type="hidden" name="index" th:value="${item.id}">
-                                   <input type="hidden" name="quantity" th:value="${item.quantity + 1}">
+                              <form th:action="'cart/decreaseitemid='+${itemIndex.index}" method="post">
                                 <button class="de_in_btn" type="submit"><i class="fa fa-minus text-danger"></i></button>
                               </form>
                               <h5 class="text-grey mt-1 mr-1 ml-1" th:text="${item.quantity}"></h5>
-                              <form th:action="@{/cart/decrease}" method="post">
-                                   <input type="hidden" name="index" th:value="${item.id}">
-                                   <input type="hidden" name="quantity" th:value="${item.quantity - 1}">
+                              <form th:action="'cart/increaseitemid='+${itemIndex.index}" method="post">
                                 <button class="de_in_btn" type="submit"><i class="fa fa-plus text-success"></i></button>
                             </form>
                             </div>
                 <div>
-                  <h5 class="text-grey" th:text="${#numbers.formatDecimal(item.productDetailEntity.productEntity.price/1000, 0, 'COMMA', 3, 'POINT')}">300.000</h5>
+                  <h5 class="text-grey" th:text="${#numbers.formatDecimal((item.productDetailEntity.productEntity.price/1000)*item.quantity, 0, 'COMMA', 3, 'POINT')}">300.000</h5>
                 </div>
+                <a th:href="'cart/deleteItem'+${itemIndex.index}">
                 <div class="d-flex align-items-center"><i class="fa fa-trash mb-1 text-danger"></i></div>
+                </a>
               </div>
 
-
-              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><input type="text"
-                  class="form-control border-0 gift-card" placeholder="Mã giảm giá"><button
-                  class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button></div>
+                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><input type="text"
+                  class="form-control border-0 gift-card" placeholder="Mã giảm giá">
+                  <button class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button>
+              </div>
+              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded" th:if="${session.bookingCartItemList != null}">
+              <div class="order_info">
+                  <div class="order_info_left">
+                      <p th:text="Tổng"></p>
+                      <p th:text="'Giảm giá:'"></p>
+                      <p th:text="'Phí ship:'"></p>
+                      <p th:text="'Thành tiền:'"></p>
+                  </div>
+                  <div class="order_info_right">
+                    <p th:text="${#numbers.formatDecimal(session.totalPrice/1000, 0, 'COMMA', 3, 'POINT')}"></p>
+                    <p th:text="30.000"></p>
+                    <p th:text="20.000"></p>
+                    <p th:text="${#numbers.formatDecimal(session.lastTotalPrice/1000, 0, 'COMMA', 3, 'POINT')}"></p>
+                  </div>
+              </div>
+              </div>
               <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><a th:href="'/cart/checkout'"
                   class="btn btn-warning btn-block btn-lg ml-2 pay-button">Tiếp theo</a></div>
             </div>
