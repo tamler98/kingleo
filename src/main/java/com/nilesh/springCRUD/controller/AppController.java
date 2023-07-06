@@ -221,12 +221,12 @@ public class AppController {
                     bookingCartItemService.save(bookingCartItemEntity);
                 }
             }
-            return "redirect:/";
+            return "redirect:/cart";
         } catch (Exception e) {
             e.printStackTrace();
             model.addAttribute("errorMessage", "khong tim thay san pham");
         }
-        return "redirect:/";
+        return "redirect:/cart";
     }
 
     @GetMapping("getImagePhotoByColor/{id}_{color}")

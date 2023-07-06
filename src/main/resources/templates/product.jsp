@@ -82,7 +82,6 @@
             <!-- Cable Configuration -->
             <div class="cable-config">
                 <span>size</span>
-
                 <div class="cable-choose">
                   <button type="button" class="input_size"
                     th:id="'sizeInput_' + ${product.id}"
@@ -126,7 +125,7 @@
             </div>
           </div>
           <div class="product-price">
-            <span th:text="${product.price}"></span>
+            <span th:text="${#numbers.formatDecimal(product.price/1000, 0, 'COMMA', 3, 'POINT')} + ' VNĐ'"></span>
             <input type="hidden" id="colorInput" name="color" value="">
             <input type="hidden" id="sizeInput" name="size" value="">
             <button onclick="updateOrderDetails()" class="cart-btn" style="text-decoration: none; border: none; color: white;">Thêm vào giỏ hàng</button>
@@ -153,13 +152,13 @@
                   <div class="col_rating">
                     <div class="comment-text w-100">
                       <h5 style="text-align: left;" th:text="${rating.accountEntity.first_name}"></h5>
-                      <p style="width: 100%;" th:text="${rating.content}"></p>
+                      <p style="width: 100%;" class="content" th:text="${rating.content}"></p>
                       <div class="comment-footer">
                       <span class="date">Ngày: </span>
-                        <span class="date" th:text="${#dates.format(rating.date_comment, 'dd-MM-yyyy')}"></span>
+                        <span class="date" th:text="' '+${#dates.format(rating.date_comment, 'dd-MM-yyyy')}"></span>
                         <span id="ratingSpan" class="label label-info" th:text="${rating.rating}" th:class="'rating-' + ${rating.rating}"></span>
                         <form th:action="'/rating/like_rating_id=' + ${rating.id}" method="POST">
-                        <span style="font-size: 15px;  text-decoration: none; color: red; margin-left: 4px; font-weight: 500;" th:text="${rating.count_like}" ></span>
+                        <span style="text-decoration: none; color: red; margin-left: 4px; font-weight: 500;" th:text="${rating.count_like}" ></span>
                           <button type="submit" data-abc="true" style="color:red; background: none; border: none; padding: 0; font-size:14px;"><i class="fa fa-heart"></i> thích</button>
                         </form>
                       </div>

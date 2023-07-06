@@ -5,10 +5,12 @@ import com.nilesh.springCRUD.model.*;
 import com.nilesh.springCRUD.repository.BookingCartItemRepository;
 import com.nilesh.springCRUD.services.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -36,6 +38,7 @@ public class BookingCartController {
     public String bookingCart(@ModelAttribute("accountEntity") AccountEntity account,
                               Model model,
                               HttpSession session) {
+
         AccountEntity accountEntity = (AccountEntity) session.getAttribute("account");
         List<BookingCartItemEntity> bookingCartItemEntities = new ArrayList<>();
         if (accountEntity == null) {
@@ -76,6 +79,7 @@ public class BookingCartController {
         }
         return "bookingcart1";
     }
+
     @PostMapping("/decreaseitemid={id}")
     public String decreaseQuantity(@PathVariable("id") int id, HttpSession session){
         AccountEntity account = (AccountEntity) session.getAttribute("account");
@@ -149,8 +153,13 @@ public class BookingCartController {
     @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(HttpSession session, Model model){
       AccountEntity account = (AccountEntity) session.getAttribute("account");
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
         if(account == null ){
             return "redirect:/login";
+        }
+        if(bookingCartItemEntitiesSession.size() == 0){
+            session.setAttribute("msg", "Giỏ hàng trống, hãy thêm hàng vào giỏ trước!");
+            return "redirect:/cart";
         }
         model.addAttribute("account", account);
          return "checkout";
@@ -230,26 +239,6 @@ public class BookingCartController {
         return "successpage";
     }
 
-    @GetMapping("/checkout-success")
-    public String showCheckoutSuccess(Model model, HttpSession session) {
-        double totalPrice = (double) session.getAttribute("totalPrice");
-        double priceOfAllProduct = (double) session.getAttribute("lastTotalPrice");
-
-        AccountEntity accountEntity = (AccountEntity) session.getAttribute("accountEntity");
-
-        accountEntity.setFirst_name(accountEntity.getFirst_name());
-        accountEntity.setLast_name(accountEntity.getLast_name());
-        accountEntity.setEmail(accountEntity.getEmail());
-        accountEntity.setPhone(accountEntity.getPhone());
-        accountEntity.setAddress(accountEntity.getAddress());
-
-        model.addAttribute("totalPrice", totalPrice);
-        model.addAttribute("priceOfAllProduct", priceOfAllProduct);
-        model.addAttribute("accountEntity", accountEntity);
-
-        return "checkout-success";
-    }
-
     private double totalPrice(List<BookingCartItemEntity> bookingCartItemEntities) {
         double sum = 0;
         for (BookingCartItemEntity bookingCartItemEntity: bookingCartItemEntities) {
@@ -263,5 +252,15 @@ public class BookingCartController {
             count += item.getQuantity();
         }
         return count;
+    }
+
+    @PostMapping("/remove-session")
+    public ResponseEntity<String> removeSession(HttpServletRequest request) {
+        // Xóa session
+        HttpSession session = request.getSession();
+        session.removeAttribute("msg");
+
+        // Trả về kết quả thành công
+        return ResponseEntity.ok("Session removed");
     }
 }

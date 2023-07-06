@@ -60,8 +60,10 @@
                         <div class="col-sm-3" th:each="product_top : ${listProductTop4}">
                             <div class="popular_product_product_line">
                                 <div class="astra-shop-thumbnail-wrap">
-                                    <a href=""><img th:src="'/getImagePhoto/'+${product_top.id}"
-                                            alt="Image 1"></a>
+                                    <a th:href="'product/productId=' + ${product_top.id}">
+                                    <img th:src="'/getImagePhoto/'+${product_top.id}"
+                                            alt="Image 1">
+                                            </a>
                                 </div>
                                 <div class="astra-shop-summary-wrap">
                                     <div class="product_category"><a href="" class="product_link" th:text="${product_top.categoryEntity.category_name}">Nike - Vapo 15 Pro</a>
@@ -72,7 +74,7 @@
                                             class="fas fa-star"></i></div>
                                     <div class="product_price">
                                     <span th:text="'₫'+${#numbers.formatDecimal(product_top.price/1000, 0, 'COMMA', 3, 'POINT')}" style="color:red;"></span>
-                                    <span th:text="${product_top.count_sold}+' đã bán!'"></span>
+                                    <span style="font-size:80%;" th:text="${product_top.count_sold}+' đã bán!'"></span>
                                     </div>
                                 </div>
                             </div>

@@ -43,7 +43,9 @@
                 <h4>Giỏ hàng của bạn</h4>
                 <div class="d-flex flex-row align-items-center pull-right"><span class="mr-1">Sort by:</span><span
                     class="mr-1 font-weight-bold">Price</span><i class="fa fa-angle-down"></i></div>
-              </div>
+              <p id="message" th:text="${session.msg}" style="display: none; color:red; padding-top:5px; font-weight:bold;"></p>
+
+
               <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded" th:each="item,itemIndex : ${session.bookingCartItemList}">
                 <div class="mr-1">
                     <div class="mr-1_img">
@@ -78,8 +80,8 @@
                 </a>
               </div>
 
-                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><input type="text"
-                  class="form-control border-0 gift-card" placeholder="Mã giảm giá">
+                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
+                <input type="text" class="form-control border-0 gift-card" name="discount_code" placeholder="Mã giảm giá">
                   <button class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button>
               </div>
               <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded" th:if="${session.bookingCartItemList != null}">
@@ -134,4 +136,27 @@
         </div>
       </footer>
 </body>
+<script>
+    // Lấy tham chiếu đến phần tử <p>
+    var messageElement = document.getElementById("message");
+
+    // Hiển thị phần tử <p> và nội dung trong 5 giây
+    messageElement.style.display = "block";
+    setTimeout(function() {
+        messageElement.style.display = "none";
+    }, 5000);
+</script>
+<script>
+    setTimeout(function() {
+        // Gửi yêu cầu HTTP để xóa session
+        fetch('/remove-session', { method: 'POST' })
+            .then(function() {
+                // Xóa giá trị session.msg
+                document.getElementById('message').innerText = '';
+            })
+            .catch(function(error) {
+                console.log('Lỗi xảy ra khi gửi yêu cầu xóa session:', error);
+            });
+    }, 5000);
+</script>
 </html>
