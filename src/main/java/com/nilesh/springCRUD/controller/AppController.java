@@ -1,26 +1,26 @@
 package com.nilesh.springCRUD.controller;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.util.*;
-
 import com.nilesh.springCRUD.model.*;
+import com.nilesh.springCRUD.security.CustomOAuth2User;
 import com.nilesh.springCRUD.services.*;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
+import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import static org.springframework.web.bind.annotation.RequestMethod.POST;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import java.util.*;
 
 @Controller
 public class AppController {
@@ -47,23 +47,34 @@ public class AppController {
     @RequestMapping("/")
     public String viewHomePage(Model model, HttpSession session,
                                @RequestParam(name = "page", defaultValue = "0") int pageNumber,
-                               @RequestParam(name = "size", defaultValue = "8") int pageSize) {
+                               @RequestParam(name = "size", defaultValue = "8") int pageSize,
+                               @AuthenticationPrincipal OAuth2User user
+                               ) {
         //Authen
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         String username = principal.toString();
+
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
             session.setAttribute("userEmail", username);
         }
-        AccountEntity accountEntity = accountService.findByUsername(username);
+        if (principal instanceof CustomOAuth2User) {
+            CustomOAuth2User oauthUser = (CustomOAuth2User) principal;
+            username = oauthUser.getEmail();
+            session.setAttribute("userEmail", username);
+
+        }
+
+        AccountEntity accountEntity = accountService.findByEmailOrUsername(username);
         session.setAttribute("account", accountEntity);
 
+
         List<BookingCartItemEntity> bookingCartItemBySession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
-        if(accountEntity == null){
-            if(bookingCartItemBySession == null) {
+        if (accountEntity == null) {
+            if (bookingCartItemBySession == null) {
                 session.setAttribute("count", 0);
             }
-        }else {
+        } else {
             BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
             List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
             if (bookingCartItemBySession == null || bookingCartItemBySession.isEmpty()) {
@@ -76,12 +87,12 @@ public class AppController {
                 }
             } else {
                 if (bookingCartItemEntities.size() == 0) {
-                    if(bookingCartItemBySession.size() == 1){
+                    if (bookingCartItemBySession.size() == 1) {
                         bookingCartItemBySession.get(0).setBookingCartEntity(bookingCartEntity);
                         bookingCartItemEntities.add(bookingCartItemBySession.get(0));
                         bookingCartItemService.save(bookingCartItemBySession.get(0));
                         bookingCartItemBySession.remove(bookingCartItemBySession.get(0));
-                    }else {
+                    } else {
                         for (BookingCartItemEntity item : bookingCartItemBySession) {
                             item.setBookingCartEntity(bookingCartEntity);
                             bookingCartItemEntities.add(item);
@@ -157,7 +168,7 @@ public class AppController {
     public String ratingProduct(Model model, @PathVariable("id") int product_id, HttpSession session, @RequestParam("content") String content, @RequestParam("rating") int rating) {
         RatingEntity ratingEntity = new RatingEntity();
         AccountEntity account = (AccountEntity) session.getAttribute("account");
-        if(account == null) {
+        if (account == null) {
             return "redirect:/login";
         }
         ratingEntity.setAccountEntity(account);
@@ -166,7 +177,7 @@ public class AppController {
         ratingEntity.setDate_comment(new Date());
         ratingEntity.setRating(rating);
         ratingService.save(ratingEntity);
-        account.setCount_of_rate(account.getCount_of_rate()+1);
+        account.setCount_of_rate(account.getCount_of_rate() + 1);
         accountService.save(account);
         return "redirect:/product/productId={id}";
     }
@@ -175,15 +186,16 @@ public class AppController {
     public String likeProduct(Model model, @PathVariable("id") int rating_id, HttpSession session) {
         RatingEntity ratingEntity = ratingService.findById(rating_id);
         AccountEntity account = (AccountEntity) session.getAttribute("account");
-        if(account == null) {
+        if (account == null) {
             return "redirect:/login";
         }
         ratingEntity.setCount_like(ratingEntity.getCount_like() + 1);
         ratingService.save(ratingEntity);
-        String address = "redirect:/product/productId="+ratingEntity.getProductEntity().getId();
+        String address = "redirect:/product/productId=" + ratingEntity.getProductEntity().getId();
         return address;
     }
-    @PostMapping(value="addToCart/{id}", produces = "text/plain;charset=UTF-8")
+
+    @PostMapping(value = "addToCart/{id}", produces = "text/plain;charset=UTF-8")
     public String showAddRoom(Model model, @PathVariable int id,
                               @RequestParam(name = "size") String sizeShoe,
                               @RequestParam(name = "color") String color,
@@ -192,22 +204,22 @@ public class AppController {
             int size = Integer.parseInt(sizeShoe);
             ProductDetailEntity product = findProduct(id, color, size);
             AccountEntity accountEntity = (AccountEntity) session.getAttribute("account");
-            if(accountEntity == null) {
+            if (accountEntity == null) {
                 List<BookingCartItemEntity> listItem = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
-                if(listItem == null || listItem.size() == 0) {
+                if (listItem == null || listItem.size() == 0) {
                     listItem = new ArrayList<>();
                 }
                 int checkExistInSession = existInSession(listItem, id, color, size);
                 if (checkExistInSession == -1) {
                     createNewBookingCartItemNoBookingCartId(product, listItem, color, size);
-                }else {
+                } else {
                     BookingCartItemEntity bookingCartItemEntity = listItem.get(checkExistInSession);
-                    bookingCartItemEntity.setQuantity(bookingCartItemEntity.getQuantity()+1);
+                    bookingCartItemEntity.setQuantity(bookingCartItemEntity.getQuantity() + 1);
                 }
-                session.setAttribute("bookingCartItemListSession",listItem);
+                session.setAttribute("bookingCartItemListSession", listItem);
                 int count = listSize(listItem);
                 session.setAttribute("count", count);
-            }else {
+            } else {
                 int checkExist = exist(accountEntity, id, color, size);
                 BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
                 if (checkExist == -1) {
@@ -227,13 +239,13 @@ public class AppController {
     }
 
     @GetMapping("getImagePhotoByColor/{id}_{color}")
-    public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id,@PathVariable("color") String color) throws Exception {
+    public void getImagePhoto(HttpServletResponse response, Model model, @PathVariable("id") int id, @PathVariable("color") String color) throws Exception {
         response.setContentType("image/jpeg");
         List<ProductImageEntity> imageList = (List<ProductImageEntity>) productImageService.findByProductId(id);
         byte[] ph = new byte[0];
-        String name = new String(id+"_"+color);
-        for (ProductImageEntity productImage:imageList) {
-            if(productImage.getImage_name().equals(name)) {
+        String name = new String(id + "_" + color);
+        for (ProductImageEntity productImage : imageList) {
+            if (productImage.getImage_name().equals(name)) {
                 ph = productImage.getUrl();
                 break;
             }
@@ -259,12 +271,12 @@ public class AppController {
         PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
         Page<ProductEntity> listProduct = productService.getProductListBySearchInput(pageRequest, keyword);
 
-        if(listProduct.isEmpty()) {
+        if (listProduct.isEmpty()) {
             listProduct = productService.getProductList(pageRequest);
             model.addAttribute("productList", listProduct.getContent());
             model.addAttribute("currentPage", listProduct.getNumber());
             model.addAttribute("totalPages", listProduct.getTotalPages());
-        }else {
+        } else {
             model.addAttribute("productList", listProduct.getContent());
             model.addAttribute("currentPage", listProduct.getNumber());
             model.addAttribute("totalPages", listProduct.getTotalPages());
@@ -273,20 +285,16 @@ public class AppController {
         return "search_page";
     }
 
-    public int exist(AccountEntity accountEntity, int product_id, String color, int size){
+    @GetMapping("/errorpage")
+    public String errorPage(){
+        return"error_page";
+    }
+
+    public int exist(AccountEntity accountEntity, int product_id, String color, int size) {
         BookingCartEntity bookingCartEntity = bookingCartService.findByAccountId(accountEntity.getId());
         List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
         ProductEntity product = productService.findById(product_id);
-        for (BookingCartItemEntity item: bookingCartItemEntities) {
-            if (item.getSize() == size && item.getColor().equals(color) && item.getProductDetailEntity().getProductEntity().getProduct_name().equals(product.getProduct_name())) {
-                return item.getId();
-            }
-        }
-        return -1;
-    }
-    public int existInSession(List<BookingCartItemEntity> listItem, int product_id, String color, int size){
-        ProductEntity product = productService.findById(product_id);
-        for (BookingCartItemEntity item: listItem) {
+        for (BookingCartItemEntity item : bookingCartItemEntities) {
             if (item.getSize() == size && item.getColor().equals(color) && item.getProductDetailEntity().getProductEntity().getProduct_name().equals(product.getProduct_name())) {
                 return item.getId();
             }
@@ -294,25 +302,36 @@ public class AppController {
         return -1;
     }
 
-    private int listSize(List<BookingCartItemEntity> listItem){
+    public int existInSession(List<BookingCartItemEntity> listItem, int product_id, String color, int size) {
+        ProductEntity product = productService.findById(product_id);
+        for (BookingCartItemEntity item : listItem) {
+            if (item.getSize() == size && item.getColor().equals(color) && item.getProductDetailEntity().getProductEntity().getProduct_name().equals(product.getProduct_name())) {
+                return item.getId();
+            }
+        }
+        return -1;
+    }
+
+    private int listSize(List<BookingCartItemEntity> listItem) {
         int count = 0;
-        for (BookingCartItemEntity item: listItem) {
+        for (BookingCartItemEntity item : listItem) {
             count += item.getQuantity();
         }
         return count;
     }
-    public int countProduct(BookingCartEntity bookingCartEntity){
+
+    public int countProduct(BookingCartEntity bookingCartEntity) {
         List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
         int count = 0;
-        for (BookingCartItemEntity item:bookingCartItemEntities) {
+        for (BookingCartItemEntity item : bookingCartItemEntities) {
             count += item.getQuantity();
         }
         return count;
     }
 
-    public ProductDetailEntity findProduct(int id,String color,int size) {
+    public ProductDetailEntity findProduct(int id, String color, int size) {
         List<ProductDetailEntity> productDetailEntities = productDetailService.findAllByProductId(id);
-        for (ProductDetailEntity item: productDetailEntities) {
+        for (ProductDetailEntity item : productDetailEntities) {
             if (item.getColor().equals(color) && item.getSize() == size) {
                 return item;
             }
@@ -320,7 +339,7 @@ public class AppController {
         return null;
     }
 
-    public void createNewBookingCartItemNoBookingCartId(ProductDetailEntity product, List<BookingCartItemEntity> listItem, String color, int size){
+    public void createNewBookingCartItemNoBookingCartId(ProductDetailEntity product, List<BookingCartItemEntity> listItem, String color, int size) {
         BookingCartItemEntity bookingCartItemEntity = new BookingCartItemEntity();
         bookingCartItemEntity = new BookingCartItemEntity();
         bookingCartItemEntity.setProductDetailEntity(product);
@@ -329,7 +348,8 @@ public class AppController {
         bookingCartItemEntity.setSize(size);
         listItem.add(bookingCartItemEntity);
     }
-    public void createNewBookingCartItem(ProductDetailEntity product, BookingCartEntity bookingCartEntity, String color, int size){
+
+    public void createNewBookingCartItem(ProductDetailEntity product, BookingCartEntity bookingCartEntity, String color, int size) {
         BookingCartItemEntity bookingCartItemEntity = new BookingCartItemEntity();
         bookingCartItemEntity = new BookingCartItemEntity();
         bookingCartItemEntity.setProductDetailEntity(product);
@@ -340,13 +360,13 @@ public class AppController {
         bookingCartItemService.save(bookingCartItemEntity);
     }
 
-    public List<ProductEntity> setListProduct(){
+    public List<ProductEntity> setListProduct() {
         List<ProductEntity> productEntities = productService.findAll();
         Set<String> uniqueProductName = new HashSet<>();
         List<ProductEntity> newProductShow = new ArrayList<>();
         if (!productEntities.isEmpty()) {
             for (ProductEntity item : productEntities) {
-                if(!uniqueProductName.contains(item.getProduct_name())){
+                if (!uniqueProductName.contains(item.getProduct_name())) {
                     uniqueProductName.add(item.getProduct_name());
                     newProductShow.add(item);
                 }

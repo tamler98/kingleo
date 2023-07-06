@@ -1,4 +1,6 @@
 <!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -36,7 +38,7 @@
                     minlength="6" required>
                 <input type="submit" class="fadeIn fourth" value="Đăng nhập" style="margin-top: 20px;cursor: pointer;">
             </form>
-
+            <a th:href="@{/oauth2/authorization/google}">Login with Google</a>
             <!-- Remind Passowrd -->
             <div id="formFooter">
                 <a class="underlineHover" href="#">Quên mật khẩu?</a>

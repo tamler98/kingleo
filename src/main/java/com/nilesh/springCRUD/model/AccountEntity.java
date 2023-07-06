@@ -1,5 +1,7 @@
 package com.nilesh.springCRUD.model;
 
+import com.nilesh.springCRUD.enums.Provider;
+
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -46,6 +48,17 @@ public class AccountEntity {
 	private BookingCartEntity bookingCartEntity;
 	@OneToMany(mappedBy = "accountEntity")
 	private List<RatingEntity> ratingEntities;
+
+	@Enumerated(EnumType.STRING)
+	private Provider provider;
+
+	public Provider getProvider() {
+		return provider;
+	}
+
+	public void setProvider(Provider provider) {
+		this.provider = provider;
+	}
 
 	public int getId() {
 		return id;
@@ -182,4 +195,6 @@ public class AccountEntity {
 	public void setRatingEntities(List<RatingEntity> ratingEntities) {
 		this.ratingEntities = ratingEntities;
 	}
+
+
 }

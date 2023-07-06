@@ -35,7 +35,7 @@ public class BookingCartController {
                               HttpSession session) {
         // auth
         String username = (String) session.getAttribute("userEmail");
-        AccountEntity accountEntity = accountService.findByUsername(username);
+        AccountEntity accountEntity = accountService.findByEmailOrUsername(username);
 //        List<BookingCartItemEntity> bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
         List<BookingCartItemEntity> bookingCartItemEntities = new ArrayList<>();
         if (accountEntity == null) {
@@ -89,7 +89,7 @@ public class BookingCartController {
     @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(HttpSession session){
         String username = (String) session.getAttribute("userEmail");
-        AccountEntity accountEntity = accountService.findByUsername(username);
+        AccountEntity accountEntity = accountService.findByEmailOrUsername(username);
         return "checkout";
     }
     @PostMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
