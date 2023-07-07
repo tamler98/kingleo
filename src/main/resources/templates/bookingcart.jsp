@@ -107,7 +107,7 @@
                 <input type="text" class="form-control border-0 gift-card" name="discount_code" placeholder="Mã giảm giá">
                   <button class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button>
               </div>
-              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded" th:if="${session.bookingCartItemList != null}">
+              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded" th:if="${session.count != null}">
               <div class="order_info">
                   <div class="order_info_left">
                       <p th:text="Tổng"></p>

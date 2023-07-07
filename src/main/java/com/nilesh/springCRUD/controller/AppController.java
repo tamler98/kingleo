@@ -56,7 +56,9 @@ public class AppController {
             session.setAttribute("userEmail", username);
         }
         AccountEntity accountEntity = accountService.findByUsername(username);
-        session.setAttribute("account", accountEntity);
+        if(accountEntity != null) {
+            session.setAttribute("account", accountEntity);
+        }
 
         List<BookingCartItemEntity> bookingCartItemBySession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
         // Index without account
@@ -220,6 +222,8 @@ public class AppController {
                     bookingCartItemEntity.setQuantity(bookingCartItemEntity.getQuantity() + 1);
                     bookingCartItemService.save(bookingCartItemEntity);
                 }
+                List<BookingCartItemEntity> listItem = bookingCartItemService.findByBookingCartId(bookingCartEntity.getId());
+                session.setAttribute("bookingCartItemList",listItem);
             }
             return "redirect:/cart";
         } catch (Exception e) {

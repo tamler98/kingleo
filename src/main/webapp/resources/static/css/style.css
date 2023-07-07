@@ -1832,6 +1832,9 @@ h2::after {
 
 /* Man hinh dien thoai*/
 @media (max-width: 460px) {
+.dialog_p{
+font-size: 13px;
+	width:100%;}
     body {
         font-family: "Poppins", sans-serif;
         width: 100vw;
