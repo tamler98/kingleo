@@ -64,10 +64,8 @@ public class AppController {
             session.setAttribute("userEmail", username);
 
         }
-
         AccountEntity accountEntity = accountService.findByEmailOrUsername(username);
         session.setAttribute("account", accountEntity);
-
 
         List<BookingCartItemEntity> bookingCartItemBySession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
         if (accountEntity == null) {

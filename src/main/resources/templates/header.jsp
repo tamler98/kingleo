@@ -49,7 +49,6 @@
                                     </span>
                                     <div sec:authorize="isAuthenticated()">
                                         <b><span sec:authentication="name">${session.account.username}</span></b>
-                                        <i><span sec:authentication="principal.authorities">Roles</span></i>
                                     </div>
                                 </li>
                                 <a href="../admin/dashboard" class="logout">

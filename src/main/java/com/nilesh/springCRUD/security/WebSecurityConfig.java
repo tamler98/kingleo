@@ -12,10 +12,8 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.oauth2.core.oidc.user.DefaultOidcUser;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
-import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -70,7 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                                        Authentication authentication) throws IOException{
+                                                        Authentication authentication) throws IOException {
                         Object principal = authentication.getPrincipal();
 
                         if (principal instanceof CustomOAuth2User) {
@@ -82,7 +80,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         response.sendRedirect("/");
                     }
                 });
-
 
 
         http.authorizeRequests().and().formLogin()
