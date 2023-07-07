@@ -18,12 +18,12 @@
         </div>
         <div class="col-sm-6">
             <div class="header_nav">
-                <a href="" class="nav_header_a">NIKE</a>
-                <a href="" class="nav_header_a">ADIDAS</a>
-                <a href="" class="nav_header_a">MIZUNO</a>
+                <a href="" class="nav_header_a">KINGLEO CT3</a>
                 <a href="" class="nav_header_a">CT3</a>
-                <a href="" class="nav_header_a">KINGLEO</a>
                 <a href="" class="nav_header_a">11PRO TONI</a>
+                <a href="" class="nav_header_a">MIZUNO</a>
+                <a href="" class="nav_header_a">KAMITO</a>
+                <a href="" class="nav_header_a">MUA GIÀY LƯỚT</a>
             </div>
         </div>
         <div class="col-sm-4">

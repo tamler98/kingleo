@@ -563,6 +563,7 @@ font-family: "Poppins", sans-serif;
   .product-price {
     display: flex;
     align-items: center;
+    justify-content: space-around;
   }
 
   .product-price span {
@@ -584,16 +585,12 @@ font-family: "Poppins", sans-serif;
 
 
   .cart-btn {
-    display: inline-block;
-    background-color: #7DC855;
-    border-radius: 6px;
-    font-size: 16px;
-    color: #FFFFFF;
-    text-decoration: none;
-    padding: 12px 30px;
-    transition: all .5s;
-    text-decoration: none;
-    margin-left: 8em;
+       display: inline-block;
+       background-color: #7DC855;
+       border-radius: 6px;
+       padding: 10px 3px;
+       transition: all .5s;
+       min-width: 170px;
   }
   .cart-btn:hover {
   text-decoration: none;
@@ -607,6 +604,11 @@ font-family: "Poppins", sans-serif;
       /* text-align: center; */
       display: flex;
       justify-content: center;}
+}
+.input_size .active {
+    display: inherit;
+}.active {
+    display: inherit;
 }
 
 @media (max-width: 390px) {
@@ -635,4 +637,19 @@ font-family: "Poppins", sans-serif;
     .cart-btn {
         margin-left: 2em;
       }
+
+      .content{
+         width: 100px;
+         font-size: 15px;
+         display: -webkit-box;
+          -webkit-box-orient: vertical;
+          margin-bottom:5px;
+      }
+      .comment-footer {
+        font-size: 13px;
+      }
+
+      .comment-footer .date{
+              font-size: 13px;
+            }
 }
