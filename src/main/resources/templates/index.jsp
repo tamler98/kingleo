@@ -29,6 +29,7 @@
 <body>
     <header th:include="header :: header"></header>
         <main style="background: white;">
+
             <div class="slogan">KING LEO FOOTBALL - NÂNG NIU ĐÔI BÀN CHÂN BẠN!</div>
             <div class="slider">
                 <div class="slide active">
@@ -98,8 +99,7 @@
                                             </a>
                                         </div>
                                         <div class="thumb-content">
-                                            <h4><a th:href="'product/productId=' + ${item.id}"
-                                                    th:text="${item.product_name}"></a></h4>
+                                            <h4><a th:href="'product/productId=' + ${item.id}" th:text="${item.product_name}"></a></h4>
                                             <div class="choose_color">
                                                 <label for="" class="size_label">Màu:</label>
                                                 <div th:each="color : ${item.productColorEntities}">
@@ -120,15 +120,20 @@
                                             <input type="hidden" th:id="'sizeInput_' + ${item.id}" name="size" value="">
                                             <div class="thumb-content_footer">
                                                 <div class="item-price">
-                                                <span class="G5KGVD_d" style="font-size: 15px;margin-right: 2px;">₫</span>
-                                                <span class="G5KGVD" th:text="${#numbers.formatDecimal(item.price/1000, 0, 'COMMA', 3, 'POINT')}">₫</span>
+                                                    <span class="G5KGVD_d" style="font-size: 15px;margin-right: 2px;">₫</span>
+                                                    <span class="G5KGVD" th:text="${#numbers.formatDecimal(item.price/1000, 0, 'COMMA', 3, 'POINT')}">₫</span>
                                                 </div>
-                                                <button class="btn btn-primary" onclick="updateOrderDetails()">Mua
-                                                    ngay</button>
+                                                <button class="btn btn-primary" onclick="return updateOrderDetails()">Mua ngay</button>
                                             </div>
                                         </div>
                                     </div>
                                 </form>
+
+                                <dialog id="dialog">
+                                	<h2>Oh~~~</h2>
+                                	<p class="dialog_p">Bạn chưa chọn màu và size kìa!</p>
+                                	<button onclick="closeDialog()" aria-label="close" class="x">❌</button>
+                                </dialog>
                             </div>
 
                         </div>
@@ -240,13 +245,81 @@
                 if (sizeInput) {
                     sizeInput.value = size;
                 }
-
         var form = document.querySelector("form");
         if (form) {
             form.submit();
         }
     }
 </script>
+
+<script>
+function closeDialog() {
+        var dialog = document.getElementById("dialog");
+        dialog.close();
+    }
+     function setColor(button, event) {
+           event.preventDefault();
+           var productId = button.getAttribute('data-product-id');
+           var color = button.getAttribute('data-color');
+
+           var colorInput = document.getElementById("colorInput_" + productId);
+           if (colorInput) {
+               colorInput.value = color;
+           }
+
+           var colorButtons = document.getElementsByClassName("color_btn");
+           for (var i = 0; i < colorButtons.length; i++) {
+               colorButtons[i].classList.remove("selected");
+           }
+           button.classList.add("selected");
+       }
+
+       function setSize(button, event) {
+           event.preventDefault();
+           var productId = button.dataset.productId;
+           var size = button.dataset.size;
+           var sizeInput = document.getElementById("sizeInput_" + productId);
+           if (sizeInput) {
+               sizeInput.value = size;
+           }
+           var sizeButtons = document.getElementsByClassName("size_btn");
+           Array.from(sizeButtons).forEach(function(btn) {
+               btn.classList.remove("selected");
+           });
+           button.classList.add("selected");
+       }
+
+       function updateOrderDetails() {
+           var selectedColorBtn = document.querySelector(".color_btn.selected");
+           var selectedSizeBtn = document.querySelector(".size_btn.selected");
+
+           var color = selectedColorBtn ? selectedColorBtn.getAttribute("data-color") : "";
+           var productId = selectedColorBtn ? selectedColorBtn.getAttribute("data-product-id") : "";
+           var colorInput = document.getElementById("colorInput_" + productId);
+           if (colorInput) {
+               colorInput.value = color;
+           }
+
+           var size = selectedSizeBtn ? selectedSizeBtn.dataset.size : "";
+           productId = selectedSizeBtn ? selectedSizeBtn.dataset.productId : "";
+           var sizeInput = document.getElementById("sizeInput_" + productId);
+           if (sizeInput) {
+               sizeInput.value = size;
+           }
+
+           if (!color || !size) {
+               var dialog = document.getElementById("dialog");
+               dialog.showModal();
+               return false; // Ngăn chặn chuyển trang
+           }
+
+           var form = document.querySelector("form");
+           if (form) {
+               form.submit();
+           }
+       }
+</script>
+
 <script src="resources/static/js/slide.js"></script>
 
 </html>

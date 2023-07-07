@@ -45,7 +45,7 @@ public class BookingCartController {
             bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
             // Booking Cart Item List by Session is null
             if(bookingCartItemEntities == null) {
-                return "bookingcart1";
+                return "bookingcart";
             }
 
             // Booking Cart Item List by Session not null
@@ -57,7 +57,7 @@ public class BookingCartController {
             session.setAttribute("bookingCartItemListSession", bookingCartItemEntities);
             int count = countItem(bookingCartItemEntities);
             session.setAttribute("count", count);
-            return "bookingcart1";
+            return "bookingcart";
             // Account Entity is not null
         } else {
             session.setAttribute("account", accountEntity);
@@ -77,7 +77,7 @@ public class BookingCartController {
                 model.addAttribute("bookingCartItemList", bookingCartItemEntitiesSession);
             }
         }
-        return "bookingcart1";
+        return "bookingcart";
     }
 
     @PostMapping("/decreaseitemid={id}")

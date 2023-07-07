@@ -11,171 +11,175 @@
     <link href="https://fonts.googleapis.com/css2?family=Racing+Sans+One&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
     <!-- CSS -->
-    <link href='/resources/static/css/product.css' rel='stylesheet'>
     <link rel="icon" type="image/svg" href="resources/static/image/favicon_KL.svg">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
         integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
         crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link href='../resources/static/css/bookingcart.css' rel='stylesheet'>
-    <link href='../resources/static/css/style.css' rel='stylesheet'>
+        <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
+          <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
+    <link href='../resources/static/css/bookingcart1.css' rel='stylesheet'>
     <!--FAVICON -->
     <link href='../resources/static/images/favicon_KL.svg' rel='shortcut icon'>
     <meta name="robots" content="noindex,follow" />
 </head>
 
 <body>
-    <header th:include="header :: header"></header>
-    <main>
-        <section class="h-100 h-custom" style="background-color: #eee;">
-            <div class="container py-5 h-100">
-                <div class="row d-flex justify-content-center align-items-center h-100">
-                    <div class="col">
-                        <div class="card">
-                            <div class="card-body p-4">
-                                <div class="row">
-                                    <div class="col-lg-7">
-                                        <h5 class="mb-3"><a href="#!" class="text-body"><i
-                                                    class="fas fa-long-arrow-alt-left me-2"></i>Tiếp tục mua hàng</a>
-                                        </h5>
-                                        <hr>
-                                        <div class="d-flex justify-content-between align-items-center mb-4">
-                                            <div style="text-align: left;">
-                                                <p class="mb-1">Giỏ hàng của bạn</p>
-                                                <p class="mb-0">Bạn có 4 sản phẩm trong giỏ hàng</p>
-                                            </div>
-                                            <div>
-                                                <p class="mb-0"><span class="text-muted">Sắp xếp theo:</span> <a
-                                                        href="#!" class="text-body">giá <i
-                                                            class="fas fa-angle-down mt-1"></i></a></p>
-                                            </div>
-                                        </div>
-
-                                        <div class="card mb-3" th:each="item, itemIndex : ${bookingCartItemList}">
-                                            <div class="card-body" style="border-bottom: 1px solid #f3f3f3;">
-                                                <div class="d-flex justify-content-between">
-                                                    <div class="d-flex flex-row align-items-center">
-                                                        <div>
-                                                            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-shopping-carts/img1.webp"
-                                                                class="img-fluid rounded-3" alt="Shopping item"
-                                                                style="width: 65px; margin-right: 1em;">
-                                                        </div>
-                                                        <div class="ms-3">
-                                                            <h5
-                                                                th:text="${item.productDetailEntity.productEntity.product_name}">
-                                                            </h5>
-                                                            <p class="small mb-0" style="text-align: left;"> <span
-                                                                    th:text="'Màu: '+${item.color}+', '+'Size: '+${item.size}">
-                                                            </p>
-                                                        </div>
-                                                    </div>
-                                                    <div class="d-flex flex-row align-items-center">
-                                                        <form th:action="@{/cart/decrease}" method="post">
-                                                             <input type="hidden" name="index" th:value="${itemIndex.index}">
-                                                             <input type="hidden" name="quantity" th:value="${item.quantity - 1}">
-                                                            <button type="submit">-</button>
-                                                        </form>
-                                                        <div style="width: 50px;">
-                                                            <h5 class="fw-normal mb-0" th:text="${item.quantity}"></h5>
-                                                        </div>
-                                                         <form th:action="@{/cart/increase}" method="post">
-                                                             <input type="hidden" name="index" th:value="${itemIndex.index}">
-                                                             <input type="hidden" name="quantity" th:value="${item.quantity + 1}">
-                                                            <button type="submit">+</button>
-                                                        </form>
-                                                        <div style="width: 80px;">
-                                                            <h5 class="mb-0"
-                                                                th:text="${item.productDetailEntity.productEntity.price}">
-                                                            </h5>
-                                                        </div>
-                                                        <a th:href="@{|cart/deleteItem=${item.id}|}" style="color: #cecece;"><i
-                                                                class="fas fa-trash-alt"></i></a>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                    <div class="col-lg-5">
-
-                                        <div class="card bg-primary text-white rounded-3">
-                                            <div class="card-body">
-                                                <div class="d-flex justify-content-between align-items-center mb-4">
-                                                    <h5 class="mb-0">Thông tin khách hàng</h5>
-                                                    <img src="https://mdbcdn.b-cdn.net/img/Photos/Avatars/avatar-6.webp"
-                                                        class="img-fluid rounded-3" style="width: 45px;" alt="Avatar">
-                                                </div>
+    <div class="header_top">
+        <div class="header-left">
+          <a href="/" class="logo"><img src="../resources/static/images/logo_KL-06.png" alt=""></a>
+        </div>
+        <div class="header-right">
+          <a href="../account/profile">Thông tin</a>
+          <a href="../account/order">Đơn hàng</a>
+          <a class="active" href="/cart">Giỏ hàng</a>
+        </div>
+      </div>
+      <main>
+        <div class="container mt-5 mb-5">
+          <div class="d-flex justify-content-center row">
+            <div class="col-md-12">
+              <div class="p-2">
+                <h4>Giỏ hàng của bạn</h4>
+                <div class="d-flex flex-row align-items-center pull-right"><span class="mr-1">Sort by:</span><span
+                    class="mr-1 font-weight-bold">Price</span><i class="fa fa-angle-down"></i></div>
+              <p id="message" th:text="${session.msg}" style="display: none; color:red; padding-top:5px; font-weight:bold;"></p>
 
 
-
-                                                <form action="cart/checkout" method="post">
-                                                    <div class="form-group">
-                                                        <label for="firstName">First Name:</label>
-                                                        <input th:value="${accountEntity.first_name}" type="text" id="firstName" name="first_name" class="form-control" required />
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="lastName">Last Name:</label>
-                                                        <input th:value="${accountEntity.last_name}" type="text" id="lastName" name="last_name" class="form-control" required />
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="email">Email:</label>
-                                                        <input th:value="${accountEntity.email}" type="email" id="email" name="email" class="form-control" required />
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="phone">Phone:</label>
-                                                        <input th:value="${accountEntity.phone}" type="text" id="phone" name="phone" class="form-control"  required />
-                                                    </div>
-
-                                                    <div class="form-group">
-                                                        <label for="address">Address:</label>
-                                                        <input th:value="${accountEntity.address}" type="text" id="address" name="address" class="form-control" required />
-                                                    </div>
-
-                                                    <hr class="my-4">
-
-                                                    <div class="d-flex justify-content-between">
-                                                        <p class="mb-2">Giá trị đơn hàng</p>
-                                                        <p class="mb-2"<span th:text="${priceOfAllProduct}"></span></p>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-between">
-                                                        <p class="mb-2">Phí ship COD</p>
-                                                        <p class="mb-2">$20.00</p>
-                                                    </div>
-
-                                                    <div class="d-flex justify-content-between mb-4">
-                                                        <p class="mb-2">Tổng cộng</p>
-                                                        <p class="mb-2"><span th:text="${totalPrice}"></p>
-                                                    </div>
-
-                                                     <button type="submit" class="btn btn-info btn-block btn-lg">
-                                                        <div class="d-flex justify-content-between">
-                                                            <span>Đặt hàng <i class="fas fa-long-arrow-alt-right ms-2"></i></span>
-                                                        </div>
-                                                    </button>
-                                                </form>
-
-
-
-
-
-
-                                            </div>
-                                        </div>
-
-                                    </div>
-
-                                </div>
-
-                            </div>
-                        </div>
+              <div class="d-flex flex-row justify-content-between align-items-center p-2 bg-white mt-4 px-3 rounded" style="min-height: 100px;" th:each="item,itemIndex : ${session.bookingCartItemList}">
+                <div class="mr-1">
+                    <div class="mr-1_img">
+                        <img class="rounded"
+                            th:src="'/getImagePhoto/'+${item.productDetailEntity.productEntity.id}"
+                            width="70">
                     </div>
                 </div>
+                <div class="d-flex flex-column align-items-left product-details"><span class="product_name" th:text="${item.productDetailEntity.productEntity.product_name}">Giày bóng đá
+                    Kingleo Football Wika 3 sọc</span>
+                  <div class="d-flex flex-row product-desc">
+                    <div class="size mr-1"><span class="text-grey" >Size:</span><span
+                        class="font-weight-bold" th:text="${item.size}">&nbsp;39</span></div>
+                    <div class="color"><span class="text-grey">Màu:</span><span class="font-weight-bold" th:text="${item.color}">&nbsp;Đỏ</span>
+                    </div>
+                  </div>
+                </div>
+                <div class="d-flex flex-row align-items-center qty">
+                              <form th:action="'cart/decreaseitemid='+${itemIndex.index}" method="post">
+                                <button class="de_in_btn" type="submit"><i class="fa fa-minus text-danger"></i></button>
+                              </form>
+                              <h5 class="text-grey mt-1 mr-1 ml-1" th:text="${item.quantity}"></h5>
+                              <form th:action="'cart/increaseitemid='+${itemIndex.index}" method="post">
+                                <button class="de_in_btn" type="submit"><i class="fa fa-plus text-success"></i></button>
+                            </form>
+                            </div>
+                <div>
+                  <h5 class="text-grey" th:text="${#numbers.formatDecimal((item.productDetailEntity.productEntity.price/1000)*item.quantity, 0, 'COMMA', 3, 'POINT')}">300.000</h5>
+                </div>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#deleteItem'+${itemIndex.index}" style="background: none;border: none;">
+                <div class="d-flex align-items-center"><i class="fa fa-trash mb-1 text-danger"></i></div>
+                </button>
+
+                <div class="modal fade" th:id="'deleteItem'+${itemIndex.index}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="top:60px;">
+                  <div class="modal-dialog">
+                    <div class="modal-content">
+                      <div class="modal-header">
+                        <h5 class="modal-title" id="staticBackdropLabel">Xoá sản phẩm khỏi giỏ hàng</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                      </div>
+                      <div class="modal-body">
+                        Bạn muốn xoá sản phẩm này khỏi giỏ hàng chứ?
+                      </div>
+                      <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                        <a th:href="'cart/deleteItem'+${itemIndex.index}" type="button" class="btn btn-primary">Đúng vậy!</a>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+
+
+              </div>
+
+                <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
+                <input type="text" class="form-control border-0 gift-card" name="discount_code" placeholder="Mã giảm giá">
+                  <button class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button>
+              </div>
+              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded" th:if="${session.bookingCartItemList != null}">
+              <div class="order_info">
+                  <div class="order_info_left">
+                      <p th:text="Tổng"></p>
+                      <p th:text="'Giảm giá:'"></p>
+                      <p th:text="'Phí ship:'"></p>
+                      <p th:text="'Thành tiền:'"></p>
+                  </div>
+                  <div class="order_info_right">
+                    <p th:text="${#numbers.formatDecimal(session.totalPrice/1000, 0, 'COMMA', 3, 'POINT')}"></p>
+                    <p th:text="30.000"></p>
+                    <p th:text="20.000"></p>
+                    <p th:text="${#numbers.formatDecimal(session.lastTotalPrice/1000, 0, 'COMMA', 3, 'POINT')}"></p>
+                  </div>
+              </div>
+              </div>
+              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded"><a th:href="'/cart/checkout'"
+                  class="btn btn-warning btn-block btn-lg ml-2 pay-button">Tiếp theo</a></div>
             </div>
-        </section>
-    </main>
+          </div>
+        </div>
+      </main>
+      <footer>
+        <div class="footer_container">
+          <div class="footer-contents">
+            <div class="footer-content" style="text-align: center;">
+              <img src="../resources/static/images/logo_KL-06.png" alt="Image 1">
+            </div>
+            <div class="footer-content" style="padding-top: .5em;">
+              <h3>Về chúng tôi</h3>
+              <p>Cung cấp các loại giày bóng đá giá rẻ, phù hợp với thị trường và nhu cầu của anh em đam mê đá
+                bóng.</p>
+            </div>
+            <div class="footer-content" style="padding-top: .5em;">
+              <h3>Liên hệ</h3>
+              <p><strong>Địa chỉ:</strong> K25 Đỗ Thế Chấp, Tam Kỳ, Quảng Nam</p>
+              <p><strong>Phone:</strong> 038 571 8282</p>
+              <p><strong>Email:</strong> trinhthanhdat8282@gmail.com</p>
+            </div>
+            <div class="footer-content" style="padding-top: .5em;">
+              <h3>Theo dõi</h3>
+              <ul class="social-media">
+                <li><a href="#"><i class="fab fa-facebook"></i></a></li>
+                <li><a href="#"><i class="fab fa-twitter"></i></a></li>
+                <li><a href="#"><i class="fab fa-instagram"></i></a></li>
+              </ul>
+            </div>
+          </div>
+          <p class="footer-copy">&copy; 2023 Tamler98. All rights reserved.</p>
+        </div>
+      </footer>
 </body>
+<script>
+    // Lấy tham chiếu đến phần tử <p>
+    var messageElement = document.getElementById("message");
+
+    // Hiển thị phần tử <p> và nội dung trong 5 giây
+    messageElement.style.display = "block";
+    setTimeout(function() {
+        messageElement.style.display = "none";
+    }, 5000);
+</script>
+<script>
+    setTimeout(function() {
+        // Gửi yêu cầu HTTP để xóa session
+        fetch('/remove-session', { method: 'POST' })
+            .then(function() {
+                // Xóa giá trị session.msg
+                document.getElementById('message').innerText = '';
+            })
+            .catch(function(error) {
+                console.log('Lỗi xảy ra khi gửi yêu cầu xóa session:', error);
+            });
+    }, 5000);
+</script>
 </html>

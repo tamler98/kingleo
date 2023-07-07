@@ -605,6 +605,11 @@ font-family: "Poppins", sans-serif;
       display: flex;
       justify-content: center;}
 }
+.input_size .active {
+    display: inherit;
+}.active {
+    display: inherit;
+}
 
 @media (max-width: 390px) {
 body {
