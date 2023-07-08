@@ -20,6 +20,7 @@ public class ProductEntity {
     private CategoryEntity categoryEntity;
 
     private int count_sold;
+    private int product_remain;
 
     @OneToMany(mappedBy = "productEntity")
     private List<ProductDetailEntity> productDetailEntities;
@@ -110,5 +111,13 @@ public class ProductEntity {
 
     public void setCount_sold(int count_sold) {
         this.count_sold = count_sold;
+    }
+
+    public int getProduct_remain() {
+        return product_remain;
+    }
+
+    public void setProduct_remain(int product_remain) {
+        this.product_remain = product_remain;
     }
 }

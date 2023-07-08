@@ -127,7 +127,11 @@ public class AdminController {
         return "admin/dashboard";
     }
     @GetMapping("productView")
-    public String viewAllProduct(){
+    public String viewAllProduct(Model model){
+        List<ProductEntity> productEntityList = productService.findAll();
+        model.addAttribute("productList", productEntityList);
+        List<CategoryEntity> categoryEntities = categoryService.findAll();
+        model.addAttribute("categoryList", categoryEntities);
         return "admin/product";
     }
     @GetMapping("addProduct")
@@ -185,5 +189,4 @@ public class AdminController {
         }
         return shoeSizes;
     }
-
 }

@@ -41,7 +41,7 @@ button:focus {
 }
 .navbar {
   height: 70px;
-  background-color: #003152;
+  background-color: #18b5f9;
   padding: 0;
 }
 .navbar .container {
@@ -128,7 +128,7 @@ button:focus {
 }
 .navbar-nav .active > .nav-link,
 .navbar-nav .nav-link.active {
-  background-color: #f5a623;
+  background-color: #67d1ff;
   color: #fff;
 }
 .navbar-nav .nav-link.active i {
@@ -493,7 +493,7 @@ input[type="checkbox"]:focus {
   color: #9f1321;
 }
 .tm-footer {
-  background-color: #567086;
+  background-color: #18b5f9;
   padding-top: 30px;
   padding-bottom: 30px;
   -webkit-box-shadow: 0 -3px 5px 0 rgba(69, 92, 113, 0.59);

@@ -6,13 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Kingleo Football - Dashboard</title>
+    <!-- FONT -->
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:400,700">
-    <!-- https://fonts.google.com/specimen/Roboto -->
-        <link rel="stylesheet" href="../resources/static/css/admin/fontawesome.min.css">
-        <!-- https://fontawesome.com/ -->
-        <link rel="stylesheet" href="../resources/static/css/admin/bootstrap.min.css">
+    <!-- ICON -->
+    <link rel="stylesheet" href="../resources/static/css/admin/fontawesome.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
+        integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <!-- https://fontawesome.com/ -->
+    <link rel="stylesheet" href="../resources/static/css/admin/bootstrap.min.css">
     <!-- https://getbootstrap.com/ -->
     <link href='../resources/static/css/admin/templatemo-style.css' rel='stylesheet'>
+    <!--FAVICON -->
+    <link href='../resources/static/images/favicon_KL.svg' rel='shortcut icon'>
 </head>
 
 <body id="reportsPage">
@@ -37,7 +43,6 @@
                             </a>
                         </li>
                         <li class="nav-item dropdown">
-
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
                                 <i class="far fa-file-alt"></i>
