@@ -16,6 +16,11 @@ body {
     font-weight: 600;
 }
 
+.menu_dropdown{
+    display:none;
+}
+
+
 :root {
 	--vs-primary: 29 92 255;
 }
@@ -1232,6 +1237,15 @@ h2::after {
         font-family: Roboto, sans-serif;
     }
 
+    .menu_dropdown{
+        display:block;
+    }
+
+    .fas.fa-bars {
+        margin-left:10px;
+        font-size:27px;
+    }
+
     .G5KGVD {
         font-size: 20px;
         color: red;
@@ -1885,10 +1899,11 @@ font-size: 13px;
     }
 
     .row .col-sm-2 {
-        width: 30vw;
-        display: flex;
-        align-items: center;
-        justify-content: center;
+       height: 63px;
+       width: 30%;
+       display: flex;
+       align-items: center;
+       justify-content: center;
     }
 
     .row .col-sm-2 .header_logo {
@@ -1897,6 +1912,7 @@ font-size: 13px;
 
     .header_logo img {
         height: 50px;
+        margin-left: 1em;
     }
 
     .row .col-sm-6 {
@@ -1905,7 +1921,9 @@ font-size: 13px;
     }
 
     .row .col-sm-4 {
-        width: 59vw;
+        width: 68%;
+        display: flex;
+        justify-content: space-between;
     }
 
     .header_nav .nav_header_a {
@@ -1932,7 +1950,7 @@ font-size: 13px;
 
     .account_action {
         height: 68px;
-        width: 60vw;
+        width: 46vw;
     }
 
     .account_icons {
@@ -2192,7 +2210,7 @@ font-size: 13px;
 
     .thumb-wrapper {
         width: 100%;
-        height: 377px;
+        min-height: 377px;
         padding: 0px 0px 20px 0px;
         border: 2px solid #0099dab0;
         background: #fff;
@@ -2231,9 +2249,9 @@ font-size: 13px;
     }
 
     .item h4 {
-        font-size: 19px;
+        font-size: 17px;
         color: black;
-
+        min-height: 65px;
     }
 
     .item h4,

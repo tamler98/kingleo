@@ -99,6 +99,49 @@
                             <p><span class='badge badge-warning' id='lblCartCount' th:text="${session.count}"></span>
                             </p>
                         </li>
+                        <li class="menu_dropdown">
+                                                                            <i class="fas fa-bars"></i>
+                                                                            <ul>
+                                                                                <a href="../login" class="logout">
+                                                                                    <li class="sub-item">
+                                                                                        <span class="material-icons-outlined"> <i class="fas fa-futbol"></i> </span>
+                                                                                        <p>11 Pro Toni</p>
+                                                                                    </li>
+                                                                                </a>
+                                                                                <a href="../signup" class="logout">
+                                                                                    <li class="sub-item">
+                                                                                        <span class="material-icons-outlined">
+                                                                                            <i class="fas fa-futbol"></i>
+                                                                                        </span>
+                                                                                        <p>King Leo</p>
+                                                                                    </li>
+                                                                                </a>
+                                                                                <a href="../signup" class="logout">
+                                                                                    <li class="sub-item">
+                                                                                        <span class="material-icons-outlined">
+                                                                                            <i class="fas fa-futbol"></i>
+                                                                                        </span>
+                                                                                        <p>Kamito</p>
+                                                                                    </li>
+                                                                                </a>
+                                                                                <a href="../signup" class="logout">
+                                                                                    <li class="sub-item">
+                                                                                        <span class="material-icons-outlined">
+                                                                                            <i class="fas fa-futbol"></i>
+                                                                                        </span>
+                                                                                        <p>Mizuno</p>
+                                                                                    </li>
+                                                                                </a>
+                                                                                <a href="../signup" class="logout">
+                                                                                    <li class="sub-item">
+                                                                                        <span class="material-icons-outlined">
+                                                                                            <i class="fas fa-futbol"></i>
+                                                                                        </span>
+                                                                                        <p>CT3 Chính hãng</p>
+                                                                                    </li>
+                                                                                </a>
+                                                                            </ul>
+                                                                        </li>
                     </ul>
                 </div>
                 <div class="account_icons" th:if="${session.account == null}">
@@ -129,6 +172,49 @@
                                 </span></a>
                             <p><span class='badge badge-warning' id='lblCartCount' th:text="${session.count}"></span>
                             </p>
+                        </li>
+                        <li class="menu_dropdown">
+                            <i class="fas fa-bars"></i>
+                            <ul>
+                                <a href="../login" class="logout">
+                                    <li class="sub-item">
+                                        <span class="material-icons-outlined"> <i class="fas fa-futbol"></i> </span>
+                                        <p>11 Pro Toni</p>
+                                    </li>
+                                </a>
+                                <a href="../signup" class="logout">
+                                    <li class="sub-item">
+                                        <span class="material-icons-outlined">
+                                            <i class="fas fa-futbol"></i>
+                                        </span>
+                                        <p>King Leo</p>
+                                    </li>
+                                </a>
+                                <a href="../signup" class="logout">
+                                    <li class="sub-item">
+                                        <span class="material-icons-outlined">
+                                            <i class="fas fa-futbol"></i>
+                                        </span>
+                                        <p>Kamito</p>
+                                    </li>
+                                </a>
+                                <a href="../signup" class="logout">
+                                    <li class="sub-item">
+                                        <span class="material-icons-outlined">
+                                            <i class="fas fa-futbol"></i>
+                                        </span>
+                                        <p>Mizuno</p>
+                                    </li>
+                                </a>
+                                <a href="../signup" class="logout">
+                                    <li class="sub-item">
+                                        <span class="material-icons-outlined">
+                                            <i class="fas fa-futbol"></i>
+                                        </span>
+                                        <p>CT3 Chính hãng</p>
+                                    </li>
+                                </a>
+                            </ul>
                         </li>
                     </ul>
                 </div>

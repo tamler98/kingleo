@@ -12,6 +12,10 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css"
             integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ=="
             crossorigin="anonymous" referrerpolicy="no-referrer" />
+            <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+            <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+            <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.2/css/bootstrap.min.css'>
+                      <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.3.1/css/all.css'>
             <link href='../resources/static/images/favicon_KL.svg' rel='shortcut icon'>
     <title>Quản lý đơn hàng</title>
 </head>
@@ -26,12 +30,33 @@
           <a href="/cart">Giỏ hàng</a>
         </div>
       </div>
-    <section class="vh-100 gradient-custom-2" style="position: relative; top: 60px;">
+     <main>
+    <section class="vh-100 gradient-custom-2">
     <div class="row">
     <h1 class="order_h1"><span>BẠN CÓ</span><span style="font-size:120%; color:#ffee00;font-weight:bold;margin:0px 8px; padding-bottom: 2px;" th:text="${orderList.size()}"></span><span> ĐƠN HÀNG</span><h1>
     </div>
         <div class="row">
-            <div class="col-sm-4" th:each="item:${orderList}">
+            <div class="col-sm-4" th:each="item: ${orderList}">
+                <div class="modal fade" th:id="'deleteItem'+${item.id}" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true" style="top:60px;">
+                    <div class="modal-dialog">
+                      <div class="modal-content">
+                        <div class="modal-header">
+                          <h5 class="modal-title" id="staticBackdropLabel">Hủy đơn hàng</h5>
+                          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                          Bạn muốn hủy đơn hàng này chứ? Hãy chắc chắn trước khi quyết định nhé!
+                        </div>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                          <a th:href="'../account/cancelorderid='+${item.id}" type="button" class="btn btn-primary">Đúng vậy!</a>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+
+
                 <div class="container py-5 h-100">
                     <div class="row d-flex justify-content-center align-items-center h-100">
                       <div class="col-md-10 col-lg-8 col-xl-6" style="min-width: 100%;">
@@ -100,7 +125,7 @@
                             <div class="d-flex justify-content-between">
                               <h5 class="fw-normal mb-0"><a class="card-footer-a" th:href="'../account/orderDetail&orderid='+${item.id}">Chi tiết</a></h5>
                               <div class="border-start h-100"></div>
-                              <h5 class="fw-normal mb-0"><a class="card-footer-a" th:href="'../account/cancelorderid='+${item.id}">Hủy đơn hàng</a></h5>
+                              <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#deleteItem'+${item.id}" style="background: none;border: none; color: red; font-weight: 600;">Hủy đơn</button>
                               <div class="border-start h-100"></div>
                               <h5 class="fw-normal mb-0"><a class="card-footer-a" th:href="'../account/repayorderid='+${item.id}">Mua lại</a></h5>
                             </div>
@@ -113,6 +138,7 @@
             </div>
         </div>
       </section>
+</main>
       <footer>
                   <div class="footer_container">
                       <div class="footer-contents">

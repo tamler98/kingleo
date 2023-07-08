@@ -32,6 +32,8 @@ public class BookingCartController {
     @Autowired
     OrderDetailService orderDetailService;
     @Autowired
+    ProductDetailService productDetailService;
+    @Autowired
     private BookingCartItemRepository bookingCartItemRepository;
 
     @GetMapping()
@@ -45,18 +47,12 @@ public class BookingCartController {
             bookingCartItemEntities = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemListSession");
             // Booking Cart Item List by Session is null
             if(bookingCartItemEntities == null) {
+                bookingCartItemEntities = new ArrayList<>();
+                setSessionValue(bookingCartItemEntities, session);
                 return "bookingcart";
             }
-
             // Booking Cart Item List by Session not null
-            double totalPrice = totalPrice(bookingCartItemEntities);
-            double lastTotalPrice = totalPrice + 20000;
-            session.setAttribute("totalPrice", totalPrice);
-            session.setAttribute("lastTotalPrice", lastTotalPrice);
-            session.setAttribute("bookingCartItemList", bookingCartItemEntities);
-            session.setAttribute("bookingCartItemListSession", bookingCartItemEntities);
-            int count = countItem(bookingCartItemEntities);
-            session.setAttribute("count", count);
+            setSessionValue(bookingCartItemEntities, session);
             return "bookingcart";
             // Account Entity is not null
         } else {
@@ -67,14 +63,7 @@ public class BookingCartController {
             List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
             if(bookingCartItemEntitiesSession != null) {
                 // show price of all product and total price
-                double totalPrice = totalPrice(bookingCartItemEntitiesSession);
-                double lastTotalPrice = totalPrice + 20000;
-                int count = countItem(bookingCartItemEntitiesSession);
-                session.setAttribute("count", count);
-                session.setAttribute("totalPrice", totalPrice);
-                session.setAttribute("lastTotalPrice", lastTotalPrice);
-                session.setAttribute("bookingCartItemList", bookingCartItemEntitiesSession);
-                model.addAttribute("bookingCartItemList", bookingCartItemEntitiesSession);
+                setSessionValue(bookingCartItemEntity, session);
             }
         }
         return "bookingcart";
@@ -100,13 +89,9 @@ public class BookingCartController {
             if (bookingCartItemEntitiesSession.get(id).getQuantity() == 0) {
                 bookingCartItemEntitiesSession.remove(bookingCartItemEntitiesSession.get(id));
             }
+            session.setAttribute("bookingCartItemListSession", bookingCartItemEntitiesSession);
         }
-        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
-        double lastTotalPrice = totalPrice + 20000;
-        int count = countItem(bookingCartItemEntitiesSession);
-        session.setAttribute("count", count);
-        session.setAttribute("totalPrice", totalPrice);
-        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        setSessionValue(bookingCartItemEntitiesSession, session);
         return "redirect:/cart";
     }
     @PostMapping("/increaseitemid={id}")
@@ -121,12 +106,7 @@ public class BookingCartController {
         List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
         bookingCartItemEntitiesSession.get(id).setQuantity(bookingCartItemEntitiesSession.get(id).getQuantity()+1);
 
-        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
-        double lastTotalPrice = totalPrice + 20000;
-        int count = countItem(bookingCartItemEntitiesSession);
-        session.setAttribute("count", count);
-        session.setAttribute("totalPrice", totalPrice);
-        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        setSessionValue(bookingCartItemEntitiesSession, session);
         return "redirect:/cart";
     }
 
@@ -140,13 +120,7 @@ public class BookingCartController {
         }
         List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
         bookingCartItemEntitiesSession.remove(bookingCartItemEntitiesSession.get(id));
-
-        double totalPrice = totalPrice(bookingCartItemEntitiesSession);
-        double lastTotalPrice = totalPrice + 20000;
-        int count = countItem(bookingCartItemEntitiesSession);
-        session.setAttribute("count", count);
-        session.setAttribute("totalPrice", totalPrice);
-        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        setSessionValue(bookingCartItemEntitiesSession, session);
         return "redirect:/cart";
     }
 
@@ -164,6 +138,12 @@ public class BookingCartController {
         model.addAttribute("account", account);
          return "checkout";
     }
+//    @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
+//    public String checkout(HttpSession session, Model model){
+//        OrderEntity orderEntity = orderService.findById(1);
+//        model.addAttribute("orderEntity", orderEntity);
+//        return "successpage";
+//    }
     @PostMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(@RequestParam("first_name") String firstName,
                            @RequestParam("customer_phone") String phone,
@@ -179,9 +159,8 @@ public class BookingCartController {
             account.setPhone(phone);
             account.setAddress(address);
             account.setCount_of_order(account.getCount_of_order() + 1);
-            accountService.save(account );
+            accountService.save(account);
         }
-
         // Create new order
         OrderEntity orderEntity = new OrderEntity();
         orderEntity.setOrder_note(note);
@@ -190,52 +169,40 @@ public class BookingCartController {
         orderEntity.setCustomer_address(address);
         orderEntity.setOrderDate(LocalDate.now());
         orderEntity.setAccountEntity(account);
-        orderEntity.setShippingCod(20000.0);
-
+        orderEntity.setShippingCod(setShipping_cod());
+            // Create new orderCode
         Random random = new Random();
         int randomNumber = random.nextInt(900000000) + 100000000;
-
         orderEntity.setOrderCode(String.valueOf(randomNumber));
         orderEntity.setOrderStatus(String.valueOf(OrderStatus.ORDERED));
-
+            // Set values in session
         List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        setSessionValue(bookingCartItemEntitiesSession,session);
         double totalPrice = totalPrice(bookingCartItemEntitiesSession);
-        double lastTotalPrice = totalPrice + 20000;
-        int count = countItem(bookingCartItemEntitiesSession);
-        session.setAttribute("count", count);
-        session.setAttribute("totalPrice", totalPrice);
-        session.setAttribute("lastTotalPrice", lastTotalPrice);
-
-        orderEntity.setTotalPrice(lastTotalPrice);
+        orderEntity.setTotalPrice(totalPrice - setDiscount() + setShipping_cod());
         orderService.save(orderEntity);
-
         // Create new order detail list
         List<OrderDetailEntity> orderDetailEntityList = new ArrayList<>();
         for (BookingCartItemEntity item : bookingCartItemEntitiesSession) {
+            //Create new orderDetail
             OrderDetailEntity orderDetailEntity = new OrderDetailEntity();
-            orderDetailEntity.setProductEntity(item.getProductDetailEntity().getProductEntity());
-            orderDetailEntity.setPrice(item.getProductDetailEntity().getProductEntity().getPrice());
-            orderDetailEntity.setQuantity(item.getQuantity());
-            orderDetailEntity.setOrderEntity(orderEntity);
+            createNewOrderDetail(orderDetailEntity ,item, orderEntity, address, phone,firstName);
             orderDetailEntityList.add(orderDetailEntity);
-            orderDetailEntity.setColor(item.getColor());
-            orderDetailEntity.setSize(item.getSize());
-            orderDetailEntity.setCustomer_address(address);
-            orderDetailEntity.setCustomer_phone(phone);
-            orderDetailEntity.setCod_shipping(30000.0);
-            orderDetailEntity.setCustomer_name(firstName);
+            // reduce count of product detail
+            ProductDetailEntity productDetail = productDetailService.findById(item.getProductDetailEntity().getId());
+            productDetail.setQuantity(productDetail.getQuantity() - item.getQuantity());
+            productDetail.getProductEntity().setCount_sold(productDetail.getProductEntity().getCount_sold() + item.getQuantity());
+            productDetailService.save(productDetail);
         }
         orderDetailService.saveAll(orderDetailEntityList);
-        session.removeAttribute("count");
-        session.removeAttribute("totalPrice");
-        session.removeAttribute("lastTotalPrice");
-        session.removeAttribute("bookingCartItemList");
+        // remove session
+        removeValueSession(session);
+        // remove item in DB
         List<BookingCartItemEntity> bookingCartItemEntities = bookingCartItemService.findByBookingCartId(bookingCartService.findByAccountId(account.getId()).getId());
         for (BookingCartItemEntity item: bookingCartItemEntities) {
             bookingCartItemService.deleteById(item.getId());
         }
         model.addAttribute("orderEntity",orderEntity);
-        ;
         return "successpage";
     }
 
@@ -259,8 +226,48 @@ public class BookingCartController {
         // Xóa session
         HttpSession session = request.getSession();
         session.removeAttribute("msg");
-
         // Trả về kết quả thành công
         return ResponseEntity.ok("Session removed");
+    }
+    private void setSessionValue(List<BookingCartItemEntity> bookingCartItemEntities, HttpSession session) {
+        double totalPrice = totalPrice(bookingCartItemEntities);
+        double lastTotalPrice = totalPrice - setDiscount() + setShipping_cod();
+        session.setAttribute("discount", setDiscount());
+        session.setAttribute("shipping_cod", setShipping_cod());
+        session.setAttribute("totalPrice", totalPrice);
+        session.setAttribute("lastTotalPrice", lastTotalPrice);
+        session.setAttribute("bookingCartItemList", bookingCartItemEntities);
+        int count = countItem(bookingCartItemEntities);
+        session.setAttribute("count", count);
+    }
+    private  void removeValueSession(HttpSession session) {
+        session.removeAttribute("count");
+        session.removeAttribute("totalPrice");
+        session.removeAttribute("lastTotalPrice");
+        session.removeAttribute("bookingCartItemList");
+        session.removeAttribute("discount");
+        session.removeAttribute("shipping_cod");
+    }
+
+    private double setDiscount(){
+        double discount = 20000.0;
+        return discount;
+    }
+    private double setShipping_cod(){
+        double shipping_cod = 20000.0;
+        return shipping_cod;
+    }
+
+    private void createNewOrderDetail(OrderDetailEntity orderDetailEntity, BookingCartItemEntity item,OrderEntity orderEntity, String address, String phone, String firstName) {
+        orderDetailEntity.setProductEntity(item.getProductDetailEntity().getProductEntity());
+        orderDetailEntity.setPrice(item.getProductDetailEntity().getProductEntity().getPrice());
+        orderDetailEntity.setQuantity(item.getQuantity());
+        orderDetailEntity.setOrderEntity(orderEntity);
+        orderDetailEntity.setColor(item.getColor());
+        orderDetailEntity.setSize(item.getSize());
+        orderDetailEntity.setCustomer_address(address);
+        orderDetailEntity.setCustomer_phone(phone);
+        orderDetailEntity.setCod_shipping(setShipping_cod());
+        orderDetailEntity.setCustomer_name(firstName);
     }
 }

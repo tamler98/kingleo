@@ -191,11 +191,10 @@
 
 
  footer {
-            position: relative;
-            top: 80px;
-            padding: 0px 2em;
-            background-color: #4dded50a;
-            padding-top: 2em;
+            width: 100%;
+                position: relative;
+                top: 700px;
+                background: #fafffe;
             }
 
             .footer_container {
@@ -271,12 +270,9 @@
         .header_top a.logo {
         font-weight: bold;
       }
-      footer {
-                               position: relative;
-                               width:100vw;
-                               top: 60px;
-                               background-color: #0c66600a;
-                               }
+       footer {
+                  top:3500px;
+                  }
 
                                .footer_container {
                                  display: flex;

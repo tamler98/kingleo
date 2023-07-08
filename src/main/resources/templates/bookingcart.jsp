@@ -77,7 +77,7 @@
                 <div>
                   <h5 class="text-grey" th:text="${#numbers.formatDecimal((item.productDetailEntity.productEntity.price/1000)*item.quantity, 0, 'COMMA', 3, 'POINT')}">300.000</h5>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#deleteItem'+${itemIndex.index}" style="background: none;border: none;">
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#deleteItem'+${itemIndex.index}" style="background: none;border: none;">Hủy</button>
                 <div class="d-flex align-items-center"><i class="fa fa-trash mb-1 text-danger"></i></div>
                 </button>
 
@@ -107,7 +107,7 @@
                 <input type="text" class="form-control border-0 gift-card" name="discount_code" placeholder="Mã giảm giá">
                   <button class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button>
               </div>
-              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded" th:if="${session.count != null}">
+              <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
               <div class="order_info">
                   <div class="order_info_left">
                       <p th:text="Tổng"></p>
@@ -117,8 +117,8 @@
                   </div>
                   <div class="order_info_right">
                     <p th:text="${#numbers.formatDecimal(session.totalPrice/1000, 0, 'COMMA', 3, 'POINT')}"></p>
-                    <p th:text="30.000"></p>
-                    <p th:text="20.000"></p>
+                    <p th:text="${#numbers.formatDecimal(session.discount/1000, 0, 'COMMA', 3, 'POINT')}"></p>
+                    <p th:text="${#numbers.formatDecimal(session.shipping_cod/1000, 0, 'COMMA', 3, 'POINT')}"></p>
                     <p th:text="${#numbers.formatDecimal(session.lastTotalPrice/1000, 0, 'COMMA', 3, 'POINT')}"></p>
                   </div>
               </div>
