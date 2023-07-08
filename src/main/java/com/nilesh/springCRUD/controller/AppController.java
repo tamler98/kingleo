@@ -50,7 +50,7 @@ public class AppController {
                                @RequestParam(name = "size", defaultValue = "8") int pageSize) {
         //Authen
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        String username = principal.toString();
+            String username = principal.toString();
         if (principal instanceof UserDetails) {
             username = ((UserDetails) principal).getUsername();
             session.setAttribute("userEmail", username);
@@ -143,7 +143,7 @@ public class AppController {
         Page<ProductEntity> listProduct = productService.getProductList(pageRequest);
         model.addAttribute("productList", listProduct.getContent());
         model.addAttribute("currentPage", listProduct.getNumber());
-        model.addAttribute("totalPages", listProduct.getTotalPages());
+            model.addAttribute("totalPages", listProduct.getTotalPages());
         List<Integer> sizeList = createShoeSizeList();
         model.addAttribute("sizeList", sizeList);
         return "index";

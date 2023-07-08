@@ -36,14 +36,25 @@
        </div>
      </div>
      <main>
-     <div class="container mt-4 mb-4">
+     <div class="container mt-4 mb-4" style="padding-top:3em; min-height:500px;">
        <div class="row d-flex cart align-items-center justify-content-center">
            <div class="col-md-10">
                <div class="card">
                    <div class="row g-0">
                        <div class="col-md-6 border-right p-5">
                            <div class="text-center order-details">
-                               <div class="d-flex justify-content-center mb-5 flex-column align-items-center"> <span class="check1"><i class="fa fa-check" style="color: white; background: green; padding: 15px; border-radius: 50%; margin-bottom: 1em;"></i></span> <span class="font-weight-bold" style="color: green; font-size: 130%;">Đặt hàng thành công</span> <small class="mt-2" style="font-size: 130%;" th:text="'Mã VĐ: '+${orderEntity.orderCode}"> 3234324324</small> <small class="mt-2">Đơn hàng của bạn sẽ sớm được giao</small> <a th:href="'/account/orderDetail&orderid='+${orderEntity.id}" class="text-decoration-none invoice-link">Xem chi tiết đơn hàng</a> </div> <a th:href="'../'" class="btn_back">Trang chủ</a>
+                               <div class="d-flex justify-content-center mb-5 flex-column align-items-center">
+                               <span class="check1">
+                               <div class="typewriter">
+                                   <div class="slide"><i></i></div>
+                                   <div class="paper"></div>
+                                   <div class="keyboard"></div>
+                               </div>
+                               </span>
+                               <span class="font-weight-bold" style="color: green; font-size: 130%;">Đặt hàng thành công</span>
+                               <small class="mt-2" style="font-size: 130%;" th:text="'Mã VĐ: '+${orderEntity.orderCode}"> 3234324324</small>
+                               <small class="mt-2">Đơn hàng của bạn sẽ sớm được giao</small> <a th:href="'/account/orderDetail&orderid='+${orderEntity.id}" class="text-decoration-none invoice-link">Xem chi tiết đơn hàng</a> </div>
+                               <a th:href="'../'" class="btn_back">Trang chủ</a>
                            </div>
                        </div>
                        <div class="col-md-6 background-muted">
@@ -63,7 +74,7 @@
                                    <div class="p-3 d-flex justify-content-center align-items-center"> <span>Giảm giá</span> </div>
                                </div>
                                <div class="col-md-6">
-                                   <div class="p-3 d-flex justify-content-center align-items-center"> <span th:text="0">$60</span> </div>
+                                   <div class="p-3 d-flex justify-content-center align-items-center"> <span th:text="${#numbers.formatDecimal(orderEntity.shippingCod/1000, 0, 'COMMA', 3, 'POINT')}">$60</span> </div>
                                </div>
                            </div>
                            <div class="row g-0 border-bottom">
@@ -79,7 +90,7 @@
                                    <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold">Thành tiền</span> </div>
                                </div>
                                <div class="col-md-6">
-                                   <div class="p-3 d-flex justify-content-center align-items-center"> <span class="font-weight-bold" th:text="${#numbers.formatDecimal(orderEntity.totalPrice/1000, 0, 'COMMA', 3, 'POINT')}">$61.80</span> </div>
+                                   <div class="p-3 d-flex justify-content-center align-items-center" style="font-size: 150%;"> <span class="font-weight-bold" th:text="${#numbers.formatDecimal(orderEntity.totalPrice/1000, 0, 'COMMA', 3, 'POINT')}">$61.80</span> </div>
                                </div>
                            </div>
                        </div>

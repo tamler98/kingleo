@@ -11,4 +11,6 @@ import java.util.List;
 public interface ProductDetailRepository extends JpaRepository<ProductDetailEntity,Integer> {
     @Query(value = "select * from product_detail where product_id =?1", nativeQuery = true)
     List<ProductDetailEntity> findAllByProductId(int id);
+    @Query(value = "select * from product_detail where id =?1", nativeQuery = true)
+    ProductDetailEntity findById(int id);
 }

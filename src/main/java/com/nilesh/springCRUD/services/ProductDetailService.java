@@ -21,4 +21,7 @@ public class ProductDetailService {
 
     public void save(ProductDetailEntity productDetailEntity) { productDetailRepository.save(productDetailEntity);
     }
+
+    public ProductDetailEntity findById(int id) { return productDetailRepository.findById(id);
+    }
 }
