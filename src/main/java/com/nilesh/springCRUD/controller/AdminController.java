@@ -47,7 +47,7 @@ public class AdminController {
         categoryDropDown(model);
         List<Integer> sizeList = createShoeSizeList();
         model.addAttribute("sizeList", sizeList);
-        return "admin/newProduct";
+        return "admin/product1";
     }
     @PostMapping(value = "newProduct", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
     public String addNewProduct(@ModelAttribute(name = "product") ProductEntity product,
