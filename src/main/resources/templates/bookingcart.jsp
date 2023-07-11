@@ -77,7 +77,7 @@
                 <div>
                   <h5 class="text-grey" th:text="${#numbers.formatDecimal((item.productDetailEntity.productEntity.price/1000)*item.quantity, 0, 'COMMA', 3, 'POINT')}">300.000</h5>
                 </div>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#deleteItem'+${itemIndex.index}" style="background: none;border: none;">Hủy</button>
+                <button type="button" class="btn btn-primary" data-bs-toggle="modal" th:data-bs-target="'#deleteItem'+${itemIndex.index}" style="background: none;border: none;">
                 <div class="d-flex align-items-center"><i class="fa fa-trash mb-1 text-danger"></i></div>
                 </button>
 
@@ -98,15 +98,17 @@
                     </div>
                   </div>
                 </div>
-
-
-
               </div>
-
+              <form th:action="'../cart/addDiscount'" method="post">
                 <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
                 <input type="text" class="form-control border-0 gift-card" name="discount_code" placeholder="Mã giảm giá">
-                  <button class="btn btn-outline-warning btn-sm ml-2" type="button">Sử dụng</button>
-              </div>
+                    <div class="discount_using" th:if="${session.discountEntity != null}">
+                    <span style="min-width: 87px;">Đã áp dụng: </span>
+                    <span style="min-width: 160px;"class="discount_name" type="button" th:text="${session.discountEntity.name}">Sử dụng</span>
+                    </div>
+                  <button class="btn btn-outline-warning btn-sm ml-2" type="submit">Sử dụng</button>
+                </div>
+              </form>
               <div class="d-flex flex-row align-items-center mt-3 p-2 bg-white rounded">
               <div class="order_info">
                   <div class="order_info_left">
