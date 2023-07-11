@@ -6,7 +6,27 @@ body {
   width: 100%;
 }
 
+.discount_using {
+    display: flex;
+        min-width: 250px;
+        max-width: 400px;
+    justify-content: space-between;
+    align-items: center;
+}
 
+.discount_name{
+    border: 1px solid #26aeff;
+    padding: 4px 10px;
+    font-size: 14px;
+    border-radius: 3px;
+    color: #26aeff;
+    font-weight: bold;
+}
+
+.discount_name:hover{
+    color: white;
+   background-color:#88d1fd;
+}
 
 .order_info {
     width: 100%;

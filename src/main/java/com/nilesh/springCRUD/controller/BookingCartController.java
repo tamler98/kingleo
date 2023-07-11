@@ -24,6 +24,8 @@ public class BookingCartController {
     BookingCartItemService bookingCartItemService;
     @Autowired
     BookingCartService bookingCartService;
+    @Autowired
+    DiscountService discountService;
 
     @Autowired
     AccountService accountService;
@@ -40,7 +42,6 @@ public class BookingCartController {
     public String bookingCart(@ModelAttribute("accountEntity") AccountEntity account,
                               Model model,
                               HttpSession session) {
-
         AccountEntity accountEntity = (AccountEntity) session.getAttribute("account");
         List<BookingCartItemEntity> bookingCartItemEntities = new ArrayList<>();
         if (accountEntity == null) {
@@ -138,12 +139,22 @@ public class BookingCartController {
         model.addAttribute("account", account);
          return "checkout";
     }
-//    @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
-//    public String checkout(HttpSession session, Model model){
-//        OrderEntity orderEntity = orderService.findById(1);
-//        model.addAttribute("orderEntity", orderEntity);
-//        return "successpage";
-//    }
+    @PostMapping(value = "/addDiscount", produces = "text/plain;charset=UTF-8")
+    public String addDiscount(HttpSession session,
+                              @RequestParam("discount_code") String discount_code,
+                              Model model){
+        DiscountEntity discountEntity = discountService.findByDiscountCode(discount_code);
+        if(discount_code == ""){
+            model.addAttribute("Chưa nhập discount!");
+        }else if (discount_code.equals(discountEntity.getDiscount_code())){
+            double discount = discountEntity.getValue();
+            session.setAttribute("discount", discount);
+        }
+        session.setAttribute("discountEntity", discountEntity);
+        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
+        setSessionValue(bookingCartItemEntitiesSession, session);
+        return "redirect:/cart";
+    }
     @PostMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(@RequestParam("first_name") String firstName,
                            @RequestParam("customer_phone") String phone,
@@ -179,7 +190,7 @@ public class BookingCartController {
         List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
         setSessionValue(bookingCartItemEntitiesSession,session);
         double totalPrice = totalPrice(bookingCartItemEntitiesSession);
-        orderEntity.setTotalPrice(totalPrice - setDiscount() + setShipping_cod());
+        orderEntity.setTotalPrice(totalPrice - setDiscount(session) + setShipping_cod());
         orderService.save(orderEntity);
         // Create new order detail list
         List<OrderDetailEntity> orderDetailEntityList = new ArrayList<>();
@@ -231,14 +242,19 @@ public class BookingCartController {
     }
     private void setSessionValue(List<BookingCartItemEntity> bookingCartItemEntities, HttpSession session) {
         double totalPrice = totalPrice(bookingCartItemEntities);
-        double lastTotalPrice = totalPrice - setDiscount() + setShipping_cod();
-        session.setAttribute("discount", setDiscount());
+        double lastTotalPrice = totalPrice - setDiscount(session) + setShipping_cod();
         session.setAttribute("shipping_cod", setShipping_cod());
         session.setAttribute("totalPrice", totalPrice);
         session.setAttribute("lastTotalPrice", lastTotalPrice);
         session.setAttribute("bookingCartItemList", bookingCartItemEntities);
         int count = countItem(bookingCartItemEntities);
         session.setAttribute("count", count);
+        DiscountEntity discountEntity = null;
+        DiscountEntity discountSession = (DiscountEntity) session.getAttribute("discountEntity");
+        if (discountSession != null) {
+            discountEntity = discountSession;
+        }
+        session.setAttribute("discountEntity", discountEntity);
     }
     private  void removeValueSession(HttpSession session) {
         session.removeAttribute("count");
@@ -249,8 +265,13 @@ public class BookingCartController {
         session.removeAttribute("shipping_cod");
     }
 
-    private double setDiscount(){
-        double discount = 20000.0;
+    private double setDiscount(HttpSession session){
+        Double discountSession = (Double) session.getAttribute("discount");
+        double discount = 0.0;
+        if (discountSession != null) {
+            discount = discountSession;
+        }
+        session.setAttribute("discount", discount);
         return discount;
     }
     private double setShipping_cod(){
