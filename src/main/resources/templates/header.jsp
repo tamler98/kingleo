@@ -92,7 +92,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="cart"><span class="material-icons-outlined"
+                            <a th:href="'../cart'"><span class="material-icons-outlined"
                                     style="padding-top: 23px; font-size: 27px;">
                                     <i class="fas fa-cart-plus"></i>
                                 </span></a>
@@ -166,7 +166,7 @@
                             </ul>
                         </li>
                         <li>
-                            <a href="cart"><span class="material-icons-outlined"
+                            <a th:href="'../cart'"><span class="material-icons-outlined"
                                     style="padding-top: 23px; font-size: 27px;">
                                     <i class="fas fa-cart-plus"></i>
                                 </span></a>

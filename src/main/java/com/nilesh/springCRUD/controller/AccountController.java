@@ -78,8 +78,7 @@ public class AccountController {
     public String viewOrder(Model model, HttpSession session,
     @RequestParam(name = "page", defaultValue = "0") int pageNumber,
     @RequestParam(name = "size", defaultValue = "6") int pageSize){
-//        AccountEntity account = (AccountEntity) session.getAttribute("account");
-        AccountEntity account = accountService.findById(2);
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
         if(account == null){
             return "redirect:/login";
         }
@@ -93,9 +92,11 @@ public class AccountController {
 
     @GetMapping("orderDetail&orderid={id}")
     public String viewOrderDetail(Model model, @PathVariable("id") int orderId, HttpSession session){
-        AccountEntity account = accountService.findById(2);
-        session.setAttribute("account", account);
-        List<OrderDetailEntity> orderDetailEntityList = orderDetailService.findByOrderId(3);
+        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        if(account == null){
+            return "redirect:/login";
+        }
+        List<OrderDetailEntity> orderDetailEntityList = orderDetailService.findByOrderId(orderId);
         model.addAttribute("orderDetailList", orderDetailEntityList);
         return "order_detail";
     }
