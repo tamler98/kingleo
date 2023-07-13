@@ -126,7 +126,7 @@ outline:none;
 .button{
   background: linear-gradient(
 135deg
-, #6e0a66 0%, #00cbfd 100%);
+, #00cbfd 0%, #00cbfd 100%);
   padding: 15px;
   border: none;
   border-radius: 50px;

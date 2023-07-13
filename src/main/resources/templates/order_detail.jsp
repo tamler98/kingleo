@@ -41,62 +41,62 @@
                      </div>
                      <div class="card shadow-0 border mb-4" th:each="item :${orderDetailList}">
                        <div class="card-body">
-                         <div class="row">
-                           <div class="col-md-2">
-                             <img th:src="'../getImagePhoto/'+${item.productEntity.id}"
-                               class="img-fluid" alt="Phone">
-                           </div>
-                               <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
-                                 <p class="text-muted mb-0" th:text="${item.productEntity.product_name}"></p>
-                               </div>
-                               <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                 <p class="text-muted mb-0 small">Màu: <span th:text="${item.color}"></span></p>
-                               </div>
-                               <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                 <p class="text-muted mb-0 small">Size: <span th:text="${item.size}"></span></p>
-                               </div>
-                               <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
-                                 <p class="text-muted mb-0 small">SL: <span th:text="${item.quantity}"></span></p>
-                               </div>
-                               <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                                 <p class="text-muted mb-0 small"><span th:text="${item.price}+' VND'"></span></p>
-                               </div>
-                         </div>
-                       </div>
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <img src="../getImagePhoto/1" class="img-fluid" alt="Phone">
+                                </div>
+                                <div class="col-md-4 text-left align-items-center d-flex padding-0">
+                                    <p class="text-muted mb-0" th:text="${item.productEntity.product_name}">Giày Nike chính hãng 1 của Adissas</p>
+                                </div>
+                                <div class="col-md-2 text-center d-flex justify-content-center align-items-center flex-column">
+                                    <p class="text-muted mb-0 small">Màu: <span th:text="${item.color}">Do</span></p>
+                                    <p class="text-muted mb-0 small">Size: <span th:text="${item.size}">39</span></p>
+                                </div>
+                                <div class="col-md-1 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small"><span th:text="${item.quantity}">1</span></p>
+                                </div>
+                                <div class="col-md-3 text-center d-flex justify-content-center align-items-center">
+                                    <p class="text-muted mb-0 small"><span style="    font-size: 18px;" th:text="${#numbers.formatDecimal(item.price/1000, 0, 'COMMA', 3, 'POINT')} + ' VNĐ'">10000.0 VND</span></p>
+
+
+                                </div>
+                            </div>
+                        </div>
                      </div>
                     <div class="order_footer_info">
-                     <div class="order_footer">
-                     <div class="d-flex justify-content-between pt-2">
-                       <p class="fw-bold mb-0" style="width: 60%; font-weight: bold;">Chi tiết đơn hàng</p>
-                     </div>
-                     <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Phí ship : <span style="font-weight: bold;" th:text="${orderDetailList[0].cod_shipping}">Thanh Tâm</span></p>
-                     </div>
-                     <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Giảm giá : <span style="font-weight: bold;" th:text="${orderDetailList[0].discount}">Thanh Tâm</span></p>
-                     </div>
-                     <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Thành tiền : <span style="font-weight: bold;" th:text="${orderDetailList[0].orderEntity.totalPrice}">Thanh Tâm</span></p>
-                     </div>
-                     </div>
 
                      <div class="order_footer" style="margin-bottom: 1em;">
                       <div class="d-flex justify-content-between pt-2">
-                        <p class="fw-bold mb-0" style="width: 60%; font-weight: bold;">Thông tin giao hàng</p>
+                        <p class="fw-bold mb-0" style="font-weight: bold;">Thông tin giao hàng</p>
                       </div>
                      <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Người nhận : <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_name}">Thanh Tâm</span></p>
+                       <p class="text-muted mb-0" style="line-height:25px;">Người nhận : <strong th:text="${orderDetailList[0].customer_name}">Thanh Tâm</strong></p>
                      </div>
                      <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Số điện thoại : <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_phone}">Thanh Tâm</span></p>
+                       <p class="text-muted mb-0" style="line-height:25px;">Số điện thoại : <strong th:text="${orderDetailList[0].customer_phone}">Thanh Tâm</strong></p>
                      </div>
                      <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Địa chỉ : <span style="font-weight: bold;" th:text="${orderDetailList[0].customer_address}">Thanh Tâm</span></p>
+                       <p class="text-muted mb-0" style="line-height:25px;">Địa chỉ : <strong th:text="${orderDetailList[0].customer_address}">Thanh Tâm</strong></p>
                      </div>
                      <div class="d-flex justify-content-between pt-2">
-                       <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Ngày đặt : <span style="font-weight: bold;" th:text="${orderDetailList[0].orderEntity.orderDate}">Thanh Tâm</span></p>
+                       <p class="text-muted mb-0" style="line-height:25px;">Ngày đặt : <strong th:text="${orderDetailList[0].orderEntity.orderDate}">Thanh Tâm</strong></p>
                      </div>
                      </div>
+
+                     <div class="order_footer">
+                      <div class="d-flex justify-content-between pt-2">
+                        <p class="fw-bold mb-0" style="width: 60%; font-weight: bold;">Chi tiết đơn hàng</p>
+                      </div>
+                      <div class="d-flex justify-content-between pt-2">
+                        <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Phí ship : <span style="font-weight: bold;" th:text="${orderDetailList[0].cod_shipping}">Thanh Tâm</span></p>
+                      </div>
+                      <div class="d-flex justify-content-between pt-2">
+                        <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Giảm giá : <span style="font-weight: bold;" th:text="${orderDetailList[0].discount}">Thanh Tâm</span></p>
+                      </div>
+                      <div class="d-flex justify-content-between pt-2">
+                        <p class="text-muted mb-0" style="width: 60%; line-height:25px;">Thành tiền : <span style="font-weight: bold;" th:text="${orderDetailList[0].orderEntity.totalPrice}">Thanh Tâm</span></p>
+                      </div>
+                      </div>
                      </div>
 
                    <div class="card-footer border-0 px-4 py-5"

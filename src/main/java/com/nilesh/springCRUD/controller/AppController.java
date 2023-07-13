@@ -143,7 +143,7 @@ public class AppController {
         Page<ProductEntity> listProduct = productService.getProductList(pageRequest);
         model.addAttribute("productList", listProduct.getContent());
         model.addAttribute("currentPage", listProduct.getNumber());
-            model.addAttribute("totalPages", listProduct.getTotalPages());
+        model.addAttribute("totalPages", listProduct.getTotalPages());
         List<Integer> sizeList = createShoeSizeList();
         model.addAttribute("sizeList", sizeList);
         return "index";

@@ -28,7 +28,7 @@
 
       <!-- Left Column / Headphones Image -->
       <div class="left-column">
-      <div th:if="${not #lists.isEmpty(product.productColorEntities)}">
+      <div class="product_image" th:if="${not #lists.isEmpty(product.productColorEntities)}">
           <a href="">
               <img th:src="'../getImagePhotoByColor/'+${product.id}+'_'+${product.productColorEntities[0].color_name}" alt="Default Image" class="brand_logo active"
                                 th:data-image="${product.productColorEntities[0].color_name}">

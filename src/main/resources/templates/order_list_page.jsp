@@ -30,7 +30,7 @@
           <a href="/cart">Giỏ hàng</a>
         </div>
       </div>
-     <main>
+     <main style="position: relative;top: 60px;">
     <section class="vh-100 gradient-custom-2">
     <div class="row">
     <h1 class="order_h1"><span>BẠN CÓ</span><span style="font-size:120%; color:#ffee00;font-weight:bold;margin:0px 8px; padding-bottom: 2px;" th:text="${orderList.size()}"></span><span> ĐƠN HÀNG</span><h1>
@@ -68,7 +68,7 @@
                                 <p class="text-muted mb-0"> Ngày đặt: <span class="fw-bold text-body" th:text="${item.orderDate}"></span> </p>
                               </div>
                               <div class="order_header_right">
-                                <p class="text-muted mb-0" style="margin-top:5px; font-size: 16px;"> Status: <span class="fw-bold text-body" style="font-weight:500; color: #009b0d;" th:text="${item.orderStatus}"></span> </p>
+                                <p class="text-muted mb-0" style="margin-top:5px; font-size: 16px;"> Trạng thái: <span class="fw-bold text-body" style="font-weight:500; color: #009b0d;" th:text="${item.orderStatus}"></span> </p>
                               </div>
                             </div>
                           </div>
@@ -81,9 +81,9 @@
                               <div th:if="${item.getOrderDetailEntityList().size()}>1">
                                 <h5 class="bold limit-text" th:text="${item.orderDetailEntityList[0].productEntity.product_name}+' ,'+${item.orderDetailEntityList[1].productEntity.product_name}+' ,'+${item.orderDetailEntityList[1].productEntity.product_name}+' ,'+${item.orderDetailEntityList[1].productEntity.product_name}"></h5>
                                </div>
-                                <p class="text-muted" th:text="'SL: '+${item.orderDetailEntityList.size()}+' item'"> </p>
-                                <h4 class="mb-3" th:text="'Cost: '+${#numbers.formatDecimal((item.totalPrice + item.shippingCod)/1000, 0, 'COMMA', 3, 'POINT')}"> <span class="small text-muted"></span></h4>
-                                <p class="text-muted">Cập nhật:  <span class="text-body">11:30pm, Today</span></p>
+                                <p class="text-muted" th:text="'SL: '+${item.orderDetailEntityList.size()}+' sản phẩm.'" style="margin-bottom: 20px;"> </p>
+                                <p class="mb-3" th:text="'Tổng: '+${#numbers.formatDecimal((item.totalPrice + item.shippingCod)/1000, 0, 'COMMA', 3, 'POINT')}" style="font-weight:bold;"></p>
+                                <p class="text-muted">Cod:  <span class="text-body">Freeship</span></p>
                               </div>
                               <div>
                                 <img class="align-self-center img-fluid"
@@ -140,6 +140,23 @@
       </section>
 </main>
       <footer>
+      <div class="product_footer">
+                            <div class="pagination">
+                                <th:block th:if="${totalPages > 1}">
+                                    <th:block th:if="${currentPage > 0}">
+                                        <a th:href="'?page=' + (${currentPage -1})">&laquo;</a>
+                                    </th:block>
+                                    <th:block th:each="i : ${#numbers.sequence(0, totalPages-1)}">
+                                        <a th:href="'?page='+${i}" th:class="${currentPage == i ? 'active-page' : ''}">
+                                            <p th:text="${i+1}"></p>
+                                        </a>
+                                    </th:block>
+                                    <th:block th:if="${currentPage < totalPages - 1}">
+                                        <a th:href="'?page=' + (${currentPage + 1})">&raquo;</a>
+                                    </th:block>
+                                </th:block>
+                            </div>
+                        </div>
                   <div class="footer_container">
                       <div class="footer-contents">
                           <div class="footer-content" style="text-align: center;">
