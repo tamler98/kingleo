@@ -3,6 +3,8 @@ package com.nilesh.springCRUD.services;
 import com.nilesh.springCRUD.model.OrderEntity;
 import com.nilesh.springCRUD.repository.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -24,5 +26,8 @@ public class OrderService {
     }
 
     public OrderEntity findById(int id) { return orderRepository.findById(id);
+    }
+
+    public Page<OrderEntity> getOrderList(PageRequest pageRequest) { return orderRepository.getOrderList(pageRequest);
     }
 }

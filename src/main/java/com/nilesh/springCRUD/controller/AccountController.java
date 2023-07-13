@@ -4,6 +4,7 @@ import com.nilesh.springCRUD.enums.OrderStatus;
 import com.nilesh.springCRUD.model.AccountEntity;
 import com.nilesh.springCRUD.model.OrderDetailEntity;
 import com.nilesh.springCRUD.model.OrderEntity;
+import com.nilesh.springCRUD.model.ProductEntity;
 import com.nilesh.springCRUD.repository.OrderDetailRepository;
 import com.nilesh.springCRUD.services.AccountService;
 import com.nilesh.springCRUD.services.OrderDetailService;
@@ -11,6 +12,8 @@ import com.nilesh.springCRUD.services.OrderService;
 import com.nilesh.springCRUD.services.ProductImageService;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -53,7 +56,6 @@ public class AccountController {
         model.addAttribute("account", account);
         return "account_page";
         }
-
     }
 
     @PostMapping(value="update")
@@ -73,20 +75,27 @@ public class AccountController {
     }
 
     @GetMapping("order")
-    public String viewOrder(Model model, HttpSession session){
-        AccountEntity account = (AccountEntity) session.getAttribute("account");
-//        AccountEntity account = accountService.findById(2);
+    public String viewOrder(Model model, HttpSession session,
+    @RequestParam(name = "page", defaultValue = "0") int pageNumber,
+    @RequestParam(name = "size", defaultValue = "6") int pageSize){
+//        AccountEntity account = (AccountEntity) session.getAttribute("account");
+        AccountEntity account = accountService.findById(2);
         if(account == null){
             return "redirect:/login";
         }
-        List<OrderEntity> orderEntities = orderService.findByAccountId(account.getId());
-        model.addAttribute("orderList", orderEntities);
+        PageRequest pageRequest = PageRequest.of(pageNumber, pageSize);
+        Page<OrderEntity> orderList = orderService.getOrderList(pageRequest);
+        model.addAttribute("orderList", orderList.getContent());
+        model.addAttribute("currentPage", orderList.getNumber());
+        model.addAttribute("totalPages", orderList.getTotalPages());
         return "order_list_page";
     }
 
     @GetMapping("orderDetail&orderid={id}")
-    public String viewOrderDetail(Model model, @PathVariable("id") int orderId){
-        List<OrderDetailEntity> orderDetailEntityList = orderDetailService.findByOrderId(orderId);
+    public String viewOrderDetail(Model model, @PathVariable("id") int orderId, HttpSession session){
+        AccountEntity account = accountService.findById(2);
+        session.setAttribute("account", account);
+        List<OrderDetailEntity> orderDetailEntityList = orderDetailService.findByOrderId(3);
         model.addAttribute("orderDetailList", orderDetailEntityList);
         return "order_detail";
     }

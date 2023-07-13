@@ -6,7 +6,6 @@
         max-width: 100%;
         display: flex;
     }
-
     .card-footer-a {
         font-size:20px;
     }
@@ -103,10 +102,10 @@
       }
       .limit-text {
           display: -webkit-box;
-          -webkit-box-orient: vertical;
-          -webkit-line-clamp: 2; /* Số dòng tối đa mong muốn */
-          overflow: hidden;
-          text-overflow: ellipsis;
+              -webkit-box-orient: vertical;
+              -webkit-line-clamp: 2;
+              overflow: hidden;
+              text-overflow: ellipsis;
       }
 
     #progressbar-1 {
@@ -188,14 +187,55 @@
     }
 
 
+.product_footer {
+    width: 100%;
+    height: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 2px 2px 6px rgba(152, 152, 152, 0.315);
+    }
 
+    .pagination {
+        display: inline-block;
+        height: 40px;
+    }
+
+    .pagination a {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        border-radius: 50%;
+        margin-right: .5em;
+    }
+
+    .pagination a.active-page {
+        font-weight: bold;
+        color: black;
+        background: #e1e1e19c;
+        border-radius: 50%;
+    }
+
+    .pagination a:hover {
+        text-decoration: none;
+    }
+
+    .pagination a.active {
+        background-color: #0098da;
+        color: white;
+    }
+
+    .pagination a:hover:not(.active) {
+        background-color: #ddd;
+    }
 
  footer {
-            width: 100%;
-                position: relative;
-                top: 700px;
-                background: #fafffe;
-            }
+    width: 100%;
+    position: relative;
+    top: 570px;
+    background: #fafffe;
+}
 
             .footer_container {
               max-width: 100%;
@@ -204,7 +244,7 @@
               flex-direction: column;
               align-items: center;
               justify-content: center;
-              padding: 0px 2em;
+              padding: 1em 2em;
               align-items: center;
               justify-content: center;
             }
@@ -262,7 +302,19 @@
               color: #777;
               font-style: italic;
             }
-    @media screen and (max-width: 535px) {
+@media screen and (max-width: 1500px) {
+    .order_header_right {
+      width: 24%;
+    }
+    .bold {
+        min-width: 170px;
+    }
+}
+
+@media screen and (max-width: 535px) {
+    .order_header_right {
+      width: 20%;
+    }
         .header_top a {
           font-size: 15px;
             line-height: 15px;
@@ -372,8 +424,9 @@
         font-weight: bold;
       }
       .bold{
-            min-height: 48px;
-                min-width: 179px;
+            ont-size: 20px;
+                min-height: 73px;
+                min-width: 165px;
             }
       .order_h1 {
           width: 100%;

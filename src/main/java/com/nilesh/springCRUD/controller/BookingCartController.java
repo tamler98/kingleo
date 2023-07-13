@@ -127,6 +127,8 @@ public class BookingCartController {
 
     @GetMapping(value = "/checkout", produces = "text/plain;charset=UTF-8")
     public String checkout(HttpSession session, Model model){
+//        AccountEntity account = accountService.findById(2);
+//        List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
       AccountEntity account = (AccountEntity) session.getAttribute("account");
         List<BookingCartItemEntity> bookingCartItemEntitiesSession = (List<BookingCartItemEntity>) session.getAttribute("bookingCartItemList");
         if(account == null ){

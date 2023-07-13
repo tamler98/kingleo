@@ -50,10 +50,10 @@
                      <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Số lượng SP : <span style="font-weight: bold;" th:text="${session.bookingCartItemList.size()}+' sản phẩm'"> Sản phẩm</span></p>
                    </div>
                    <div class="d-flex justify-content-between pt-2">
-                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Giảm giá : <span style="font-weight: bold;">30.000 VNĐ</span></p>
+                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Giảm giá : <span style="font-weight: bold;" th:text="${session.discount}">30.000 VNĐ</span></p>
                    </div>
                    <div class="d-flex justify-content-between pt-2">
-                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Phí ship : <span style="font-weight: bold;">30.000 VNĐ</span></p>
+                     <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Phí ship : <span style="font-weight: bold;" th:text="${session.shipping_cod}">30.000 VNĐ</span></p>
                    </div>
                    <div class="d-flex justify-content-between pt-2">
                      <p class="text-muted mb-0" style="width: 100%; line-height:25px;">Tổng cộng : <span style="font-weight: bold;" th:text="${#numbers.formatDecimal(session.lastTotalPrice/1000, 0, 'COMMA', 3, 'POINT')+ ' VNĐ'}">600.000 VNĐ</span></p>
